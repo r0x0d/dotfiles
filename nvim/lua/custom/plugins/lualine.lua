@@ -3,7 +3,7 @@ return {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
     opts = {
-      theme = 'evil_lualine',
+      theme = 'tokyonight',
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics', { 'filename', file_status = false }, { modified } },
@@ -13,4 +13,3 @@ return {
     dependencies = { 'nvim-web-devicons' },
   },
 }
-

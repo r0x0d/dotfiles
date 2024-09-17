@@ -31,7 +31,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = 'no'
 
 -- Decrease update time
 vim.opt.updatetime = 250
@@ -59,6 +59,6 @@ vim.opt.scrolloff = 10
 vim.opt.colorcolumn = '80'
 vim.opt.virtualedit = 'block'
 
-vim.cmd [[ highlight Pmenu guifg=none guibg=none ]]
-
+vim.cmd [[ highlight Pmenu guifg=NONE guibg=NONE ]]
+vim.cmd [[ highlight Normal guibg=NONE ctermbg=NONE]]
 -- vim: ts=2 sts=2 sw=2 et
