@@ -14,6 +14,8 @@ return {
       local dap = require 'dap'
       local dapui = require 'dapui'
 
+      dap.set_log_level 'TRACE'
+
       require('dapui').setup()
       require('dap-go').setup()
 
@@ -106,4 +108,3 @@ return {
     end,
   },
 }
-

@@ -59,4 +59,6 @@ vim.opt.scrolloff = 10
 vim.opt.colorcolumn = '80'
 vim.opt.virtualedit = 'block'
 
+vim.cmd [[ highlight Pmenu guifg=none guibg=none ]]
+
 -- vim: ts=2 sts=2 sw=2 et
