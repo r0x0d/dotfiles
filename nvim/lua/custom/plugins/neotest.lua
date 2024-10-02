@@ -7,7 +7,6 @@ return {
       'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
       'nvim-neotest/neotest-python',
-      'fredrikaverpil/neotest-golang',
       'Issafalcon/neotest-dotnet',
     },
     config = function()
@@ -39,7 +38,6 @@ return {
             dap = { justMyCode = false },
             pytest_discover_instances = true,
           },
-          require 'neotest-golang',
           require 'neotest-dotnet',
         },
       }
