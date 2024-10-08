@@ -1,0 +1,15 @@
+[includeIf "gitdir:~/Workspace/"]
+    path = ~/.gitconfig.extended
+[commit]
+    gpgSign = true
+[core]
+    editor = nvim
+[alias]
+    amendpush = add . && commit --amend --no-edit && push origin HEAD -f
+    whatadded = log --diff-filter=A
+[init]
+    defaultBranch = main
+[credential "https://github.com"]
+    helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+    helper = !/usr/bin/gh auth git-credential

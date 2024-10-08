@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+TEMPORARY_DIRECTORY=$(mktemp -d)
+VENV_NAME="${1:-${TEMPORARY_DIRECTORY}/venv}"
+
+VIRTUALENV_BIN=$(which virtualenv || false)
+
+# Activate venv
+if [ $VIRTUALENV_BIN ]; then
+    echo "Creating $VENV_NAME with $VIRTUALENV_BIN"
+    $VIRTUALENV_BIN $VENV_NAME
+
+    echo "Activating $VENV_NAME"
+    # Activate venv
+    . "$VENV_NAME/bin/activate"
+else
+    echo "You have to install python-virtualenv package."
+fi
