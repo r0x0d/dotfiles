@@ -1,10 +1,11 @@
 return {
   {
-    "ahmedkhalf/project.nvim",
+    'ahmedkhalf/project.nvim',
     config = function()
-      require("project_nvim").setup {
-        require('telescope').load_extension('projects')
+      require('project_nvim').setup {
+        require('telescope').load_extension 'projects',
       }
-    end
-  }
+      vim.keymap.set('n', '<leader>lp', '<cmd> Telescope project<CR>', { desc = '[L]oad [P]project' })
+    end,
+  },
 }

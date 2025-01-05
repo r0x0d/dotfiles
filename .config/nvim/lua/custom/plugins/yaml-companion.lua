@@ -1,13 +1,14 @@
 return {
   {
-    "someone-stole-my-name/yaml-companion.nvim",
+    'someone-stole-my-name/yaml-companion.nvim',
+    ft = { 'yaml' }, -- optional
     dependencies = {
-      { "neovim/nvim-lspconfig" },
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope.nvim" },
+      { 'neovim/nvim-lspconfig' },
+      { 'nvim-lua/plenary.nvim' },
+      { 'nvim-telescope/telescope.nvim' },
     },
     config = function()
-      require("telescope").load_extension("yaml_schema")
+      require('telescope').load_extension 'yaml_schema'
     end,
-  }
+  },
 }
