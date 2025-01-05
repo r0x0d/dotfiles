@@ -54,8 +54,8 @@ return {
       },
       sections = {
         -- these are to remove the defaults
-        lualine_a = {},
-        lualine_b = {},
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', 'diagnostics', { 'filename', file_status = false }, { modified } },
         lualine_y = {},
         lualine_z = {},
         -- These will be filled later
