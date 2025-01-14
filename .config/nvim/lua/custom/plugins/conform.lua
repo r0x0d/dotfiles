@@ -1,6 +1,7 @@
 return { -- Autoformat
   'stevearc/conform.nvim',
   lazy = false,
+  ft = { 'python', 'lua' },
   keys = {
     {
       '<leader>f',

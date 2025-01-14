@@ -1,7 +1,6 @@
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
-    'leoluz/nvim-dap-go',
     'rcarriga/nvim-dap-ui',
     'theHamsta/nvim-dap-virtual-text',
     'mfussenegger/nvim-dap-python',
@@ -9,6 +8,7 @@ return {
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
   },
+  ft = { 'python' },
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'

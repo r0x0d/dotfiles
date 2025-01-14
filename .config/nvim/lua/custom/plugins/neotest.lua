@@ -8,6 +8,7 @@ return {
     'nvim-neotest/neotest-python',
     'Issafalcon/neotest-dotnet',
   },
+  ft = { 'python', 'c#' }, -- optional
   config = function()
     local neotest = require 'neotest'
 
