@@ -35,7 +35,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Enable touchpad tap to click support.
-exec xinput set-prop "ELAN0683:00 04F3:320B Touchpad" "libinput Tapping Enabled" 1
+exec ~/.config/i3/xinput.sh
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
