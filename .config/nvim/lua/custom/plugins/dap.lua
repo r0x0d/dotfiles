@@ -16,7 +16,6 @@ return {
     dap.set_log_level 'TRACE'
 
     require('dapui').setup()
-    require('dap-go').setup()
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
