@@ -78,7 +78,7 @@ set $menu --no-startup-id rofi -show combi -combi-modi "drun#window#run#ssh#file
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
+    bindsym $mod+h splith
     bindsym $mod+v splitv
 
     # Make the current focus fullscreen
