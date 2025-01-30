@@ -1,0 +1,13 @@
+- link:
+  ~/.config/sway: .config/sway
+  ~/.config/waybar: .config/waybar
+  ~/.config/nvim: .config/nvim
+
+- create:
+  - ~/Workspace
+  - ~/.tmp
+
+- flatpak:
+  - org.ghidra_sre.Ghidra 
+  - com.spotify.Client
+  - com.bitwarden.desktop
