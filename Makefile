@@ -1,2 +1,7 @@
+.PHONY: test
+
 all:
-	./install -p dotbot-flatpak/flatpak.py
+	./install 
+
+test:
+	vagrant destroy -f && vagrant up && vagrant ssh -t -- "bash /vagrant/install"

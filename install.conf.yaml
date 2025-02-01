@@ -1,13 +1,29 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
 - link:
-  ~/.config/sway: .config/sway
-  ~/.config/waybar: .config/waybar
-  ~/.config/nvim: .config/nvim
+    ~/.config/sway: .config/sway
+    ~/.config/waybar: .config/waybar
+    ~/.config/nvim: .config/nvim
 
 - create:
-  - ~/Workspace
-  - ~/.tmp
+    - ~/Workspace
+    - ~/.tmp
 
-- flatpak:
-  - org.ghidra_sre.Ghidra 
-  - com.spotify.Client
-  - com.bitwarden.desktop
+- shell:
+    # Set up the system
+    - [sudo echo "fastestmirror=1" >> /etc/dnf/dnf.conf, Enable fastestmirror for dnf]
+    # Enable RPMFusion repo
+    - [sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y, Enable rpmfusion]
+    # Install good to have packages
+    - [sudo dnf install neovim python3 python3-devel uuid vlc flatpak wl-clipboard rsync fish htop btop p7zip alacritty podman vagrant ripgrep qemu libvirt wine "@Development Tools" g++ unzip python3-pip -y,Install needed packages]
+    - [sudo dnf upgrade -y, Upgrade the system]
+    # Set up flatpak repos and packages
+    - [sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo, Add flathub repo]
+    - [sudo flatpak install flathub org.ghidra_sre.Ghidra com.spotify.Client com.bitwarden.desktop -y, Installing flatpak packages]
+    # Cleanup
+    - [sudo dnf autoremove -y, Cleanup]
+
+
