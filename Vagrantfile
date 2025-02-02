@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "fedora/41-cloud-base"
+  config.vm.hostname = "doom"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -64,11 +65,12 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    dnf install git -y
+      dnf install -y git
   SHELL
 
   config.vm.provider :libvirt do |libvirt|
     libvirt.memory = 2048
+    libvirt.machine_virtual_size = 40
   end
 
   config.vm.provision "shell", privileged: true, run: "once", inline: <<-EOL
@@ -79,4 +81,3 @@ Vagrant.configure("2") do |config|
     echo "root:vagrant"|chpasswd
   EOL
 end
-

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+readarray -td: REMOTE_AND_BRANCH <<< $1; declare REMOTE_AND_BRANCH;
+REPOSITORY="${2:-convert2rhel}"
+
+REMOTE=$(echo -n ${REMOTE_AND_BRANCH[0]})
+BRANCH=$(echo -n ${REMOTE_AND_BRANCH[1]})
+
+echo "Testing for remote '$REMOTE'"
+git ls-remote --exit-code $REMOTE >/dev/null 2>&1
+
+if test $? -ne 0; then
+    git remote add $REMOTE git@github.com:$REMOTE/$REPOSITORY
+fi
+
+echo "Fetching branches from '$REMOTE'"
+git fetch $REMOTE
+
+echo "Checking out remote '$REMOTE' with branch '$BRANCH'"
+git checkout -b $BRANCH "$REMOTE/$BRANCH"

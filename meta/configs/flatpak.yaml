@@ -1,0 +1,13 @@
+- shell:
+    # Set up flatpak repos and packages
+    -
+      command: sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      description: Add flathub repo
+      stdout: true
+      stderr: true
+
+    -
+      command: sudo flatpak install flathub org.ghidra_sre.Ghidra com.spotify.Client com.bitwarden.desktop -y
+      description: Installing flatpak packages
+      stdout: true
+      stderr: true
