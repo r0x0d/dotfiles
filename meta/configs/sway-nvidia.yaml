@@ -1,4 +1,0 @@
-- shell:
-    - [sudo cp gui/sway-nvidia/sway-nvidia.sh /usr/local/bin/sway-nvidia]
-    - [sudo cp gui/sway-nvidia/sway-nvidia.desktop /usr/local/bin/sway-nvidia]
-    - [sudo cp gui/sway-nvidia/wlroots-env-nvidia.sh /usr/local/share/wlroots-nvidia/wlroots-env-nvidia.sh]
