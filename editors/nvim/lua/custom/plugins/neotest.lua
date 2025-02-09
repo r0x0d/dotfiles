@@ -12,9 +12,14 @@ return {
   config = function()
     local neotest = require 'neotest'
 
+    -- Run nearest test with dap
+    vim.keymap.set('n', '<leader>tnd', function()
+      neotest.run.run { strategy = 'dap' }
+    end, { desc = 'Run [T]est [N]earest [D]ebugger' })
+
     -- Run nearest test
     vim.keymap.set('n', '<leader>tn', function()
-      neotest.run.run { strategy = 'dap' }
+      neotest.run.run()
     end, { desc = 'Run [T]est [N]earest' })
 
     -- Run test file
@@ -32,7 +37,7 @@ return {
       neotest.run.attach()
     end, { desc = '[T]est [A]ttach to nearest' })
 
-    require('neotest').setup {
+    neotest.setup {
       adapters = {
         require 'neotest-python' {
           dap = { justMyCode = false },

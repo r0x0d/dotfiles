@@ -8,7 +8,6 @@ return {
   config = function()
     local ls = require 'luasnip'
     require('luasnip.loaders.from_vscode').lazy_load()
-    ls.filetype_extend('javascript', { 'jsdoc' })
 
     --- TODO: What is expand?
     vim.keymap.set({ 'i' }, '<C-s>e', function()
