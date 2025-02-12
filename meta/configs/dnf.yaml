@@ -14,7 +14,7 @@
 
     # Install good to have packages
     -
-      command: sudo dnf install neovim python3 python3-devel uuid vlc flatpak wl-clipboard rsync fish htop btop p7zip alacritty podman vagrant ripgrep qemu libvirt wine g++ unzip python3-pip fd-find luarocks lua lua-devel -y
+      command: sudo dnf install vim neovim python3 python3-devel uuid vlc flatpak wl-clipboard rsync fish htop btop p7zip alacritty podman vagrant ripgrep qemu libvirt wine g++ unzip python3-pip fd-find luarocks lua lua-devel -y
       description: Install needed packages
       stdout: true
       stderr: true
