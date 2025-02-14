@@ -1,0 +1,11 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- link:
+    ~/.local/bin/checkout-remote: bin/checkout-remote
+    ~/.local/bin/get-token: bin/get-token
+    ~/.local/bin/scratch: bin/scratch
+    ~/.local/bin/venv: bin/venv
+
