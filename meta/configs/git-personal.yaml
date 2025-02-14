@@ -1,2 +1,7 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
 - link:
     ~/.gitconfig.extended: tools/git/.gitconfig.personal
