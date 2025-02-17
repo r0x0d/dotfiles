@@ -6,6 +6,7 @@
 - link:
     ~/.local/bin/checkout-remote: bin/checkout-remote
     ~/.local/bin/get-token: bin/get-token
+    ~/.local/bin/kerberos-init: bin/kerberos-init
     ~/.local/bin/scratch: bin/scratch
     ~/.local/bin/venv: bin/venv
 

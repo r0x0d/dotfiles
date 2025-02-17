@@ -1,0 +1,8 @@
+#!/bin/bash
+
+MASTER_PASSWORD=$(kwallet-query -f Bitwarden -r master kdewallet)
+
+KERBEROS=$(echo $MASTER_PASSWORD | bw get password 26157361-1535-4cae-a022-add000ffa76e)
+
+kinit <<< $KERBEROS
+
