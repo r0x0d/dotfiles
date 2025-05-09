@@ -8,7 +8,6 @@ return {
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
   },
-  ft = { 'python' },
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
@@ -20,10 +19,6 @@ return {
       -- reasonable debug configurations
       automatic_installation = true,
 
-      -- You can provide additional configuration to the handlers,
-      -- see mason-nvim-dap README for more information
-      handlers = {},
-
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
       ensure_installed = {
@@ -32,28 +27,13 @@ return {
       },
     }
 
-    require('nvim-dap-virtual-text').setup {
-      -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
-      display_callback = function(variable)
-        local name = string.lower(variable.name)
-        local value = string.lower(variable.value)
-        if name:match 'secret' or name:match 'api' or value:match 'secret' or value:match 'api' then
-          return '*****'
-        end
-
-        if #variable.value > 15 then
-          return ' ' .. string.sub(variable.value, 1, 15) .. '... '
-        end
-
-        return ' ' .. variable.value
-      end,
-    }
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
     vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
     vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
     vim.keymap.set('n', '<F3>', dap.step_out, { desc = 'Debug: Step Out' })
     vim.keymap.set('n', '<F4>', dap.step_back, { desc = 'Deubg: Ste Back' })
+
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
     vim.keymap.set('n', '<F13>', dap.restart, { desc = 'Debug: Restart' })

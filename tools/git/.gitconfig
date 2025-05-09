@@ -13,12 +13,6 @@
   fsmonitor = true
   autocrlf = input
   editor = nvim
-  pager = delta --diff-so-fancy
-[pager]
-  reflog = delta
-  diff = delta
-  show = delta
-  log = delta
 [fetch]
   prune = true
   pruneTags = true

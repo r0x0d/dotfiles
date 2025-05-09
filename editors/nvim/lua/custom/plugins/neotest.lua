@@ -6,9 +6,7 @@ return {
     'antoinemadec/FixCursorHold.nvim',
     'nvim-treesitter/nvim-treesitter',
     'nvim-neotest/neotest-python',
-    'Issafalcon/neotest-dotnet',
   },
-  ft = { 'python', 'c#' }, -- optional
   config = function()
     local neotest = require 'neotest'
 
@@ -43,7 +41,6 @@ return {
           dap = { justMyCode = false },
           pytest_discover_instances = true,
         },
-        require 'neotest-dotnet',
       },
     }
   end,
