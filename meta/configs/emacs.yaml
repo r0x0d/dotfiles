@@ -4,4 +4,16 @@
       relink: true
 
 - link:
-    ~/.config/emacs: editors/emacs
+    ~/.config/doom: editors/doom
+
+- shell:
+    - 
+      command: git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+      description: Clone doom-emacs
+      stderr: true
+    
+    - 
+      command: ~/.config/emacs/bin/doom install --fonts --force
+      description: Install doom-emacs
+      stdout: true
+      stderr: true

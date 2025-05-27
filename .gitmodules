@@ -1,6 +1,0 @@
-[submodule "meta/dotbot"]
-	path = meta/dotbot
-	url = https://github.com/anishathalye/dotbot
-[submodule "editors/emacs"]
-	path = editors/emacs
-	url = https://github.com/doomemacs/doomemacs
