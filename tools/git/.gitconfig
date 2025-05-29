@@ -12,7 +12,7 @@
 [core]
   fsmonitor = true
   autocrlf = input
-  editor = vimx
+  editor = nvim
 [fetch]
   prune = true
   pruneTags = true
