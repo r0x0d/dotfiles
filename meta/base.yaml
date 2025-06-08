@@ -1,6 +1,7 @@
 - create:
     - ~/Workspace
     - ~/.tmp
+    - ~/VMs
     - ~/.config
 
 - shell:
