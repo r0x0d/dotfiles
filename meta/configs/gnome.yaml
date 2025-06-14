@@ -1,0 +1,6 @@
+- shell:
+    -
+      command: sudo dnf install gnome-tweaks gnome-extensions-app gnome-shell-extension-user-theme gnome-shell-extension-dash-to-panel gnome-shell-extension-caffeine
+      description: Install gnome extensions
+      stdout: true
+      stderr: true
