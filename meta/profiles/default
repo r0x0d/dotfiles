@@ -3,5 +3,6 @@ bash
 git
 vim
 dnf
+shell
 flatpak
 code

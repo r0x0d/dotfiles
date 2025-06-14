@@ -1,0 +1,12 @@
+- shell:
+    -
+      command: chsh -s /usr/bin/fish
+      description: Change shell for reuglar user to fish
+      stdout: true
+      stderr: true
+
+    -
+      command: sudo chsh -s /usr/bin/fish
+      description: Change shell for root to fish
+      stdout: true
+      stderr: true
