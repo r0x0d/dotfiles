@@ -1,0 +1,18 @@
+- shell:
+    -
+      command: sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+      description: Import microsoft key
+      stdout: true
+      stderr: true
+
+    -
+      command: echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+      description: Add microsoft repository
+      stdout: true
+      stderr: true
+
+    -
+      command: sudo dnf install code -y
+      description: Install needed packages
+      stdout: true
+      stderr: true
