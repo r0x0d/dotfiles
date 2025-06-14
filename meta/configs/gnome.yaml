@@ -1,7 +1,0 @@
-- defaults:
-    link:
-      create: true
-      relink: true
-
-- link:
-    ~/.config/gtk-4.0/gtk.css: custom/gtk-4.0/gtk.css
