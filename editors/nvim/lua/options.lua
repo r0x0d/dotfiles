@@ -62,6 +62,8 @@ vim.opt.scrolloff = 10
 vim.opt.colorcolumn = '80'
 vim.opt.virtualedit = 'block'
 
+vim.cmd.colorscheme 'retrobox'
+
 vim.cmd [[ highlight Pmenu guifg=NONE guibg=NONE ]]
 vim.cmd [[ highlight Normal guibg=NONE ctermbg=NONE]]
 vim.cmd [[ highlight Comment gui=NONE ]]

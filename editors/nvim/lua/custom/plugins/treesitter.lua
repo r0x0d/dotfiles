@@ -32,7 +32,7 @@ return {
       auto_install = true,
       highlight = {
         enable = true,
-        additional_vim_regex_highlighting = { 'dockerfile', 'make', 'ruby' },
+        additional_vim_regex_highlighting = { 'dockerfile', 'make', 'ruby', 'python' },
       },
       indent = { enable = true },
     },
