@@ -229,7 +229,7 @@ return { -- LSP Configuration & Plugins
           -- certain features of an LSP (for example, turning off formatting for tsserver)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
           local coq = require 'coq'
-          require('lspconfig')[server_name].setup(coq.lsp_ensure_capabilities(server))
+          require('lua.r0x0d.plugins.lspconfig')[server_name].setup(coq.lsp_ensure_capabilities(server))
         end,
       },
     }

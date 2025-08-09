@@ -12,25 +12,21 @@
 [core]
   fsmonitor = true
   autocrlf = input
-  editor = vimx
+  editor = nvim
 [fetch]
   prune = true
   pruneTags = true
 [rebase]
   autosquash = true
-[format]
-  pretty = %C(red)%h%C(reset)  %C(bold blue)%an%C(reset): %C(white)%s%C(reset) %C(dim white) %C(bold green)(%ar)%C(reset) %C(bold yellow)%d%C(reset)
 [merge]
-  tool = gvimdiff
+  tool = nvim
   conflictstyle = diff3
   prompt = false
 [diff]
   colormoved = default
   algorithm = histogram
 [alias]
-  aliases = !git config --global --get-regexp '^alias[.]' | rg --invert-match '^alias[.]aliases' | rg --regexp='^alias[.](\\w+) ' --replace='$1 \t=> $2' | column -t -s '\t'
   amend = commit --amend
-  bash = "!bash"
   pushf = push -force-with-lease
   branches = branch -a
   commits = log --graph --decorate --pretty=oneline --abbrev-commit
@@ -46,15 +42,7 @@
   recent = !git branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)' | head -10
   amendpush = add . && commit --amend --no-edit && push origin HEAD -f
   whatadded = log --diff-filter=A
-[delta]
-  syntax-theme = OneHalfDark
-  line-numbers = true
-  side-by-side = true
-[filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  required = true
+  aliases = !git config --global --get-regexp '^alias[.]' | rg --invert-match '^alias[.]aliases' | rg --regexp='^alias[.](\\w+) ' --replace='$1 \t=> $2' | column -t -s '\t'
 [rerere]
   enabled = true
 [credential "https://github.com"]
