@@ -11,6 +11,7 @@ return {
         'luadoc',
         'markdown',
         'vim',
+        'rust',
         'vimdoc',
         'python',
         'dockerfile',
