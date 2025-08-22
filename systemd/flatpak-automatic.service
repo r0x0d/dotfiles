@@ -1,0 +1,7 @@
+[Unit]
+Description=Update Flatpak apps every 6 hours
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/flatpak update -y
+
