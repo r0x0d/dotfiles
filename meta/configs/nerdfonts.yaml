@@ -1,23 +1,16 @@
 - shell:
-    -
-      command: curl -L https://github.com/ryanoasis/nerd-fonts/archive/refs/heads/master.zip -o ~/.tmp/nerdfonts.zip
+    - command: curl -L https://github.com/ryanoasis/nerd-fonts/archive/refs/heads/master.zip -o ~/.tmp/nerdfonts.zip
       description: Download nerdonfts from master branch
       stdout: true
       stderr: true
-
-    -
-      command: pushd ~/.tmp && unzip nerdfonts.zip 
+    - command: pushd ~/.tmp && unzip nerdfonts.zip
       description: Unzipping nerdfonts
       stdout: true
       stderr: true
-
-    -
-      command: pushd ~/.tmp && bash nerd-fonts-master/install.sh 
+    - command: pushd ~/.tmp && bash nerd-fonts-master/install.sh
       description: Install nerdfonts
       stdout: true
       stderr: true
-
-
     - command: pushd ~/.tmp && rm -rf nerdfonts.zip nerd-fonts-master
       description: Clean-up nerdfonts
       stdout: true

@@ -2,10 +2,8 @@
     link:
       create: true
       relink: true
-
 - link:
     ~/.local/bin/scratch: bin/scratch
     ~/.local/bin/venv: bin/venv
     ~/.local/bin/update-toolbox-containers: bin/update-toolbox-containers
     ~/.local/bin/utc: bin/update-toolbox-containers
-

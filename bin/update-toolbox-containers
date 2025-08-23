@@ -6,25 +6,29 @@ import time
 from dataclasses import dataclass
 import argparse
 
+
 @dataclass
 class ToolboxContainer:
     container_id: str
     name: str
     image: str
 
+
 class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+    HEADER = "\033[95m"
+    OKBLUE = "\033[94m"
+    OKCYAN = "\033[96m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+
 
 def print_status(message: str, color: str) -> None:
     print(f"{color} {message} {bcolors.ENDC}")
+
 
 def print_inline(message: str, color: str) -> None:
     sys.stdout.write("\r")
@@ -35,7 +39,7 @@ def print_inline(message: str, color: str) -> None:
 def find_toolbox_containers() -> list[ToolboxContainer]:
     """Find toolbox containers that match a certain criteria
 
-    Criteria is: 
+    Criteria is:
         * The toolbox container ends with -dev
         * The name of the container is default
         * The image name starts with quay.io/rr0x0d/toolbox-
@@ -67,38 +71,67 @@ def find_toolbox_containers() -> list[ToolboxContainer]:
 
     return matches
 
+
 def remove_toolbox_container(containers: list[ToolboxContainer]) -> None:
     for container in containers:
         print_status(f"[-] Removing container {container.name}", bcolors.FAIL)
         output = subprocess.run(["podman", "rm", container.container_id, "--force"])
-        assert output.returncode == 0, f"Something went wrong while removing container {container.name}"
+        assert output.returncode == 0, (
+            f"Something went wrong while removing container {container.name}"
+        )
+
 
 def update_toolbox_image(containers: list[ToolboxContainer]) -> None:
     for container in containers:
         print_status(f"[+] Updating container image {container.image}", bcolors.OKGREEN)
         output = subprocess.run(["podman", "pull", container.image])
-        assert output.returncode == 0, f"Something went wrong while updating container {container.image}"
+        assert output.returncode == 0, (
+            f"Something went wrong while updating container {container.image}"
+        )
+
 
 def recreate_toolbox_container(containers: list[ToolboxContainer]) -> None:
     for container in containers:
-        print_status(f"[+] Recreating toolbox container {container.name}", bcolors.OKGREEN)
-        output = subprocess.run(["toolbox", "create", "--image", container.image, container.name])
-        assert output.returncode == 0, f"Something went wrong while creating toolbox container {container.name}"
+        print_status(
+            f"[+] Recreating toolbox container {container.name}", bcolors.OKGREEN
+        )
+        output = subprocess.run(
+            ["toolbox", "create", "--image", container.image, container.name]
+        )
+        assert output.returncode == 0, (
+            f"Something went wrong while creating toolbox container {container.name}"
+        )
+
 
 def main() -> int:
-
     parser = argparse.ArgumentParser(
-                    prog='update-toolbox-containers',
-                    description='Update all toolbox images to their latest versions',
-                    )
-    parser.add_argument('-s', '--skip', help="Skip the warning message for exiting toolbox containers first", action="store_true")
+        prog="update-toolbox-containers",
+        description="Update all toolbox images to their latest versions",
+    )
+    parser.add_argument(
+        "-s",
+        "--skip",
+        help="Skip the warning message for exiting toolbox containers first",
+        action="store_true",
+    )
     args = parser.parse_args()
     if not args.skip:
         print_status(" ⚠️ WARNING ⚠️", bcolors.WARNING)
-        print_status("Please, exit of any toolbox before running the script.", bcolors.WARNING)
-        print_status("If you are still inside a container, stop this script immediatly!", bcolors.WARNING)
-        print_status("Save your work before continuing with the update and rerun the script\n\n", bcolors.WARNING)
-        print_status("You're safe to hit Ctrl + C and stop the script right now.", bcolors.WARNING)
+        print_status(
+            "Please, exit of any toolbox before running the script.", bcolors.WARNING
+        )
+        print_status(
+            "If you are still inside a container, stop this script immediatly!",
+            bcolors.WARNING,
+        )
+        print_status(
+            "Save your work before continuing with the update and rerun the script\n\n",
+            bcolors.WARNING,
+        )
+        print_status(
+            "You're safe to hit Ctrl + C and stop the script right now.",
+            bcolors.WARNING,
+        )
         for i in range(10, 0, -1):
             print_inline(f"Seconds remaining: {i:2d}.", bcolors.WARNING)
             sys.stdout.flush()

@@ -1,9 +1,7 @@
-
 - defaults:
     link:
       create: true
       relink: true
-
 - link:
     ~/.config/systemd/user/flatpak-automatic.timer: systemd/flatpak-automatic.timer
     ~/.config/systemd/user/flatpak-automatic.service: systemd/flatpak-automatic.service

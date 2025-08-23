@@ -3,13 +3,8 @@
     - ~/.tmp
     - ~/VMs
     - ~/.config
-
 - shell:
-  - ["git submodule update --init --recursive", Installing submodules]
-  - ["git submodule sync", Syncing submodule remotes]
-  - ["date > ~/.dotfiles_update", Logging last update]
-
-- clean: [
-    '~',
-    '~/.config'
-]
+    - ["git submodule update --init --recursive", Installing submodules]
+    - ["git submodule sync", Syncing submodule remotes]
+    - ["date > ~/.dotfiles_update", Logging last update]
+- clean: ['~', '~/.config']

@@ -2,6 +2,5 @@
     link:
       create: true
       relink: true
-
 - link:
     ~/.vimrc: editors/vim/vimrc

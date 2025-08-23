@@ -2,10 +2,8 @@
     link:
       create: true
       relink: true
-
 - create:
-    - ~/.bashrc.d 
-
+    - ~/.bashrc.d
 - link:
     ~/.bashrc.d/editor.bashrc: tools/bash/bash_rc_d/editor.bashrc
     ~/.bashrc.d/npm-global.bashrc: tools/bash/bash_rc_d/npm-global.bashrc
