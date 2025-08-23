@@ -4,23 +4,19 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.api.nvim_create_autocmd('UILeave', {
-  callback = function()
-    io.write '\027]111\027\\'
-  end,
-})
-
--- [[ Setting options ]]
-require 'r0x0d.options'
-
--- [[ Basic Keymaps ]]
-require 'r0x0d.keymaps'
-
 -- [[ Install `lazy.nvim` plugin manager ]]
-require 'r0x0d.lazy-bootstrap'
+--    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+  vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+end ---@diagnostic disable-next-line: undefined-field
+vim.opt.rtp:prepend(lazypath)
 
--- [[ Set up some aliases ]]
-require 'r0x0d.aliases'
-
--- The line beneath this is called `modeline`. See `:help modeline`
+-- Set up lazy
+require('lazy').setup({ import = 'r0x0d/plugins' }, {
+  ui = { border = 'rounded' },
+  -- Don't bother me when tweaking plugins.
+  change_detection = { notify = false },
+})
 -- vim: ts=2 sts=2 sw=2 et
