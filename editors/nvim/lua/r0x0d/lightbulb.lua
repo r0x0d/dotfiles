@@ -1,13 +1,13 @@
 --- VSCode-like lightbulb.
 --- Implementation inspired from https://github.com/nvimdev/lspsaga.nvim/blob/a751b92b5d765a99fe3a42b9e51c046f81385e15/lua/lspsaga/codeaction/lightbulb.lua
 
---- Taken from https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/lightbulb.lua
+--- Taken from https://github.com/r0x0d/dotfiles/blob/main/.config/nvim/lua/lightbulb.lua
 
 local M = {}
 
-local lb_name = 'mariasolos/lightbulb'
+local lb_name = 'r0x0d/lightbulb'
 local lb_namespace = vim.api.nvim_create_namespace(lb_name)
-local lb_icon = require('icons').diagnostics.HINT
+local lb_icon = require('r0x0d.icons').diagnostics.HINT
 local lb_group = vim.api.nvim_create_augroup(lb_name, {})
 local code_action_method = vim.lsp.protocol.Methods.textDocument_codeAction
 

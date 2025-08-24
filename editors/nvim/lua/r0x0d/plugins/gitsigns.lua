@@ -1,5 +1,5 @@
-local solid_bar = require('icons').misc.vertical_bar
-local dashed_bar = require('icons').misc.dashed_bar
+local solid_bar = require('r0x0d.icons').misc.vertical_bar
+local dashed_bar = require('r0x0d.icons').misc.dashed_bar
 
 -- Adds git releated signs to the gutter, as well as utilities for managing changes.
 return {

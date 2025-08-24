@@ -1,4 +1,4 @@
-local icons = require 'icons'
+local icons = require 'r0x0d.icons'
 
 -- Diffs for git revisions.
 return {

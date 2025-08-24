@@ -7,7 +7,7 @@ return {
     format_on_save = function(bufnr)
       return {
         timeout_ms = 500,
-        lsp_format = 'prefer'
+        lsp_format = 'prefer',
       }
     end,
     formatters_by_ft = {
