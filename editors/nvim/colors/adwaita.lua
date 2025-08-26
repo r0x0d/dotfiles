@@ -346,10 +346,75 @@ hl('@markup.quote.markdown', { fg = colors.fg_alt, italic = true })
 hl('@markup.strong.markdown', { fg = colors.fg, bold = true })
 hl('@markup.italic.markdown', { fg = colors.fg, italic = true })
 
--- Docker improvements
-hl('@keyword.dockerfile', { fg = colors.coral }) -- FROM, RUN, etc.
-hl('@string.dockerfile', { fg = colors.green })
-hl('@variable.dockerfile', { fg = colors.cyan })
+-- COMPREHENSIVE DOCKER/CONTAINERFILE IMPROVEMENTS
+-- Tree-sitter highlights for Docker files
+hl('@keyword.dockerfile', { fg = colors.coral, bold = true }) -- FROM, RUN, COPY, ADD, etc.
+hl('@keyword.instruction.dockerfile', { fg = colors.coral, bold = true }) -- All Dockerfile instructions
+hl('@string.dockerfile', { fg = colors.green }) -- Quoted strings
+hl('@string.plain.dockerfile', { fg = colors.green }) -- Unquoted strings
+hl('@string.quoted.dockerfile', { fg = colors.green }) -- Explicitly quoted strings
+hl('@variable.dockerfile', { fg = colors.cyan }) -- Environment variables like $VAR, ${VAR}
+hl('@variable.builtin.dockerfile', { fg = colors.red }) -- Built-in variables
+hl('@variable.parameter.dockerfile', { fg = colors.cyan }) -- Parameter variables
+hl('@constant.dockerfile', { fg = colors.red }) -- Constants and literal values
+hl('@number.dockerfile', { fg = colors.red }) -- Port numbers, version numbers
+hl('@operator.dockerfile', { fg = colors.fg }) -- Operators like =, :
+hl('@punctuation.dockerfile', { fg = colors.fg_alt }) -- General punctuation
+hl('@punctuation.delimiter.dockerfile', { fg = colors.fg_alt }) -- Delimiters like commas
+hl('@punctuation.bracket.dockerfile', { fg = colors.fg }) -- Brackets and braces
+hl('@punctuation.special.dockerfile', { fg = colors.orange }) -- Special characters like $, {, }
+hl('@comment.dockerfile', { fg = colors.fg_dark, italic = true }) -- Comments
+hl('@function.dockerfile', { fg = colors.blue }) -- Function-like constructs
+hl('@parameter.dockerfile', { fg = colors.cyan }) -- Parameters in instructions
+hl('@field.dockerfile', { fg = colors.blue }) -- Field names in key=value pairs
+hl('@property.dockerfile', { fg = colors.blue }) -- Properties
+hl('@label.dockerfile', { fg = colors.yellow }) -- Labels and metadata
+hl('@flag.dockerfile', { fg = colors.magenta }) -- Command flags like --from, --chown
+hl('@option.dockerfile', { fg = colors.magenta }) -- Options and flags
+hl('@path.dockerfile', { fg = colors.green }) -- File paths
+hl('@url.dockerfile', { fg = colors.cyan, underline = true }) -- URLs
+hl('@tag.dockerfile', { fg = colors.yellow }) -- Image tags
+hl('@namespace.dockerfile', { fg = colors.cyan }) -- Namespaces and registries
+
+-- Traditional vim syntax highlighting for Dockerfile (fallback support)
+hl('dockerfileKeyword', { fg = colors.coral, bold = true }) -- FROM, RUN, COPY, etc.
+hl('dockerfileString', { fg = colors.green }) -- Quoted strings
+hl('dockerfileComment', { fg = colors.fg_dark, italic = true }) -- Comments
+hl('dockerfileEnv', { fg = colors.cyan }) -- Environment variables
+hl('dockerfilePort', { fg = colors.red }) -- Port numbers
+hl('dockerfileVolume', { fg = colors.blue }) -- Volume paths
+hl('dockerfileExpose', { fg = colors.red }) -- EXPOSE instruction
+hl('dockerfileLabel', { fg = colors.yellow }) -- LABEL values
+hl('dockerfileOnbuild', { fg = colors.orange }) -- ONBUILD instruction
+hl('dockerfileHealthcheck', { fg = colors.magenta }) -- HEALTHCHECK instruction
+hl('dockerfileOption', { fg = colors.magenta }) -- Command options and flags
+hl('dockerfileFlag', { fg = colors.magenta }) -- Flags like --from, --chown
+hl('dockerfilePath', { fg = colors.green }) -- File paths
+hl('dockerfileUrl', { fg = colors.cyan, underline = true }) -- URLs
+hl('dockerfileImageName', { fg = colors.yellow }) -- Image names
+hl('dockerfileImageTag', { fg = colors.yellow }) -- Image tags
+hl('dockerfileRegistry', { fg = colors.cyan }) -- Registry names
+hl('dockerfileInstruction', { fg = colors.coral, bold = true }) -- All instructions
+hl('dockerfileVariable', { fg = colors.cyan }) -- Variables in ${} format
+hl('dockerfileSpecialChar', { fg = colors.orange }) -- Special characters
+hl('dockerfileEscape', { fg = colors.orange }) -- Escape characters
+hl('dockerfileCmdParam', { fg = colors.fg_alt }) -- CMD parameters
+hl('dockerfileEntrypointParam', { fg = colors.fg_alt }) -- ENTRYPOINT parameters
+hl('dockerfileRunParam', { fg = colors.fg_alt }) -- RUN command parameters
+hl('dockerfileCopyParam', { fg = colors.fg_alt }) -- COPY command parameters
+hl('dockerfileAddParam', { fg = colors.fg_alt }) -- ADD command parameters
+
+-- Docker-compose support (bonus)
+hl('@field.docker-compose', { fg = colors.blue }) -- Service names, keys
+hl('@string.docker-compose', { fg = colors.green }) -- String values
+hl('@number.docker-compose', { fg = colors.red }) -- Port numbers, versions
+hl('@boolean.docker-compose', { fg = colors.red }) -- true/false
+hl('dockerComposeKeyword', { fg = colors.coral }) -- version, services, etc.
+hl('dockerComposeString', { fg = colors.green }) -- Quoted strings
+hl('dockerComposeComment', { fg = colors.fg_dark, italic = true }) -- Comments
+hl('dockerComposePort', { fg = colors.red }) -- Port mappings
+hl('dockerComposeVolume', { fg = colors.blue }) -- Volume definitions
+hl('dockerComposeEnvironment', { fg = colors.cyan }) -- Environment variables
 
 -- Shell script improvements
 hl('@keyword.bash', { fg = colors.coral })
