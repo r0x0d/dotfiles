@@ -2,6 +2,8 @@
 return {
   {
     'L3MON4D3/LuaSnip',
+    -- install jsregexp (optional!:).
+    run = 'make install_jsregexp',
     keys = {
       {
         '<C-r>s',
