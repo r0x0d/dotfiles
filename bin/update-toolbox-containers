@@ -42,7 +42,7 @@ def find_toolbox_containers() -> list[ToolboxContainer]:
     Criteria is:
         * The toolbox container ends with -dev
         * The name of the container is default
-        * The image name starts with quay.io/rr0x0d/toolbox-
+        * The image name starts with quay.io/toolbox-dev
 
     Returns:
         list[ToolboxContainer]: Return a list of `py:ToolboxContainers` matches.
@@ -58,7 +58,7 @@ def find_toolbox_containers() -> list[ToolboxContainer]:
         normalized_output = (c.strip() for c in container.split(" - ", 2))
         container_id, name, image = normalized_output
         if (name.endswith("-dev") or name == "default") and image.startswith(
-            "quay.io/r0x0d/toolbox-"
+            "quay.io/toolbox-dev"
         ):
             print_status(f"[+] Found toolbox container: {name}", bcolors.OKBLUE)
             matches.append(
