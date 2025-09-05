@@ -1,0 +1,11 @@
+{{ if eq .chezmoi.username "r0x0d" }}
+[user]
+    name = Rodolfo Olivieri
+    email = rodolfo.olivieri3@gmail.com
+    signingkey = EF80D407F69E71C6
+{{ else if eq .chezmoi.usedrname "rolivier" }}
+[user]
+    email = rolivier@redhat.com
+    name = Rodolfo Olivieri
+    signingKey = 4FD4F55D43EA8A17
+{{ end }}

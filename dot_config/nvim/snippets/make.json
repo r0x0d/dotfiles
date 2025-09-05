@@ -1,0 +1,95 @@
+{
+  "prelude": {
+    "prefix": "prelude",
+    "body": [
+      "MAKEFLAGS += --check-symlink-times",
+      "MAKEFLAGS += --jobs",
+      "MAKEFLAGS += --no-builtin-rules",
+      "MAKEFLAGS += --no-builtin-variables",
+      "MAKEFLAGS += --shuffle",
+      "MAKEFLAGS += --warn-undefined-variables",
+      "SHELL := bash",
+      ".DELETE_ON_ERROR:",
+      ".ONESHELL:",
+      ".SHELLFLAGS := --norc --noprofile -Eeuo pipefail -O dotglob -O nullglob -O extglob -O failglob -O globstar -c",
+      ".DEFAULT_GOAL := help",
+      ".PHONY: clean clobber",
+      "clean:",
+      "\tshopt -u failglob",
+      "\trm -v -rf --",
+      "clobber: clean",
+      "\tshopt -u failglob",
+      "\trm -v -rf --",
+      "include makelib/*.mk",
+      "$0"
+    ],
+    "description": "Makefile prelude with standard setup"
+  },
+  "info": {
+    "prefix": "info",
+    "body": [
+      "$(info $0)"
+    ],
+    "description": "Make info function"
+  },
+  "warning": {
+    "prefix": "warning",
+    "body": [
+      "$(warning $0)"
+    ],
+    "description": "Make warning function"
+  },
+  "shell": {
+    "prefix": "shell",
+    "body": [
+      "$(shell $0)"
+    ],
+    "description": "Make shell function"
+  },
+  "call": {
+    "prefix": "call",
+    "body": [
+      "$(call $0)"
+    ],
+    "description": "Make call function"
+  },
+  "phony": {
+    "prefix": [".phony", "phony", ".PHONY"],
+    "body": [
+      ".PHONY: ${1:target}",
+      "${1:target}: ${0:...}"
+    ],
+    "description": "Create a phony target"
+  },
+  "define": {
+    "prefix": "define",
+    "body": [
+      "define ${1:target}",
+      "${0:...}",
+      "endef"
+    ],
+    "description": "Define a make function"
+  },
+  "println": {
+    "prefix": "println",
+    "body": [
+      "printf -- '%s\\n' $0",
+      "$0"
+    ],
+    "description": "Print line with newline"
+  },
+  "glob": {
+    "prefix": "glob",
+    "body": [
+      "$(shell shopt -u failglob && printf -- '%s ' ${0:./**/*})"
+    ],
+    "description": "Shell glob pattern"
+  },
+  "watch": {
+    "prefix": "watch",
+    "body": [
+      "watchexec --shell none --restart -- $0"
+    ],
+    "description": "Watch files with watchexec"
+  },
+}

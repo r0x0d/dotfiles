@@ -1,0 +1,12 @@
+[Unit]
+Description=Update Flatpak apps every 6 hours
+
+[Timer]
+# start on boot directly
+OnBootSec=0
+# start every 6h after it was active
+OnUnitActiveSec=6h
+Unit=flatpak-automatic.service
+
+[Install]
+WantedBy=default.target

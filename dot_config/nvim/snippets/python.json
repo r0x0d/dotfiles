@@ -1,0 +1,35 @@
+{
+  "dataclass": {
+    "prefix": "dc",
+    "body": [
+      "@dataclass(frozen=True)",
+      "class ${1:Classname}:",
+      "    ${2:prop}: ${0:type}"
+    ],
+    "description": "Create a frozen dataclass"
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "@unique",
+      "class ${1:Classname}(Enum):",
+      "    ${2:member} = ${0:auto()}"
+    ],
+    "description": "Create a unique enum class"
+  },
+  "prelude": {
+    "prefix": "prelude",
+    "body": [
+      "#!/usr/bin/env -S -- PYTHONSAFEPATH= python3",
+      "$0"
+    ],
+    "description": "Python shebang with safe path"
+  },
+  "ignore": {
+    "prefix": "ignore",
+    "body": [
+      "# type: ignore"
+    ],
+    "description": "Type ignore comment"
+  },
+}
