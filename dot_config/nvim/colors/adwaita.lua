@@ -50,6 +50,74 @@ local colors = {
   hint = '#16a085',
 }
 
+-- Properties table for consistent theming
+local properties = {
+  -- Variables and identifiers
+  variables = 'NONE',
+  
+  -- Constants and literals
+  constants = colors.red,
+  numbers = colors.red,
+  booleans = colors.red,
+  characters = colors.green,
+  
+  -- Strings
+  strings = colors.green,
+  
+  -- Functions and methods
+  functions = colors.blue,
+  methods = colors.blue,
+  constructors = colors.yellow,
+  
+  -- Keywords and language constructs
+  keywords = colors.coral,
+  
+  -- Types and classes
+  types = colors.yellow,
+  
+  -- Comments
+  comments = colors.fg_dark,
+  
+  -- Punctuation and operators
+  punctuation = colors.fg_alt,
+  operators = colors.fg,
+  
+  -- Tags and markup
+  tags = colors.blue,
+  attributes = colors.cyan,
+  
+  -- Markup elements (markdown, etc.)
+  markup_headings = colors.blue,
+  markup_emphasis = colors.fg,
+  markup_links = colors.blue,
+  markup_code = colors.green,
+  
+  -- Namespaces and modules
+  namespaces = colors.cyan,
+  
+  -- Fields and properties
+  fields = colors.blue,
+  properties = colors.blue,
+  
+  -- Labels and annotations
+  labels = colors.yellow,
+  annotations = colors.magenta,
+  
+  -- Preprocessor directives
+  preprocessor = colors.magenta,
+  
+  -- Symbols and special elements
+  symbols = colors.orange,
+  urls = colors.cyan,
+  paths = colors.green,
+  flags = colors.magenta,
+  
+  -- Special syntax elements
+  string_escapes = colors.orange,
+  macros = colors.magenta,
+  special_punctuation = colors.orange
+}
+
 -- Helper function to set highlights
 local function hl(group, opts)
   vim.api.nvim_set_hl(0, group, opts)
@@ -175,39 +243,39 @@ hl('DiagnosticUnderlineInfo', { underline = true, sp = colors.info })
 hl('DiagnosticUnderlineHint', { underline = true, sp = colors.hint })
 
 -- LSP semantic highlighting
-hl('@variable', { fg = colors.fg })
-hl('@variable.builtin', { fg = colors.red })
-hl('@variable.parameter', { fg = colors.fg_alt })
-hl('@variable.member', { fg = colors.cyan })
+hl('@variable', { fg = properties.variables })
+hl('@variable.builtin', { fg = properties.variables })
+hl('@variable.parameter', { fg = properties.variables })
+hl('@variable.member', { fg = properties.variables })
 
-hl('@constant', { fg = colors.red })
-hl('@constant.builtin', { fg = colors.red })
-hl('@constant.macro', { fg = colors.yellow })
+hl('@constant', { fg = properties.constants })
+hl('@constant.builtin', { fg = properties.constants })
+hl('@constant.macro', { fg = properties.constants }) -- Note: was colors.yellow, now unified
 
-hl('@string', { fg = colors.green })
-hl('@string.escape', { fg = colors.orange })
-hl('@character', { fg = colors.green })
-hl('@number', { fg = colors.red })
-hl('@boolean', { fg = colors.red })
+hl('@string', { fg = properties.strings })
+hl('@string.escape', { fg = properties.string_escapes })
+hl('@character', { fg = properties.characters })
+hl('@number', { fg = properties.numbers })
+hl('@boolean', { fg = properties.booleans })
 
-hl('@function', { fg = colors.blue })
-hl('@function.builtin', { fg = colors.blue })
-hl('@function.macro', { fg = colors.magenta })
-hl('@method', { fg = colors.blue })
-hl('@constructor', { fg = colors.yellow })
+hl('@function', { fg = properties.functions })
+hl('@function.builtin', { fg = properties.functions })
+hl('@function.macro', { fg = properties.macros })
+hl('@method', { fg = properties.methods })
+hl('@constructor', { fg = properties.constructors })
 
-hl('@keyword', { fg = colors.coral })
-hl('@keyword.function', { fg = colors.coral })
-hl('@keyword.operator', { fg = colors.coral })
-hl('@keyword.return', { fg = colors.coral })
+hl('@keyword', { fg = properties.keywords })
+hl('@keyword.function', { fg = properties.keywords })
+hl('@keyword.operator', { fg = properties.keywords })
+hl('@keyword.return', { fg = properties.keywords })
 
-hl('@type', { fg = colors.yellow })
-hl('@type.builtin', { fg = colors.yellow })
-hl('@namespace', { fg = colors.cyan })
+hl('@type', { fg = properties.types })
+hl('@type.builtin', { fg = properties.types })
+hl('@namespace', { fg = properties.namespaces })
 
-hl('@tag', { fg = colors.blue })
-hl('@tag.attribute', { fg = colors.cyan })
-hl('@tag.delimiter', { fg = colors.fg_alt })
+hl('@tag', { fg = properties.tags })
+hl('@tag.attribute', { fg = properties.attributes })
+hl('@tag.delimiter', { fg = properties.punctuation })
 
 -- Git signs (for gitsigns.nvim)
 hl('GitSignsAdd', { fg = colors.git_add })
@@ -289,92 +357,92 @@ hl('CmpItemKindProperty', { fg = colors.cyan, bg = colors.bg })
 hl('CmpItemKindUnit', { fg = colors.yellow, bg = colors.bg })
 
 -- Enhanced Tree-sitter highlights for YAML
-hl('@field.yaml', { fg = colors.blue }) -- Keys/properties
-hl('@property.yaml', { fg = colors.blue }) -- Alternative for keys
-hl('@string.yaml', { fg = colors.green }) -- String values
-hl('@number.yaml', { fg = colors.red }) -- Numbers
-hl('@boolean.yaml', { fg = colors.red }) -- true/false
-hl('@constant.builtin.yaml', { fg = colors.red }) -- null
-hl('@punctuation.delimiter.yaml', { fg = colors.fg_alt }) -- Colons, commas
-hl('@punctuation.special.yaml', { fg = colors.coral }) -- Dashes, pipe operators
-hl('@operator.yaml', { fg = colors.coral }) -- YAML operators like |, >
-hl('@type.yaml', { fg = colors.yellow }) -- Types and tags
-hl('@tag.yaml', { fg = colors.magenta }) -- YAML tags like !!str
-hl('@label.yaml', { fg = colors.cyan }) -- Anchors and aliases
+hl('@field.yaml', { fg = properties.fields }) -- Keys/properties
+hl('@property.yaml', { fg = properties.properties }) -- Alternative for keys
+hl('@string.yaml', { fg = properties.strings }) -- String values
+hl('@number.yaml', { fg = properties.numbers }) -- Numbers
+hl('@boolean.yaml', { fg = properties.booleans }) -- true/false
+hl('@constant.builtin.yaml', { fg = properties.constants }) -- null
+hl('@punctuation.delimiter.yaml', { fg = properties.punctuation }) -- Colons, commas
+hl('@punctuation.special.yaml', { fg = properties.special_punctuation }) -- Note: changed from coral to orange for consistency
+hl('@operator.yaml', { fg = properties.operators }) -- YAML operators like |, >
+hl('@type.yaml', { fg = properties.types }) -- Types and tags
+hl('@tag.yaml', { fg = properties.tags }) -- YAML tags like !!str
+hl('@label.yaml', { fg = properties.labels }) -- Anchors and aliases
 
 -- Enhanced Tree-sitter highlights for JSON
-hl('@field.json', { fg = colors.blue }) -- Object keys
-hl('@property.json', { fg = colors.blue }) -- Alternative for keys
-hl('@string.json', { fg = colors.green }) -- String values
-hl('@number.json', { fg = colors.red }) -- Numbers
-hl('@boolean.json', { fg = colors.red }) -- true/false
-hl('@constant.builtin.json', { fg = colors.red }) -- null
-hl('@punctuation.bracket.json', { fg = colors.fg }) -- Brackets and braces
-hl('@punctuation.delimiter.json', { fg = colors.fg_alt }) -- Colons and commas
+hl('@field.json', { fg = properties.fields }) -- Object keys
+hl('@property.json', { fg = properties.properties }) -- Alternative for keys
+hl('@string.json', { fg = properties.strings }) -- String values
+hl('@number.json', { fg = properties.numbers }) -- Numbers
+hl('@boolean.json', { fg = properties.booleans }) -- true/false
+hl('@constant.builtin.json', { fg = properties.constants }) -- null
+hl('@punctuation.bracket.json', { fg = properties.punctuation }) -- Brackets and braces
+hl('@punctuation.delimiter.json', { fg = properties.punctuation }) -- Colons and commas
 
 -- TOML support (bonus)
-hl('@field.toml', { fg = colors.blue })
-hl('@property.toml', { fg = colors.blue })
-hl('@string.toml', { fg = colors.green })
-hl('@number.toml', { fg = colors.red })
-hl('@boolean.toml', { fg = colors.red })
-hl('@constant.builtin.toml', { fg = colors.red })
-hl('@type.toml', { fg = colors.yellow }) -- Section headers
-hl('@punctuation.delimiter.toml', { fg = colors.fg_alt })
-hl('@punctuation.bracket.toml', { fg = colors.fg })
+hl('@field.toml', { fg = properties.fields })
+hl('@property.toml', { fg = properties.properties })
+hl('@string.toml', { fg = properties.strings })
+hl('@number.toml', { fg = properties.numbers })
+hl('@boolean.toml', { fg = properties.booleans })
+hl('@constant.builtin.toml', { fg = properties.constants })
+hl('@type.toml', { fg = properties.types }) -- Section headers
+hl('@punctuation.delimiter.toml', { fg = properties.punctuation })
+hl('@punctuation.bracket.toml', { fg = properties.punctuation })
 
 -- XML/HTML improvements
-hl('@tag.xml', { fg = colors.coral })
-hl('@tag.html', { fg = colors.coral })
-hl('@tag.attribute.xml', { fg = colors.blue })
-hl('@tag.attribute.html', { fg = colors.blue })
-hl('@string.xml', { fg = colors.green })
-hl('@string.html', { fg = colors.green })
+hl('@tag.xml', { fg = properties.tags })
+hl('@tag.html', { fg = properties.tags })
+hl('@tag.attribute.xml', { fg = properties.attributes })
+hl('@tag.attribute.html', { fg = properties.attributes })
+hl('@string.xml', { fg = properties.strings })
+hl('@string.html', { fg = properties.strings })
 
 -- Markdown improvements
-hl('@markup.heading.1.markdown', { fg = colors.blue, bold = true })
-hl('@markup.heading.2.markdown', { fg = colors.coral, bold = true })
-hl('@markup.heading.3.markdown', { fg = colors.green, bold = true })
-hl('@markup.heading.4.markdown', { fg = colors.yellow, bold = true })
-hl('@markup.heading.5.markdown', { fg = colors.cyan, bold = true })
-hl('@markup.heading.6.markdown', { fg = colors.magenta, bold = true })
-hl('@markup.list.markdown', { fg = colors.coral }) -- List markers
-hl('@markup.link.markdown', { fg = colors.blue, underline = true })
-hl('@markup.raw.markdown', { fg = colors.green }) -- Code blocks
-hl('@markup.raw.inline.markdown', { fg = colors.green }) -- Inline code
-hl('@markup.quote.markdown', { fg = colors.fg_alt, italic = true })
-hl('@markup.strong.markdown', { fg = colors.fg, bold = true })
-hl('@markup.italic.markdown', { fg = colors.fg, italic = true })
+hl('@markup.heading.1.markdown', { fg = properties.markup_headings, bold = true })
+hl('@markup.heading.2.markdown', { fg = properties.markup_headings, bold = true })
+hl('@markup.heading.3.markdown', { fg = properties.markup_headings, bold = true })
+hl('@markup.heading.4.markdown', { fg = properties.markup_headings, bold = true })
+hl('@markup.heading.5.markdown', { fg = properties.markup_headings, bold = true })
+hl('@markup.heading.6.markdown', { fg = properties.markup_headings, bold = true })
+hl('@markup.list.markdown', { fg = properties.markup_emphasis }) -- List markers
+hl('@markup.link.markdown', { fg = properties.markup_links, underline = true })
+hl('@markup.raw.markdown', { fg = properties.markup_code }) -- Code blocks
+hl('@markup.raw.inline.markdown', { fg = properties.markup_code }) -- Inline code
+hl('@markup.quote.markdown', { fg = properties.markup_emphasis, italic = true })
+hl('@markup.strong.markdown', { fg = properties.markup_emphasis, bold = true })
+hl('@markup.italic.markdown', { fg = properties.markup_emphasis, italic = true })
 
 -- COMPREHENSIVE DOCKER/CONTAINERFILE IMPROVEMENTS
 -- Tree-sitter highlights for Docker files
-hl('@keyword.dockerfile', { fg = colors.coral, bold = true }) -- FROM, RUN, COPY, ADD, etc.
-hl('@keyword.instruction.dockerfile', { fg = colors.coral, bold = true }) -- All Dockerfile instructions
-hl('@string.dockerfile', { fg = colors.green }) -- Quoted strings
-hl('@string.plain.dockerfile', { fg = colors.green }) -- Unquoted strings
-hl('@string.quoted.dockerfile', { fg = colors.green }) -- Explicitly quoted strings
-hl('@variable.dockerfile', { fg = colors.cyan }) -- Environment variables like $VAR, ${VAR}
-hl('@variable.builtin.dockerfile', { fg = colors.red }) -- Built-in variables
-hl('@variable.parameter.dockerfile', { fg = colors.cyan }) -- Parameter variables
-hl('@constant.dockerfile', { fg = colors.red }) -- Constants and literal values
-hl('@number.dockerfile', { fg = colors.red }) -- Port numbers, version numbers
-hl('@operator.dockerfile', { fg = colors.fg }) -- Operators like =, :
-hl('@punctuation.dockerfile', { fg = colors.fg_alt }) -- General punctuation
-hl('@punctuation.delimiter.dockerfile', { fg = colors.fg_alt }) -- Delimiters like commas
-hl('@punctuation.bracket.dockerfile', { fg = colors.fg }) -- Brackets and braces
-hl('@punctuation.special.dockerfile', { fg = colors.orange }) -- Special characters like $, {, }
-hl('@comment.dockerfile', { fg = colors.fg_dark, italic = true }) -- Comments
-hl('@function.dockerfile', { fg = colors.blue }) -- Function-like constructs
-hl('@parameter.dockerfile', { fg = colors.cyan }) -- Parameters in instructions
-hl('@field.dockerfile', { fg = colors.blue }) -- Field names in key=value pairs
-hl('@property.dockerfile', { fg = colors.blue }) -- Properties
-hl('@label.dockerfile', { fg = colors.yellow }) -- Labels and metadata
-hl('@flag.dockerfile', { fg = colors.magenta }) -- Command flags like --from, --chown
-hl('@option.dockerfile', { fg = colors.magenta }) -- Options and flags
-hl('@path.dockerfile', { fg = colors.green }) -- File paths
-hl('@url.dockerfile', { fg = colors.cyan, underline = true }) -- URLs
-hl('@tag.dockerfile', { fg = colors.yellow }) -- Image tags
-hl('@namespace.dockerfile', { fg = colors.cyan }) -- Namespaces and registries
+hl('@keyword.dockerfile', { fg = properties.keywords, bold = true }) -- FROM, RUN, COPY, ADD, etc.
+hl('@keyword.instruction.dockerfile', { fg = properties.keywords, bold = true }) -- All Dockerfile instructions
+hl('@string.dockerfile', { fg = properties.strings }) -- Quoted strings
+hl('@string.plain.dockerfile', { fg = properties.strings }) -- Unquoted strings
+hl('@string.quoted.dockerfile', { fg = properties.strings }) -- Explicitly quoted strings
+hl('@variable.dockerfile', { fg = properties.variables }) -- Environment variables like $VAR, ${VAR}
+hl('@variable.builtin.dockerfile', { fg = properties.variables }) -- Built-in variables
+hl('@variable.parameter.dockerfile', { fg = properties.variables }) -- Parameter variables
+hl('@constant.dockerfile', { fg = properties.constants }) -- Constants and literal values
+hl('@number.dockerfile', { fg = properties.numbers }) -- Port numbers, version numbers
+hl('@operator.dockerfile', { fg = properties.operators }) -- Operators like =, :
+hl('@punctuation.dockerfile', { fg = properties.punctuation }) -- General punctuation
+hl('@punctuation.delimiter.dockerfile', { fg = properties.punctuation }) -- Delimiters like commas
+hl('@punctuation.bracket.dockerfile', { fg = properties.punctuation }) -- Brackets and braces
+hl('@punctuation.special.dockerfile', { fg = properties.special_punctuation })
+hl('@comment.dockerfile', { fg = properties.comments, italic = true }) -- Comments
+hl('@function.dockerfile', { fg = properties.functions }) -- Function-like constructs
+hl('@parameter.dockerfile', { fg = properties.variables }) -- Parameters in instructions
+hl('@field.dockerfile', { fg = properties.fields }) -- Field names in key=value pairs
+hl('@property.dockerfile', { fg = properties.properties }) -- Properties
+hl('@label.dockerfile', { fg = properties.labels }) -- Labels and metadata
+hl('@flag.dockerfile', { fg = properties.flags }) -- Command flags like --from, --chown
+hl('@option.dockerfile', { fg = properties.flags }) -- Options and flags
+hl('@path.dockerfile', { fg = properties.paths }) -- File paths
+hl('@url.dockerfile', { fg = properties.urls, underline = true }) -- URLs
+hl('@tag.dockerfile', { fg = properties.tags }) -- Image tags
+hl('@namespace.dockerfile', { fg = properties.namespaces }) -- Namespaces and registries
 
 -- Traditional vim syntax highlighting for Dockerfile (fallback support)
 hl('dockerfileKeyword', { fg = colors.coral, bold = true }) -- FROM, RUN, COPY, etc.
@@ -405,10 +473,10 @@ hl('dockerfileCopyParam', { fg = colors.fg_alt }) -- COPY command parameters
 hl('dockerfileAddParam', { fg = colors.fg_alt }) -- ADD command parameters
 
 -- Docker-compose support (bonus)
-hl('@field.docker-compose', { fg = colors.blue }) -- Service names, keys
-hl('@string.docker-compose', { fg = colors.green }) -- String values
-hl('@number.docker-compose', { fg = colors.red }) -- Port numbers, versions
-hl('@boolean.docker-compose', { fg = colors.red }) -- true/false
+hl('@field.docker-compose', { fg = properties.fields }) -- Service names, keys
+hl('@string.docker-compose', { fg = properties.strings }) -- String values
+hl('@number.docker-compose', { fg = properties.numbers }) -- Port numbers, versions
+hl('@boolean.docker-compose', { fg = properties.booleans }) -- true/false
 hl('dockerComposeKeyword', { fg = colors.coral }) -- version, services, etc.
 hl('dockerComposeString', { fg = colors.green }) -- Quoted strings
 hl('dockerComposeComment', { fg = colors.fg_dark, italic = true }) -- Comments
@@ -417,211 +485,211 @@ hl('dockerComposeVolume', { fg = colors.blue }) -- Volume definitions
 hl('dockerComposeEnvironment', { fg = colors.cyan }) -- Environment variables
 
 -- Shell script improvements
-hl('@keyword.bash', { fg = colors.coral })
-hl('@function.bash', { fg = colors.blue })
-hl('@variable.bash', { fg = colors.cyan })
-hl('@string.bash', { fg = colors.green })
-hl('@punctuation.special.bash', { fg = colors.orange }) -- $, ${}, etc.
+hl('@keyword.bash', { fg = properties.keywords })
+hl('@function.bash', { fg = properties.functions })
+hl('@variable.bash', { fg = properties.variables })
+hl('@string.bash', { fg = properties.strings })
+hl('@punctuation.special.bash', { fg = properties.special_punctuation })
 
 -- CSS improvements
-hl('@property.css', { fg = colors.blue }) -- CSS properties
-hl('@string.css', { fg = colors.green }) -- String values
-hl('@number.css', { fg = colors.red }) -- Numbers and units
-hl('@type.css', { fg = colors.coral }) -- Selectors
-hl('@function.css', { fg = colors.yellow }) -- Functions like rgb()
-hl('@punctuation.delimiter.css', { fg = colors.fg_alt })
+hl('@property.css', { fg = properties.properties }) -- CSS properties
+hl('@string.css', { fg = properties.strings }) -- String values
+hl('@number.css', { fg = properties.numbers }) -- Numbers and units
+hl('@type.css', { fg = properties.types }) -- CSS selectors
+hl('@function.css', { fg = properties.functions }) -- CSS functions like rgb()
+hl('@punctuation.delimiter.css', { fg = properties.punctuation })
 
 -- JavaScript/TypeScript improvements
-hl('@constructor.javascript', { fg = colors.yellow })
-hl('@constructor.typescript', { fg = colors.yellow })
-hl('@variable.member.javascript', { fg = colors.cyan })
-hl('@variable.member.typescript', { fg = colors.cyan })
-hl('@keyword.import.javascript', { fg = colors.coral })
-hl('@keyword.import.typescript', { fg = colors.coral })
-hl('@keyword.export.javascript', { fg = colors.coral })
-hl('@keyword.export.typescript', { fg = colors.coral })
+hl('@constructor.javascript', { fg = properties.constructors })
+hl('@constructor.typescript', { fg = properties.constructors })
+hl('@variable.member.javascript', { fg = properties.variables })
+hl('@variable.member.typescript', { fg = properties.variables })
+hl('@keyword.import.javascript', { fg = properties.keywords })
+hl('@keyword.import.typescript', { fg = properties.keywords })
+hl('@keyword.export.javascript', { fg = properties.keywords })
+hl('@keyword.export.typescript', { fg = properties.keywords })
 
 -- Python improvements
-hl('@keyword.import.python', { fg = colors.coral })
-hl('@constructor.python', { fg = colors.yellow })
-hl('@variable.member.python', { fg = colors.cyan })
-hl('@function.builtin.python', { fg = colors.blue })
-hl('@constant.builtin.python', { fg = colors.red }) -- True, False, None
+hl('@keyword.import.python', { fg = properties.keywords })
+hl('@constructor.python', { fg = properties.constructors })
+hl('@variable.member.python', { fg = properties.variables })
+hl('@function.builtin.python', { fg = properties.functions })
+hl('@constant.builtin.python', { fg = properties.constants }) -- True, False, None
 
 -- Go improvements
-hl('@keyword.go', { fg = colors.coral }) -- func, var, const, etc.
-hl('@keyword.import.go', { fg = colors.coral }) -- import
-hl('@type.builtin.go', { fg = colors.yellow }) -- int, string, bool, etc.
-hl('@function.go', { fg = colors.blue }) -- Function names
-hl('@variable.go', { fg = colors.cyan }) -- Variables
-hl('@constant.go', { fg = colors.red }) -- Constants
-hl('@string.go', { fg = colors.green }) -- Strings
-hl('@operator.go', { fg = colors.fg }) -- Operators
-hl('@punctuation.delimiter.go', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.go', { fg = properties.keywords }) -- func, var, const, etc.
+hl('@keyword.import.go', { fg = properties.keywords }) -- import
+hl('@type.builtin.go', { fg = properties.types }) -- int, string, bool, etc.
+hl('@function.go', { fg = properties.functions }) -- Function names
+hl('@variable.go', { fg = properties.variables }) -- Variables
+hl('@constant.go', { fg = properties.constants }) -- Constants
+hl('@string.go', { fg = properties.strings }) -- Strings
+hl('@operator.go', { fg = properties.operators }) -- Operators
+hl('@punctuation.delimiter.go', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- Rust improvements
-hl('@keyword.rust', { fg = colors.coral }) -- fn, let, mut, etc.
-hl('@keyword.import.rust', { fg = colors.coral }) -- use
-hl('@type.rust', { fg = colors.yellow }) -- Custom types
-hl('@type.builtin.rust', { fg = colors.yellow }) -- i32, u64, String, etc.
-hl('@function.rust', { fg = colors.blue }) -- Function names
-hl('@variable.rust', { fg = colors.cyan }) -- Variables
-hl('@constant.rust', { fg = colors.red }) -- Constants
-hl('@string.rust', { fg = colors.green }) -- Strings
-hl('@attribute.rust', { fg = colors.magenta }) -- #[derive], #[cfg], etc.
-hl('@punctuation.delimiter.rust', { fg = colors.fg_alt }) -- Commas, semicolons
-hl('@operator.rust', { fg = colors.fg }) -- Operators
+hl('@keyword.rust', { fg = properties.keywords }) -- fn, let, mut, etc.
+hl('@keyword.import.rust', { fg = properties.keywords }) -- use
+hl('@type.rust', { fg = properties.types }) -- Custom types
+hl('@type.builtin.rust', { fg = properties.types }) -- i32, u64, String, etc.
+hl('@function.rust', { fg = properties.functions }) -- Function names
+hl('@variable.rust', { fg = properties.variables }) -- Variables
+hl('@constant.rust', { fg = properties.constants }) -- Constants
+hl('@string.rust', { fg = properties.strings }) -- Strings
+hl('@attribute.rust', { fg = properties.annotations }) -- #[derive], #[cfg], etc.
+hl('@punctuation.delimiter.rust', { fg = properties.punctuation }) -- Commas, semicolons
+hl('@operator.rust', { fg = properties.operators }) -- Operators
 
 -- Java improvements
-hl('@keyword.java', { fg = colors.coral }) -- class, public, private, etc.
-hl('@keyword.import.java', { fg = colors.coral }) -- import
-hl('@type.java', { fg = colors.yellow }) -- Class names
-hl('@type.builtin.java', { fg = colors.yellow }) -- int, String, boolean, etc.
-hl('@function.java', { fg = colors.blue }) -- Method names
-hl('@variable.java', { fg = colors.cyan }) -- Variables
-hl('@constant.java', { fg = colors.red }) -- Constants
-hl('@string.java', { fg = colors.green }) -- Strings
-hl('@annotation.java', { fg = colors.magenta }) -- @Override, @Deprecated, etc.
-hl('@punctuation.delimiter.java', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.java', { fg = properties.keywords }) -- class, public, private, etc.
+hl('@keyword.import.java', { fg = properties.keywords }) -- import
+hl('@type.java', { fg = properties.types }) -- Class names
+hl('@type.builtin.java', { fg = properties.types }) -- int, String, boolean, etc.
+hl('@function.java', { fg = properties.functions }) -- Method names
+hl('@variable.java', { fg = properties.variables }) -- Variables
+hl('@constant.java', { fg = properties.constants }) -- Constants
+hl('@string.java', { fg = properties.strings }) -- Strings
+hl('@annotation.java', { fg = properties.annotations }) -- @Override, @Deprecated, etc.
+hl('@punctuation.delimiter.java', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- C improvements
-hl('@keyword.c', { fg = colors.coral }) -- int, char, if, for, etc.
-hl('@keyword.import.c', { fg = colors.coral }) -- #include
-hl('@type.c', { fg = colors.yellow }) -- Custom types
-hl('@type.builtin.c', { fg = colors.yellow }) -- int, char, float, etc.
-hl('@function.c', { fg = colors.blue }) -- Function names
-hl('@variable.c', { fg = colors.cyan }) -- Variables
-hl('@constant.c', { fg = colors.red }) -- Constants
-hl('@string.c', { fg = colors.green }) -- Strings
-hl('@preproc.c', { fg = colors.magenta }) -- Preprocessor directives
-hl('@punctuation.delimiter.c', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.c', { fg = properties.keywords }) -- int, char, if, for, etc.
+hl('@keyword.import.c', { fg = properties.keywords }) -- #include
+hl('@type.c', { fg = properties.types }) -- Custom types
+hl('@type.builtin.c', { fg = properties.types }) -- int, char, float, etc.
+hl('@function.c', { fg = properties.functions }) -- Function names
+hl('@variable.c', { fg = properties.variables }) -- Variables
+hl('@constant.c', { fg = properties.constants }) -- Constants
+hl('@string.c', { fg = properties.strings }) -- Strings
+hl('@preproc.c', { fg = properties.preprocessor }) -- Preprocessor directives
+hl('@punctuation.delimiter.c', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- C++ improvements
-hl('@keyword.cpp', { fg = colors.coral }) -- class, namespace, template, etc.
-hl('@keyword.import.cpp', { fg = colors.coral }) -- #include, using
-hl('@type.cpp', { fg = colors.yellow }) -- Custom types
-hl('@type.builtin.cpp', { fg = colors.yellow }) -- int, std::string, etc.
-hl('@function.cpp', { fg = colors.blue }) -- Function names
-hl('@variable.cpp', { fg = colors.cyan }) -- Variables
-hl('@constant.cpp', { fg = colors.red }) -- Constants
-hl('@string.cpp', { fg = colors.green }) -- Strings
-hl('@namespace.cpp', { fg = colors.cyan }) -- std, etc.
-hl('@preproc.cpp', { fg = colors.magenta }) -- Preprocessor directives
-hl('@punctuation.delimiter.cpp', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.cpp', { fg = properties.keywords }) -- class, namespace, template, etc.
+hl('@keyword.import.cpp', { fg = properties.keywords }) -- #include, using
+hl('@type.cpp', { fg = properties.types }) -- Custom types
+hl('@type.builtin.cpp', { fg = properties.types }) -- int, std::string, etc.
+hl('@function.cpp', { fg = properties.functions }) -- Function names
+hl('@variable.cpp', { fg = properties.variables }) -- Variables
+hl('@constant.cpp', { fg = properties.constants }) -- Constants
+hl('@string.cpp', { fg = properties.strings }) -- Strings
+hl('@namespace.cpp', { fg = properties.namespaces }) -- std, etc.
+hl('@preproc.cpp', { fg = properties.preprocessor }) -- Preprocessor directives
+hl('@punctuation.delimiter.cpp', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- C# improvements
-hl('@keyword.cs', { fg = colors.coral }) -- class, using, namespace, etc.
-hl('@keyword.import.cs', { fg = colors.coral }) -- using
-hl('@type.cs', { fg = colors.yellow }) -- Custom types
-hl('@type.builtin.cs', { fg = colors.yellow }) -- int, string, bool, etc.
-hl('@function.cs', { fg = colors.blue }) -- Method names
-hl('@variable.cs', { fg = colors.cyan }) -- Variables
-hl('@constant.cs', { fg = colors.red }) -- Constants
-hl('@string.cs', { fg = colors.green }) -- Strings
-hl('@attribute.cs', { fg = colors.magenta }) -- [Attribute]
-hl('@punctuation.delimiter.cs', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.cs', { fg = properties.keywords }) -- class, using, namespace, etc.
+hl('@keyword.import.cs', { fg = properties.keywords }) -- using
+hl('@type.cs', { fg = properties.types }) -- Custom types
+hl('@type.builtin.cs', { fg = properties.types }) -- int, string, bool, etc.
+hl('@function.cs', { fg = properties.functions }) -- Method names
+hl('@variable.cs', { fg = properties.variables }) -- Variables
+hl('@constant.cs', { fg = properties.constants }) -- Constants
+hl('@string.cs', { fg = properties.strings }) -- Strings
+hl('@attribute.cs', { fg = properties.annotations }) -- [Attribute]
+hl('@punctuation.delimiter.cs', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- PHP improvements
-hl('@keyword.php', { fg = colors.coral }) -- class, function, if, etc.
-hl('@keyword.import.php', { fg = colors.coral }) -- use, require, include
-hl('@type.php', { fg = colors.yellow }) -- Custom types
-hl('@function.php', { fg = colors.blue }) -- Function names
-hl('@variable.php', { fg = colors.cyan }) -- Variables (including $)
-hl('@constant.php', { fg = colors.red }) -- Constants
-hl('@string.php', { fg = colors.green }) -- Strings
-hl('@variable.builtin.php', { fg = colors.red }) -- $this, $_GET, etc.
-hl('@punctuation.delimiter.php', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.php', { fg = properties.keywords }) -- class, function, if, etc.
+hl('@keyword.import.php', { fg = properties.keywords }) -- use, require, include
+hl('@type.php', { fg = properties.types }) -- Custom types
+hl('@function.php', { fg = properties.functions }) -- Function names
+hl('@variable.php', { fg = properties.variables }) -- Variables (including $)
+hl('@constant.php', { fg = properties.constants }) -- Constants
+hl('@string.php', { fg = properties.strings }) -- Strings
+hl('@variable.builtin.php', { fg = properties.variables }) -- $this, $_GET, etc.
+hl('@punctuation.delimiter.php', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- Ruby improvements
-hl('@keyword.ruby', { fg = colors.coral }) -- def, class, if, etc.
-hl('@keyword.import.ruby', { fg = colors.coral }) -- require, include
-hl('@type.ruby', { fg = colors.yellow }) -- Class names
-hl('@function.ruby', { fg = colors.blue }) -- Method names
-hl('@variable.ruby', { fg = colors.cyan }) -- Variables
-hl('@constant.ruby', { fg = colors.red }) -- Constants
-hl('@string.ruby', { fg = colors.green }) -- Strings
-hl('@symbol.ruby', { fg = colors.orange }) -- :symbol
-hl('@variable.builtin.ruby', { fg = colors.red }) -- self, super
-hl('@punctuation.delimiter.ruby', { fg = colors.fg_alt }) -- Commas, etc.
+hl('@keyword.ruby', { fg = properties.keywords }) -- def, class, if, etc.
+hl('@keyword.import.ruby', { fg = properties.keywords }) -- require, include
+hl('@type.ruby', { fg = properties.types }) -- Class names
+hl('@function.ruby', { fg = properties.functions }) -- Method names
+hl('@variable.ruby', { fg = properties.variables }) -- Variables
+hl('@constant.ruby', { fg = properties.constants }) -- Constants
+hl('@string.ruby', { fg = properties.strings }) -- Strings
+hl('@symbol.ruby', { fg = properties.symbols }) -- :symbol
+hl('@variable.builtin.ruby', { fg = properties.variables }) -- self, super
+hl('@punctuation.delimiter.ruby', { fg = properties.punctuation }) -- Commas, etc.
 
 -- Swift improvements
-hl('@keyword.swift', { fg = colors.coral }) -- func, class, var, let, etc.
-hl('@keyword.import.swift', { fg = colors.coral }) -- import
-hl('@type.swift', { fg = colors.yellow }) -- Custom types
-hl('@type.builtin.swift', { fg = colors.yellow }) -- Int, String, Bool, etc.
-hl('@function.swift', { fg = colors.blue }) -- Function names
-hl('@variable.swift', { fg = colors.cyan }) -- Variables
-hl('@constant.swift', { fg = colors.red }) -- Constants
-hl('@string.swift', { fg = colors.green }) -- Strings
-hl('@attribute.swift', { fg = colors.magenta }) -- @objc, @available, etc.
-hl('@punctuation.delimiter.swift', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.swift', { fg = properties.keywords }) -- func, class, var, let, etc.
+hl('@keyword.import.swift', { fg = properties.keywords }) -- import
+hl('@type.swift', { fg = properties.types }) -- Custom types
+hl('@type.builtin.swift', { fg = properties.types }) -- Int, String, Bool, etc.
+hl('@function.swift', { fg = properties.functions }) -- Function names
+hl('@variable.swift', { fg = properties.variables }) -- Variables
+hl('@constant.swift', { fg = properties.constants }) -- Constants
+hl('@string.swift', { fg = properties.strings }) -- Strings
+hl('@attribute.swift', { fg = properties.annotations }) -- @objc, @available, etc.
+hl('@punctuation.delimiter.swift', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- Kotlin improvements
-hl('@keyword.kotlin', { fg = colors.coral }) -- fun, class, val, var, etc.
-hl('@keyword.import.kotlin', { fg = colors.coral }) -- import
-hl('@type.kotlin', { fg = colors.yellow }) -- Custom types
-hl('@type.builtin.kotlin', { fg = colors.yellow }) -- Int, String, Boolean, etc.
-hl('@function.kotlin', { fg = colors.blue }) -- Function names
-hl('@variable.kotlin', { fg = colors.cyan }) -- Variables
-hl('@constant.kotlin', { fg = colors.red }) -- Constants
-hl('@string.kotlin', { fg = colors.green }) -- Strings
-hl('@annotation.kotlin', { fg = colors.magenta }) -- @JvmStatic, etc.
-hl('@punctuation.delimiter.kotlin', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.kotlin', { fg = properties.keywords }) -- fun, class, val, var, etc.
+hl('@keyword.import.kotlin', { fg = properties.keywords }) -- import
+hl('@type.kotlin', { fg = properties.types }) -- Custom types
+hl('@type.builtin.kotlin', { fg = properties.types }) -- Int, String, Boolean, etc.
+hl('@function.kotlin', { fg = properties.functions }) -- Function names
+hl('@variable.kotlin', { fg = properties.variables }) -- Variables
+hl('@constant.kotlin', { fg = properties.constants }) -- Constants
+hl('@string.kotlin', { fg = properties.strings }) -- Strings
+hl('@annotation.kotlin', { fg = properties.annotations }) -- @JvmStatic, etc.
+hl('@punctuation.delimiter.kotlin', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- Dart improvements
-hl('@keyword.dart', { fg = colors.coral }) -- class, void, if, etc.
-hl('@keyword.import.dart', { fg = colors.coral }) -- import
-hl('@type.dart', { fg = colors.yellow }) -- Custom types
-hl('@type.builtin.dart', { fg = colors.yellow }) -- int, String, bool, etc.
-hl('@function.dart', { fg = colors.blue }) -- Function names
-hl('@variable.dart', { fg = colors.cyan }) -- Variables
-hl('@constant.dart', { fg = colors.red }) -- Constants
-hl('@string.dart', { fg = colors.green }) -- Strings
-hl('@annotation.dart', { fg = colors.magenta }) -- @override, etc.
-hl('@punctuation.delimiter.dart', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.dart', { fg = properties.keywords }) -- class, void, if, etc.
+hl('@keyword.import.dart', { fg = properties.keywords }) -- import
+hl('@type.dart', { fg = properties.types }) -- Custom types
+hl('@type.builtin.dart', { fg = properties.types }) -- int, String, bool, etc.
+hl('@function.dart', { fg = properties.functions }) -- Function names
+hl('@variable.dart', { fg = properties.variables }) -- Variables
+hl('@constant.dart', { fg = properties.constants }) -- Constants
+hl('@string.dart', { fg = properties.strings }) -- Strings
+hl('@annotation.dart', { fg = properties.annotations }) -- @override, etc.
+hl('@punctuation.delimiter.dart', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- SQL improvements
-hl('@keyword.sql', { fg = colors.coral }) -- SELECT, FROM, WHERE, etc.
-hl('@type.sql', { fg = colors.yellow }) -- VARCHAR, INT, etc.
-hl('@function.sql', { fg = colors.blue }) -- COUNT, SUM, etc.
-hl('@string.sql', { fg = colors.green }) -- String literals
-hl('@number.sql', { fg = colors.red }) -- Numbers
-hl('@operator.sql', { fg = colors.fg }) -- =, <, >, etc.
-hl('@punctuation.delimiter.sql', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.sql', { fg = properties.keywords }) -- SELECT, FROM, WHERE, etc.
+hl('@type.sql', { fg = properties.types }) -- VARCHAR, INT, etc.
+hl('@function.sql', { fg = properties.functions }) -- COUNT, SUM, etc.
+hl('@string.sql', { fg = properties.strings }) -- String literals
+hl('@number.sql', { fg = properties.numbers }) -- Numbers
+hl('@operator.sql', { fg = properties.operators }) -- =, <, >, etc.
+hl('@punctuation.delimiter.sql', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- Lua improvements (bonus for Neovim users)
-hl('@keyword.lua', { fg = colors.coral }) -- function, local, if, etc.
-hl('@function.lua', { fg = colors.blue }) -- Function names
-hl('@variable.lua', { fg = colors.cyan }) -- Variables
-hl('@constant.lua', { fg = colors.red }) -- Constants
-hl('@string.lua', { fg = colors.green }) -- Strings
-hl('@function.builtin.lua', { fg = colors.blue }) -- print, pairs, etc.
-hl('@constant.builtin.lua', { fg = colors.red }) -- nil, true, false
-hl('@punctuation.delimiter.lua', { fg = colors.fg_alt }) -- Commas, semicolons
+hl('@keyword.lua', { fg = properties.keywords }) -- function, local, if, etc.
+hl('@function.lua', { fg = properties.functions }) -- Function names
+hl('@variable.lua', { fg = properties.variables }) -- Variables
+hl('@constant.lua', { fg = properties.constants }) -- Constants
+hl('@string.lua', { fg = properties.strings }) -- Strings
+hl('@function.builtin.lua', { fg = properties.functions }) -- print, pairs, etc.
+hl('@constant.builtin.lua', { fg = properties.constants }) -- nil, true, false
+hl('@punctuation.delimiter.lua', { fg = properties.punctuation }) -- Commas, semicolons
 
 -- Vim script improvements (bonus for Vim users)
-hl('@keyword.vim', { fg = colors.coral }) -- function, let, if, etc.
-hl('@function.vim', { fg = colors.blue }) -- Function names
-hl('@variable.vim', { fg = colors.cyan }) -- Variables
-hl('@constant.vim', { fg = colors.red }) -- Constants
-hl('@string.vim', { fg = colors.green }) -- Strings
-hl('@function.builtin.vim', { fg = colors.blue }) -- Built-in functions
-hl('@punctuation.delimiter.vim', { fg = colors.fg_alt }) -- Commas, etc.
+hl('@keyword.vim', { fg = properties.keywords }) -- function, let, if, etc.
+hl('@function.vim', { fg = properties.functions }) -- Function names
+hl('@variable.vim', { fg = properties.variables }) -- Variables
+hl('@constant.vim', { fg = properties.constants }) -- Constants
+hl('@string.vim', { fg = properties.strings }) -- Strings
+hl('@function.builtin.vim', { fg = properties.functions }) -- Built-in functions
+hl('@punctuation.delimiter.vim', { fg = properties.punctuation }) -- Commas, etc.
 
 -- RPM spec file improvements
-hl('@keyword.spec', { fg = colors.coral }) -- Section headers like %prep, %build, %install
-hl('@function.spec', { fg = colors.blue }) -- RPM macros like %{name}, %{version}
-hl('@variable.spec', { fg = colors.cyan }) -- Variables and substitutions
-hl('@constant.spec', { fg = colors.red }) -- Version numbers, release numbers
-hl('@string.spec', { fg = colors.green }) -- Quoted strings and descriptions
-hl('@comment.spec', { fg = colors.fg_dark, italic = true }) -- Comments
-hl('@type.spec', { fg = colors.yellow }) -- Package names, dependencies
-hl('@operator.spec', { fg = colors.fg }) -- Operators like >=, <=, =
-hl('@punctuation.spec', { fg = colors.fg_alt }) -- General punctuation
-hl('@punctuation.delimiter.spec', { fg = colors.fg_alt }) -- Colons, commas
-hl('@tag.spec', { fg = colors.orange }) -- Tags like Name:, Version:, Summary:
-hl('@attribute.spec', { fg = colors.magenta }) -- Attributes and flags
-hl('@number.spec', { fg = colors.red }) -- Numbers in versions, etc.
+hl('@keyword.spec', { fg = properties.keywords }) -- Section headers like %prep, %build, %install
+hl('@function.spec', { fg = properties.functions }) -- RPM macros like %{name}, %{version}
+hl('@variable.spec', { fg = properties.variables }) -- Variables and substitutions
+hl('@constant.spec', { fg = properties.constants }) -- Version numbers, release numbers
+hl('@string.spec', { fg = properties.strings }) -- Quoted strings and descriptions
+hl('@comment.spec', { fg = properties.comments, italic = true }) -- Comments
+hl('@type.spec', { fg = properties.types }) -- Package names, dependencies
+hl('@operator.spec', { fg = properties.operators }) -- Operators like >=, <=, =
+hl('@punctuation.spec', { fg = properties.punctuation }) -- General punctuation
+hl('@punctuation.delimiter.spec', { fg = properties.punctuation }) -- Colons, commas
+hl('@tag.spec', { fg = properties.tags }) -- Tags like Name:, Version:, Summary:
+hl('@attribute.spec', { fg = properties.annotations }) -- Attributes and flags
+hl('@number.spec', { fg = properties.numbers }) -- Numbers in versions, etc.
 
 -- Traditional vim syntax for spec files (fallback)
 hl('specSection', { fg = colors.coral, bold = true }) -- %prep, %build, %install, %files
