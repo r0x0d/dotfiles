@@ -6,5 +6,6 @@ vim.filetype.add {
   extension = {
     h = 'c',
     Containerfile = 'dockerfile',
+    bashrc = 'sh',
   },
 }

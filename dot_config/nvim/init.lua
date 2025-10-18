@@ -19,6 +19,4 @@ require('lazy').setup({ import = 'r0x0d/plugins' }, {
   -- Don't bother me when tweaking plugins.
   change_detection = { notify = false },
 })
-
-require 'r0x0d.lightbulb'
 -- vim: ts=2 sts=2 sw=2 et

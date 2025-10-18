@@ -19,7 +19,6 @@ alias('fix', 'lua', 'vim.lsp.buf.code_action()')
 alias('fmt', 'lua', 'vim.lsp.buf.format()')
 alias('rename', 'lua vim.lsp.buf.rename()')
 
-alias('files', 'Telescope file_browser')
 alias('ls', 'Telescope buffers')
 alias('lsp', 'Telescope find_files')
 
