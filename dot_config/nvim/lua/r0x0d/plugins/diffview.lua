@@ -4,6 +4,8 @@ local icons = require 'r0x0d.icons'
 return {
   {
     'sindrets/diffview.nvim',
+    lazy = true,
+    cmd = { 'DiffviewOpen', 'DiffviewFileHistory', 'DiffviewToggle', 'DiffviewRefresh' },
     keys = {
       { '<leader>gf', '<cmd>DiffviewFileHistory<cr>', desc = 'File history' },
       { '<leader>gd', '<cmd>DiffviewOpen<cr>', desc = 'Diff view' },

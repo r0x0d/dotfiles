@@ -2,6 +2,9 @@ return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    lazy = true,
+    event = { 'BufReadPost', 'BufNewFile' }, -- Only load when needed
+    cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' }, -- Commands that require treesitter to be loaded
     opts = {
       ensure_installed = {
         'bash',

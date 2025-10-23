@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.keymap.set('n', '<Leader>vs', ':vsplit<CR><C-W>l', {
+vim.keymap.set('n', '<Leader>V', ':vsplit<CR><C-W>l', {
   desc = 'Open a new vertical split and switch to it',
   noremap = true,
 })
@@ -53,6 +53,7 @@ vim.keymap.set('n', '<Leader>hs', ':split<CR><C-W>j', {
 vim.keymap.set('n', '<Leader>v', vim.cmd.vsplit, {
   desc = 'Open a new vertical split',
   noremap = true,
+  silent = true,
 })
 
 vim.keymap.set('n', '<Leader>h', vim.cmd.split, {

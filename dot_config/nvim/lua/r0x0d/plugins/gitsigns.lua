@@ -24,7 +24,7 @@ return {
         changedelete = { text = dashed_bar },
       },
       preview_config = { border = 'rounded' },
-      current_line_blame = true,
+      current_line_blame = false, -- Disable by default to improve performance
       gh = true,
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns

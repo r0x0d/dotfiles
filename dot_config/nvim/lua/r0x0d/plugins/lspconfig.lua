@@ -1,6 +1,6 @@
 return { -- LSP Configuration & Plugins
   'neovim/nvim-lspconfig',
-  lazy = false,
+  lazy = true,
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
     { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
@@ -209,7 +209,7 @@ return { -- LSP Configuration & Plugins
           -- by the server configuration above. Useful when disabling
           -- certain features of an LSP (for example, turning off formatting for tsserver)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lua.r0x0d.plugins.lspconfig')[server_name].setup(server)
+          require('lspconfig')[server_name].setup(server)
         end,
       },
     }
