@@ -3,23 +3,22 @@ local opt = vim.opt
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-opt.clipboard = 'unnamedplus'
+-- Only set clipboard if not in SSH session
+if not vim.env.SSH_CLIENT and not vim.env.SSH_TTY then
+  opt.clipboard = 'unnamedplus'
+end
 
-if vim.env.SSH_CONNECTION then
-  local function vim_paste()
-    local content = vim.fn.getreg '"'
-    return vim.split(content, '\n')
-  end
-
+-- Use OSC 52 for SSH sessions to support clipboard sync through terminal
+if vim.env.SSH_CLIENT or vim.env.SSH_TTY then
   vim.g.clipboard = {
-    name = 'OSC 52',
+    name = 'OSC 52 terminal clipboard',
     copy = {
       ['+'] = require('vim.ui.clipboard.osc52').copy '+',
       ['*'] = require('vim.ui.clipboard.osc52').copy '*',
     },
     paste = {
-      ['+'] = vim_paste,
-      ['*'] = vim_paste,
+      ['+'] = require('vim.ui.clipboard.osc52').paste '+',
+      ['*'] = require('vim.ui.clipboard.osc52').paste '*',
     },
   }
 end
