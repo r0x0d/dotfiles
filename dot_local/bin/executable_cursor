@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+CONTAINER_ENV_PATH="/run/.containerenv"
+BASE_PATH="/usr/bin/cursor"
+
+if [[ -f "$CONTAINER_ENV_PATH" ]]; then
+	$BASE_PATH $@
+else
+	TOOLBOX_BASE_CMD="toolbox run --container cursor $BASE_PATH $@"
+
+	$TOOLBOX_BASE_CMD
+fi
