@@ -13,6 +13,7 @@
   fsmonitor = true
   autocrlf = input
   editor = nvim
+  excludesFile = ~/.gitignore
 [fetch]
   prune = true
   pruneTags = true
@@ -55,4 +56,4 @@
 	required = true
 	clean = git-lfs clean -- %f
 [credential]
-	helper = "!f() { /var/home/r0x0d/.vscode-server/bin/7adae6a56e34cb64d08899664b814cf620465925/node /tmp/vscode-remote-containers-21035a14-75fe-4d2e-a0b6-0640a1f00f7b.js git-credential-helper $*; }; f"
+	helper = "!f() { /home/r0x0d/.vscode-server/bin/0f0d87fa9e96c856c5212fc86db137ac0d783365/node /tmp/vscode-remote-containers-2f562681-11f9-4b23-bd0d-9290bee9ce74.js git-credential-helper $*; }; f"
