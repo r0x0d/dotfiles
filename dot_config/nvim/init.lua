@@ -13,8 +13,8 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- Set up lazy
-require('lazy').setup({ import = 'r0x0d/plugins' }, {
+-- Set up lazy with categorized plugin imports
+require('lazy').setup('r0x0d.plugins', {
   ui = { border = 'rounded' },
   -- Don't bother me when tweaking plugins.
   change_detection = { notify = false },
