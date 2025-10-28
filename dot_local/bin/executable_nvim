@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+TOOLBOX_DEV_ENV=".toolbox-dev"
+
+if [[ ! -f "$TOOLBOX_DEV_ENV" ]]; then
+	echo "File $TOOLBOX_DEV_ENV does not exist. Create if before using this script." >&2
+	exit 1
+fi
+
+TOOLBOX_DEV_ENV_CONTENT=$(cat $TOOLBOX_DEV_ENV)
+
+TOOLBOX_BASE_CMD="toolbox run --container $TOOLBOX_DEV_ENV_CONTENT /usr/bin/nvim $@"
+
+$TOOLBOX_BASE_CMD
