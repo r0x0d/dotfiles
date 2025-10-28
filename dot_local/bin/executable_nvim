@@ -1,14 +1,21 @@
 #!/usr/bin/env bash
 
-TOOLBOX_DEV_ENV=".toolbox-dev"
+CONTAINER_ENV_PATH="/run/.containerenv"
+NVIM_BASE_PATH="/usr/bin/nvim"
 
-if [[ ! -f "$TOOLBOX_DEV_ENV" ]]; then
-	echo "File $TOOLBOX_DEV_ENV does not exist. Create if before using this script." >&2
-	exit 1
+if [[ -f "$CONTAINER_ENV_PATH" ]]; then
+	$NVIM_BASE_PATH $@
+else
+	TOOLBOX_DEV_ENV=".toolbox-dev"
+
+	if [[ ! -f "$TOOLBOX_DEV_ENV" ]]; then
+		echo "File $TOOLBOX_DEV_ENV does not exist. Create if before using this script." >&2
+		exit 1
+	fi
+
+	TOOLBOX_DEV_ENV_CONTENT=$(cat $TOOLBOX_DEV_ENV)
+
+	TOOLBOX_BASE_CMD="toolbox run --container $TOOLBOX_DEV_ENV_CONTENT $NVIM_BASE_PATH $@"
+
+	$TOOLBOX_BASE_CMD
 fi
-
-TOOLBOX_DEV_ENV_CONTENT=$(cat $TOOLBOX_DEV_ENV)
-
-TOOLBOX_BASE_CMD="toolbox run --container $TOOLBOX_DEV_ENV_CONTENT /usr/bin/nvim $@"
-
-$TOOLBOX_BASE_CMD
