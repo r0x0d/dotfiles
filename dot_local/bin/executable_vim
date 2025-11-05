@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+CONTAINER_ENV_PATH="/run/.containerenv"
+BASE_PATH="/usr/bin/vim"
+
+if [[ -f "$CONTAINER_ENV_PATH" ]]; then
+	$BASE_PATH $@
+else
+	TOOLBOX_DEV_ENV=".toolbox-dev"
+
+	if [[ ! -f "$TOOLBOX_DEV_ENV" ]]; then
+		echo "File $TOOLBOX_DEV_ENV does not exist. Create if before using this script." >&2
+		exit 1
+	fi
+
+	TOOLBOX_DEV_ENV_CONTENT=$(cat $TOOLBOX_DEV_ENV)
+
+	TOOLBOX_BASE_CMD="toolbox run --container $TOOLBOX_DEV_ENV_CONTENT $BASE_PATH $@"
+
+	$TOOLBOX_BASE_CMD
+fi
