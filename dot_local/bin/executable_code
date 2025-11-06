@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
+COMMAND=$(basename $0)
 CONTAINER_ENV_PATH="/run/.containerenv"
-BASE_PATH="/usr/bin/code"
+BASE_PATH="/usr/bin/$COMMAND"
 
+# In case we are inside a toolbox container, execute the binary right away, 
+# otherwise, read the `.toolbox-dev` file and execute through `toolbox run ...`
 if [[ -f "$CONTAINER_ENV_PATH" ]]; then
 	$BASE_PATH $@
 else
-	TOOLBOX_BASE_CMD="toolbox run --container code $BASE_PATH $@"
+    # Compose the command to be ran
+	TOOLBOX_BASE_CMD="toolbox run --container $COMMAND $BASE_PATH $@"
 
+    # Execute it
 	$TOOLBOX_BASE_CMD
 fi
