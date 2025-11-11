@@ -18,7 +18,7 @@ AddCapability=CAP_SYS_ADMIN
 AutoUpdate=registry
 
 # The name of the container
-ContainerName=%i-dev
+ContainerName=%i
 
 # Environmental variables inside container.
 Environment=TOOLBOX_NAME=%i
