@@ -8,8 +8,6 @@ vim.g.maplocalleader = ' '
 vim.g.projects_dir = vim.env.HOME .. "/Workspace"
 vim.g.work_projects_dir = vim.env.HOME .. "/Workspace"
 
-vim.cmd.colorscheme 'adwaita'
-
 -- Install lazynvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
@@ -24,22 +22,18 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp = vim.opt.rtp ^ lazypath
 
----@type LazySpec
-local plugins = 'plugins'
-
-
 -- General setup and goodies (order matters here).
-require 'settings'
-require 'keymaps'
-require 'commands'
-require 'autocmds'
-require 'statusline'
-require 'winbar'
-require 'marks'
-require 'lsp'
+-- require 'settings'
+-- require 'keymaps'
+-- require 'commands'
+-- require 'autocmds'
+-- require 'statusline'
+-- require 'winbar'
+-- require 'marks'
+-- require 'lsp'
 
 -- Configure plugins.
-require('lazy').setup(plugins, {
+require('lazy').setup("plugins", {
     ui = { border = 'rounded' },
     dev = { path = vim.g.projects_dir },
     install = {
@@ -67,3 +61,5 @@ require('lazy').setup(plugins, {
         },
     },
 })
+
+vim.cmd.colorscheme 'horizon'

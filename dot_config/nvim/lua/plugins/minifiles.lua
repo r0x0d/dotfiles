@@ -105,7 +105,7 @@ return {
 
             -- Keep track of when the explorer is open to disable format on save.
             local minifiles_explorer_group =
-                vim.api.nvim_create_augroup('mariasolos/minifiles_explorer', { clear = true })
+                vim.api.nvim_create_augroup('r0x0d/minifiles_explorer', { clear = true })
             vim.api.nvim_create_autocmd('User', {
                 group = minifiles_explorer_group,
                 pattern = 'MiniFilesExplorerOpen',
