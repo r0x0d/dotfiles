@@ -4,19 +4,66 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-end ---@diagnostic disable-next-line: undefined-field
-vim.opt.rtp:prepend(lazypath)
+-- Set projects and work projects dir
+vim.g.projects_dir = vim.env.HOME .. "/Workspace"
+vim.g.work_projects_dir = vim.env.HOME .. "/Workspace"
 
--- Set up lazy with categorized plugin imports
-require('lazy').setup('r0x0d.plugins', {
-  ui = { border = 'rounded' },
-  -- Don't bother me when tweaking plugins.
-  change_detection = { notify = false },
+vim.cmd.colorscheme 'adwaita'
+
+-- Install lazynvim
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.uv.fs_stat(lazypath) then
+    vim.fn.system {
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable',
+        lazypath,
+    }
+end
+vim.opt.rtp = vim.opt.rtp ^ lazypath
+
+---@type LazySpec
+local plugins = 'plugins'
+
+
+-- General setup and goodies (order matters here).
+require 'settings'
+require 'keymaps'
+require 'commands'
+require 'autocmds'
+require 'statusline'
+require 'winbar'
+require 'marks'
+require 'lsp'
+
+-- Configure plugins.
+require('lazy').setup(plugins, {
+    ui = { border = 'rounded' },
+    dev = { path = vim.g.projects_dir },
+    install = {
+        -- Do not automatically install on startup.
+        missing = false,
+    },
+    -- Don't bother me when tweaking plugins.
+    change_detection = { notify = false },
+    -- None of my plugins use luarocks so disable this.
+    rocks = {
+        enabled = false,
+    },
+    performance = {
+        rtp = {
+            -- Stuff I don't use.
+            disabled_plugins = {
+                'gzip',
+                'tarPlugin',
+                'zipPlugin',
+                'netrwPlugin',
+                'rplugin',
+                'tohtml',
+                'tutor',
+            },
+        },
+    },
 })
--- vim: ts=2 sts=2 sw=2 et
