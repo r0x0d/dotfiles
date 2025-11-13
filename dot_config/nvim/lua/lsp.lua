@@ -38,14 +38,6 @@ local function on_attach(client, bufnr)
         require('lightbulb').attach_lightbulb(bufnr, client)
     end
 
-    -- Don't check for the capability here to allow dynamic registration of the request.
-    vim.lsp.document_color.enable(true, bufnr)
-    if client:supports_method 'textDocument/documentColor' then
-        keymap('grc', function()
-            vim.lsp.document_color.color_presentation()
-        end, 'vim.lsp.document_color.color_presentation()', { 'n', 'x' })
-    end
-
     if client:supports_method 'textDocument/references' then
         keymap('grr', '<cmd>FzfLua lsp_references<cr>', 'vim.lsp.buf.references()')
     end
