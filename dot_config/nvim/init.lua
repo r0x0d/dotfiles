@@ -22,16 +22,6 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp = vim.opt.rtp ^ lazypath
 
--- General setup and goodies (order matters here).
--- require 'settings'
--- require 'keymaps'
--- require 'commands'
--- require 'autocmds'
--- require 'statusline'
--- require 'winbar'
--- require 'marks'
--- require 'lsp'
-
 -- Configure plugins.
 require('lazy').setup("plugins", {
     ui = { border = 'rounded' },
@@ -62,4 +52,4 @@ require('lazy').setup("plugins", {
     },
 })
 
-vim.cmd.colorscheme 'horizon'
+vim.cmd.colorscheme 'sitruuna'
