@@ -15,3 +15,4 @@ return {
         { 'y', '<Plug>(YankyYank)', mode = { 'n', 'x' }, desc = 'Yanky yank' },
     },
 }
+
