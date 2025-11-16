@@ -12,7 +12,7 @@
 [core]
   fsmonitor = true
   autocrlf = input
-  editor = vim
+  editor = nvim
   excludesFile = ~/.gitignore
 [fetch]
   prune = true
@@ -20,7 +20,7 @@
 [rebase]
   autosquash = true
 [merge]
-  tool = vim
+  tool = nvim
   conflictstyle = diff3
   prompt = false
 [diff]
