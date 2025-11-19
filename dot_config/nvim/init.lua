@@ -52,4 +52,4 @@ require('lazy').setup("plugins", {
     },
 })
 
-vim.cmd.colorscheme 'darklight'
+vim.cmd.colorscheme 'horizon'
