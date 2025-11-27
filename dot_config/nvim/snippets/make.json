@@ -91,5 +91,5 @@
       "watchexec --shell none --restart -- $0"
     ],
     "description": "Watch files with watchexec"
-  },
+  }
 }
