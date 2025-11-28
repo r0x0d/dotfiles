@@ -1,0 +1,98 @@
+#!/bin/bash
+
+set -e
+
+# Parse command line arguments
+SKIP_PULL=false
+while [[ $# -gt 0 ]]; do
+    case $1 in
+    --skip-pull)
+        SKIP_PULL=true
+        shift
+        ;;
+    -h | --help)
+        echo "Usage: $0 [--skip-pull]"
+        echo "  --skip-pull    Skip pulling updated images, only recreate containers"
+        exit 0
+        ;;
+    *)
+        echo "Unknown option: $1"
+        echo "Use --help for usage information"
+        exit 1
+        ;;
+    esac
+done
+
+echo "=== Toolbox Container Update Script ==="
+echo
+
+if [ "$SKIP_PULL" = false ]; then
+    # Find all quay.io/toolbox-dev images
+    echo "Finding toolbox images..."
+    TOOLBOX_IMAGES=$(podman images --format "{{.Repository}}:{{.Tag}}" | grep "^quay.io/toolbox-dev" || true)
+
+    if [ -z "$TOOLBOX_IMAGES" ]; then
+        echo "No toolbox images found starting with quay.io/toolbox-dev"
+        exit 0
+    fi
+
+    echo "Found images:"
+    echo "$TOOLBOX_IMAGES"
+    echo
+
+    # Pull latest versions of each image
+    echo "Pulling latest versions..."
+    while IFS= read -r image; do
+        echo "Pulling $image..."
+        podman pull "$image"
+    done <<<"$TOOLBOX_IMAGES"
+
+    echo
+else
+    echo "Skipping image pull (--skip-pull flag set)"
+    echo
+fi
+echo "=== Recreating running toolbox containers ==="
+echo
+
+# Get all running toolbox containers
+RUNNING_CONTAINERS=$(toolbox list --containers 2>/dev/null | awk 'NR>1 && $6=="running" {print $2}' || true)
+
+if [ -z "$RUNNING_CONTAINERS" ]; then
+    echo "No running toolbox containers found"
+    exit 0
+fi
+
+echo "Found running containers:"
+echo "$RUNNING_CONTAINERS"
+echo
+
+# Recreate each running container
+while IFS= read -r container; do
+    echo "Processing container: $container"
+
+    # Get the image used by this container
+    IMAGE=$(podman inspect "$container" --format '{{.ImageName}}' 2>/dev/null || true)
+
+    if [ -z "$IMAGE" ]; then
+        echo "  Warning: Could not determine image for $container, skipping"
+        continue
+    fi
+
+    # Only recreate if it's a toolbox-dev image
+    if [[ "$IMAGE" == quay.io/toolbox-dev* ]]; then
+        echo "  Image: $IMAGE"
+        echo "  Removing old container..."
+        toolbox rm -f "$container"
+
+        echo "  Creating new container with updated image..."
+        toolbox create -c "$container" -i "$IMAGE"
+
+        echo "  Container $container recreated successfully"
+    else
+        echo "  Skipping $container (not a toolbox-dev image)"
+    fi
+    echo
+done <<<"$RUNNING_CONTAINERS"
+
+echo "=== Update complete ==="
