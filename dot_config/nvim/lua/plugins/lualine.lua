@@ -2,68 +2,6 @@ return {
   'nvim-lualine/lualine.nvim',
   config = function()
     ---------------------------------------------------------------------------
-    -- 3024 COLORS
-    ---------------------------------------------------------------------------
-    local colors = {
-      black   = "#090300",
-      red     = "#db2d20",
-      green   = "#01a252",
-      yellow  = "#fded02",
-      blue    = "#01a0e4",
-      magenta = "#a16a94",
-      cyan    = "#b5e4f4",
-      white   = "#a5a2a2",
-
-      bright_black   = "#5c5855",
-      bright_red     = "#e8bbd0",
-      bright_green   = "#3a3432",
-      bright_yellow  = "#4a4543",
-      bright_blue    = "#807d7c",
-      bright_magenta = "#d6d5d4",
-      bright_cyan    = "#cdab53",
-      bright_white   = "#f7f7f7",
-
-      bg = "#090300",
-      fg = "#a5a2a2",
-    }
-
-    ---------------------------------------------------------------------------
-    -- LUALINE THEME
-    ---------------------------------------------------------------------------
-    local theme_3024 = {
-      normal = {
-        a = { fg = colors.black, bg = colors.blue, gui = "bold" },
-        b = { fg = colors.white, bg = colors.bright_black },
-        c = { fg = colors.fg, bg = colors.bg },
-      },
-      insert = {
-        a = { fg = colors.black, bg = colors.green, gui = "bold" },
-        b = { fg = colors.white, bg = colors.bright_black },
-        c = { fg = colors.fg, bg = colors.bg },
-      },
-      visual = {
-        a = { fg = colors.black, bg = colors.magenta, gui = "bold" },
-        b = { fg = colors.white, bg = colors.bright_black },
-        c = { fg = colors.fg, bg = colors.bg },
-      },
-      replace = {
-        a = { fg = colors.black, bg = colors.red, gui = "bold" },
-        b = { fg = colors.white, bg = colors.bright_black },
-        c = { fg = colors.fg, bg = colors.bg },
-      },
-      command = {
-        a = { fg = colors.black, bg = colors.yellow, gui = "bold" },
-        b = { fg = colors.white, bg = colors.bright_black },
-        c = { fg = colors.fg, bg = colors.bg },
-      },
-      inactive = {
-        a = { fg = colors.bright_black, bg = colors.bg, gui = "bold" },
-        b = { fg = colors.bright_black, bg = colors.bg },
-        c = { fg = colors.bright_black, bg = colors.bg },
-      },
-    }
-
-    ---------------------------------------------------------------------------
     -- HELPER COMPONENTS
     ---------------------------------------------------------------------------
 
@@ -103,7 +41,7 @@ return {
     ---------------------------------------------------------------------------
     require('lualine').setup({
       options = {
-        theme = theme_3024,
+        theme = "catppuccin",
         icons_enabled = true,
         component_separators = { left = '│', right = '│' },
         section_separators = { left = '', right = '' },
