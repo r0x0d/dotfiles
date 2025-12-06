@@ -4,38 +4,61 @@ return {
     ---------------------------------------------------------------------------
     -- HELPER COMPONENTS
     ---------------------------------------------------------------------------
-
     -- Project name (last folder of CWD)
     local function project_name()
       local cwd = vim.fn.getcwd()
       return cwd:match("([^/]+)$")
     end
 
-    -- Show LSP client(s) attached (Neovim 0.9+)
+    -- LSP emoji mappings
+    local lsp_emojis = {
+      lua_ls = "🌙",
+      python_ls = "🐍",
+      ruff_ls = "🐍",
+      ts_ls = "📘",
+      tsserver = "📘",
+      rust_analyzer = "🦀",
+      gopls = "🐹",
+      clangd = "🔧",
+      jdtls = "☕",
+      html = "🌐",
+      cssls = "🎨",
+      json_ls = "📋",
+      yaml_ls = "📄",
+      bash_ls = "🐚",
+      docker_ls = "🐳",
+      tailwindcss = "🎨",
+      emmet_ls = "⚡",
+      eslint = "🔍",
+      phpactor = "🐘",
+      ruby_ls = "💎",
+      csharp_ls = "#️⃣",
+      omnisharp = "#️⃣",
+    }
+
+    -- Show LSP client(s) attached with emojis
     local function lsp_name()
-      local clients = vim.lsp.get_clients({ bufnr = 0 }) -- attach to current buffer
-      local buf_ft = vim.bo.filetype
+      local clients = vim.lsp.get_clients({ bufnr = 0 })
       local names = {}
 
       for _, client in pairs(clients) do
-        if client.supported_filetypes and vim.tbl_contains(client.supported_filetypes, buf_ft) then
-          table.insert(names, client.name)
-        elseif client.config.filetypes and vim.tbl_contains(client.config.filetypes, buf_ft) then
-          table.insert(names, client.name)
-        end
+        local client_name = string.gsub(client.name, "-", "_")
+        local emoji = lsp_emojis[client_name] or "🔌"
+        table.insert(names, emoji .. " " .. client.name)
       end
 
       if #names == 0 then
-        return "No LSP"
+        return "⚠️ No LSP"
       end
-      return "LSP: " .. table.concat(names, ", ")
+
+      return table.concat(names, " | ")
     end
+
     -- Indentation
     local function indent_info()
       local expand = vim.bo.expandtab and "spaces" or "tabs"
       return expand .. ":" .. vim.bo.shiftwidth
     end
-
     ---------------------------------------------------------------------------
     -- LUALINE SETUP
     ---------------------------------------------------------------------------
@@ -44,10 +67,9 @@ return {
         theme = "catppuccin",
         icons_enabled = true,
         component_separators = { left = '│', right = '│' },
-        section_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
         globalstatus = true,
       },
-
       sections = {
         -----------------------------------------------------------------------
         -- LEFT
@@ -66,7 +88,6 @@ return {
             path = 1, -- relative path
           },
         },
-
         -----------------------------------------------------------------------
         -- RIGHT
         -----------------------------------------------------------------------
@@ -85,7 +106,6 @@ return {
           'location'
         },
       },
-
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
