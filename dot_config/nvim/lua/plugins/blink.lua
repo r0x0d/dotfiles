@@ -3,7 +3,10 @@ return {
   {
     'saghen/blink.cmp',
     version = '1.*',
-    dependencies = { 'L3MON4D3/LuaSnip', 'rafamadriz/friendly-snippets' },
+    dependencies = {
+      'L3MON4D3/LuaSnip', 'rafamadriz/friendly-snippets',"moyiz/blink-emoji.nvim",
+      'Kaiser-Yang/blink-cmp-git',
+    },
     event = 'InsertEnter',
     opts = {
       keymap = {
@@ -30,7 +33,7 @@ return {
       sources = {
         -- Disable some sources in comments and strings.
         default = function()
-          local sources = { 'lsp', 'buffer', 'snippets' }
+          local sources = { 'git', 'dictionary', 'path', 'lsp', 'buffer', 'snippets', 'emoji' }
           local ok, node = pcall(vim.treesitter.get_node)
 
           if ok and node then
@@ -44,6 +47,32 @@ return {
 
           return sources
         end,
+        providers = {
+          emoji = {
+            module = "blink-emoji",
+            name = "Emoji",
+            score_offset = 15, -- Tune by preference
+            opts = {
+              insert = true, -- Insert emoji (default) or complete its name
+              ---@type string|table|fun():table
+              trigger = function()
+                return { ":" }
+              end,
+            },
+            should_show_items = function()
+              return vim.tbl_contains(
+                -- Enable emoji completion only for git commits and markdown.
+                -- By default, enabled for all file-types.
+                { "gitcommit", "markdown" },
+                vim.o.filetype
+              )
+            end,
+          },
+          git = {
+            module = "blink-cmp-git",
+            name = "Git",
+          },
+        },
       },
       appearance = {
         kind_icons = require('icons').symbol_kinds,
