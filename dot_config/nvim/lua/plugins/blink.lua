@@ -33,7 +33,7 @@ return {
       sources = {
         -- Disable some sources in comments and strings.
         default = function()
-          local sources = { 'git', 'dictionary', 'path', 'lsp', 'buffer', 'snippets', 'emoji' }
+          local sources = { 'git', 'path', 'lsp', 'buffer', 'snippets', 'emoji' }
           local ok, node = pcall(vim.treesitter.get_node)
 
           if ok and node then
