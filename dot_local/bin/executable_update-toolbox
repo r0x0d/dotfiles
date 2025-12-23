@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import argparse
 import sys
 import subprocess
@@ -105,11 +105,22 @@ def parse_arguments():
         description="Toolbox Container Update Script"
     )
     parser.add_argument(
-        "--skip-pull",
+        "--only-toolbox",
         action="store_true",
-        help="Skip pulling updated images, only recreate containers"
+        help="Only recreate toolbox containers, skip pulling images"
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--only-podman",
+        action="store_true",
+        help="Only pull images, skip recreating toolbox containers"
+    )
+    args = parser.parse_args()
+    
+    # Validate that both flags aren't set
+    if args.only_toolbox and args.only_podman:
+        parser.error("Cannot specify both --only-toolbox and --only-podman")
+    
+    return args
 
 
 def find_toolbox_images():
@@ -227,28 +238,39 @@ def main():
     
     print_header("Toolbox Container Update Script")
     
-    # Pull images unless --skip-pull is set
-    if not args.skip_pull:
+    # Determine what operations to perform
+    should_pull = not args.only_toolbox
+    should_recreate = not args.only_podman
+    
+    # Pull images
+    if should_pull:
         print_header("Updating Images")
         images = find_toolbox_images()
         if not images:
-            sys.exit(0)
-        pull_images(images)
+            if args.only_podman:
+                # If only pulling and no images found, exit
+                sys.exit(0)
+            # Otherwise continue to recreate containers
+        else:
+            pull_images(images)
     else:
-        print_info("Skipping image pull (--skip-pull flag set)\n")
+        print_info("Skipping image pull (--only-toolbox flag set)\n")
     
-    # Recreate all containers
-    print_header("Recreating Containers")
-    
-    containers = get_all_toolbox_containers()
-    if not containers:
-        sys.exit(0)
-    
-    for container in containers:
-        print(f"  {Colors.CYAN}•{Colors.RESET} {container}")
-    
-    for container in containers:
-        recreate_container(container)
+    # Recreate containers
+    if should_recreate:
+        print_header("Recreating Containers")
+        
+        containers = get_all_toolbox_containers()
+        if not containers:
+            sys.exit(0)
+        
+        for container in containers:
+            print(f"  {Colors.CYAN}•{Colors.RESET} {container}")
+        
+        for container in containers:
+            recreate_container(container)
+    else:
+        print_info("Skipping container recreation (--only-podman flag set)\n")
     
     print_header("Update Complete")
     print_success("All operations completed successfully!\n")
