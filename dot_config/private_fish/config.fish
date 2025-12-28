@@ -15,7 +15,3 @@ abbr "gup" "git pull --rebase"
 abbr "sw" "gg switch"
 abbr "swr" "gg switch --remote"
 abbr "swd" "git switch --detach"
-
-alias "nightmare" "ssh nightmare"
-alias "doom" "ssh doom"
-alias "redhat" "ssh redhat"
