@@ -6,7 +6,7 @@ vim.g.maplocalleader = ' '
 
 -- Set projects and work projects dir
 vim.g.projects_dir = vim.env.HOME .. "/Workspace"
-vim.g.work_projects_dir = vim.env.HOME .. "/Workspace"
+vim.g.work_projects_dir = vim.g.projects_dir
 
 -- Install lazynvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -40,9 +40,6 @@ require('lazy').setup("plugins", {
         rtp = {
             -- Stuff I don't use.
             disabled_plugins = {
-                'gzip',
-                'tarPlugin',
-                'zipPlugin',
                 'netrwPlugin',
                 'rplugin',
                 'tohtml',

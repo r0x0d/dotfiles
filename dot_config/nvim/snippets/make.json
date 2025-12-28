@@ -84,12 +84,5 @@
       "$(shell shopt -u failglob && printf -- '%s ' ${0:./**/*})"
     ],
     "description": "Shell glob pattern"
-  },
-  "watch": {
-    "prefix": "watch",
-    "body": [
-      "watchexec --shell none --restart -- $0"
-    ],
-    "description": "Watch files with watchexec"
   }
 }

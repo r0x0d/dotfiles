@@ -1,9 +1,3 @@
-local arrows = require('icons').arrows
-
--- Set <space> as the leader key.
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
 -- Use an indentation of 4 spaces.
 vim.o.sw = 4
 vim.o.ts = 4
@@ -33,17 +27,6 @@ vim.o.linebreak = true
 vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 99
 vim.wo.foldtext = ''
-
--- UI characters.
--- vim.opt.fillchars = {
---     eob = ' ',
---     fold = ' ',
---     foldclose = arrows.right,
---     foldopen = arrows.down,
---     foldsep = ' ',
---     foldinner = ' ',
---     msgsep = '─',
--- }
 
 -- Use rounded borders for floating windows.
 vim.o.winborder = 'rounded'

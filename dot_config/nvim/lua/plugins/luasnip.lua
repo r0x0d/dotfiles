@@ -10,7 +10,7 @@ return {
         function()
           require('luasnip.extras.otf').on_the_fly 's'
         end,
-        desc = 'Insert on-the-fly snippet',
+       desc = 'Insert on-the-fly snippet',
         mode = 'i',
       },
     },
