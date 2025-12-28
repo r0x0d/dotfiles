@@ -25,6 +25,7 @@ return {
       cssls = "🎨",
       json_ls = "📋",
       yaml_ls = "📄",
+      markdown_ls = "📄",
       bash_ls = "🐚",
       docker_ls = "🐳",
       tailwindcss = "🎨",
