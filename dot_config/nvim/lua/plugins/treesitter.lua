@@ -10,6 +10,8 @@ return {
         'bash',
         'diff',
         'lua',
+        'c',
+        'cpp',
         'luadoc',
         'markdown',
         'markdown_inline',
@@ -34,9 +36,10 @@ return {
       auto_install = true,
       highlight = {
         enable = true,
-        additional_vim_regex_highlighting = { 'dockerfile', 'make', 'ruby', 'python' },
       },
-      indent = { enable = true },
+      indent = { enable = true,
+        -- Prevent treeitter to unindent yaml lists
+        disable = {'yaml'} },
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`

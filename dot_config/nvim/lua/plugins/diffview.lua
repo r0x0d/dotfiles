@@ -19,12 +19,12 @@ return {
         default_args = { DiffviewFileHistory = { '%' } },
         icons = {
           folder_closed = icons.symbol_kinds.Folder,
-          folder_open = '󰝰',
+          folder_open = icons.symbol_kinds.FolderOpen,
         },
         signs = {
           fold_closed = icons.arrows.right,
           fold_open = icons.arrows.down,
-          done = '',
+          done = icons.diagnostics.DONE
         },
         hooks = {
           diff_buf_read = function(bufnr)

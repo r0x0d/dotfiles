@@ -22,10 +22,19 @@ return {
         list = {
           -- Insert items while navigating the completion list.
           selection = { preselect = false, auto_insert = true },
-          max_items = 10,
+          max_items = 25,
         },
         documentation = { auto_show = true },
-        menu = { scrollbar = false },
+        menu = {
+          scrollbar = false,
+          draw = {
+            gap = 2,
+            columns = {
+              { 'kind_icon', 'kind', gap = 1 },
+              { 'label', 'label_description', gap = 1 },
+            },
+          },
+        },
       },
       snippets = { preset = 'luasnip' },
       -- Disable command line completion:
@@ -33,7 +42,7 @@ return {
       sources = {
         -- Disable some sources in comments and strings.
         default = function()
-          local sources = { 'git', 'path', 'lsp', 'buffer', 'snippets', 'emoji' }
+          local sources = { 'git', 'lsp', 'buffer', 'emoji' }
           local ok, node = pcall(vim.treesitter.get_node)
 
           if ok and node then

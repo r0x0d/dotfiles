@@ -7,6 +7,7 @@ M.diagnostics = {
   WARN = '',
   HINT = '',
   INFO = '',
+  DONE = '',
 }
 
 --- For folding.
@@ -30,6 +31,7 @@ M.symbol_kinds = {
   Field = '󰜢',
   File = '󰈙',
   Folder = '󰉋',
+  FolderOpen = '󰝰',
   Function = '󰆧',
   Interface = '',
   Keyword = '󰌋',
