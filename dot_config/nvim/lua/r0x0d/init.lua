@@ -17,7 +17,6 @@ require 'r0x0d.options'
 require 'r0x0d.keymaps'
 require 'r0x0d.autocmds'
 require 'r0x0d.commands'
-require 'r0x0d.filetype'
 require 'r0x0d.marks'
 
 -- Bootstrap and configure lazy.nvim
