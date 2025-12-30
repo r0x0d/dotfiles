@@ -1,7 +1,9 @@
 -- LuaSnip: Snippets
 return {
     'L3MON4D3/LuaSnip',
-    run = 'make install_jsregexp',
+    lazy = true,
+    event = 'InsertEnter', -- Load when entering insert mode (same as blink.cmp)
+    build = 'make install_jsregexp',
     keys = {
         {
             '<C-r>s',

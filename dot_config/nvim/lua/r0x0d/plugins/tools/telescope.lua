@@ -138,35 +138,5 @@ return {
             end
         end,
     },
-    -- Neoclip for yank history (separate plugin with its own setup)
-    {
-        'AckslD/nvim-neoclip.lua',
-        event = 'TextYankPost',
-        dependencies = {
-            'nvim-telescope/telescope.nvim',
-        },
-        keys = {
-            { '<leader>fy', '<cmd>Telescope neoclip<cr>', desc = 'Yank history' },
-        },
-        opts = {
-            history = 100,
-            enable_persistent_history = false,
-            continuous_sync = false,
-            keys = {
-                telescope = {
-                    i = {
-                        select = '<cr>',
-                        paste = '<c-p>',
-                        paste_behind = '<c-P>',
-                        delete = '<c-d>',
-                    },
-                },
-            },
-        },
-        config = function(_, opts)
-            require('neoclip').setup(opts)
-            require('telescope').load_extension 'neoclip'
-        end,
-    },
 }
 

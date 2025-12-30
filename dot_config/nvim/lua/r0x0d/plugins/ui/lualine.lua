@@ -3,6 +3,7 @@ local icons = require 'r0x0d.util.icons'
 
 return {
     'nvim-lualine/lualine.nvim',
+    event = 'VeryLazy', -- Defer loading slightly after startup
     config = function()
         ---------------------------------------------------------------------------
         -- HELPER COMPONENTS

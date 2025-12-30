@@ -2,6 +2,7 @@
 return {
     'nvim-neotest/neotest',
     lazy = true,
+    ft = { 'python' }, -- Only load for Python since we only have Python adapter
     cmd = { 'Neotest' },
     keys = {
         { '<leader>tn', function() require('neotest').run.run() end, desc = 'Run nearest test' },

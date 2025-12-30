@@ -98,6 +98,7 @@ return {
     -- Indentation guides
     {
         'saghen/blink.indent',
+        event = { 'BufReadPost', 'BufNewFile' }, -- Lazy load on file open
         opts = {
             static = {
                 char = icons.misc.vertical_bar,
@@ -112,6 +113,7 @@ return {
     {
         'saghen/blink.pairs',
         version = '*',
+        event = 'InsertEnter', -- Only needed when typing
         dependencies = 'saghen/blink.download',
         opts = {
             mappings = {
