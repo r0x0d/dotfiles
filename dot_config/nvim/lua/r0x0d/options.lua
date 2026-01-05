@@ -76,21 +76,21 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
--- Clipboard configuration: works both locally and over SSH
--- Uses OSC52 for copying (works over SSH to sync with local clipboard)
--- Paste uses the terminal's native paste or Neovim registers
-vim.g.clipboard = {
-    name = 'OSC 52',
-    copy = {
-        ['+'] = require('vim.ui.clipboard.osc52').copy '+',
-        ['*'] = require('vim.ui.clipboard.osc52').copy '*',
-    },
-    paste = {
-        -- OSC52 paste rarely works; use Neovim's native paste instead
-        -- This reads from the internal register which was synced on copy
-        ['+'] = function() return vim.split(vim.fn.getreg('+'), '\n') end,
-        ['*'] = function() return vim.split(vim.fn.getreg('*'), '\n') end,
-    },
-}
+-- Clipboard configuration
+-- For SSH sessions, use OSC52 (syncs with local clipboard through terminal)
+-- For local sessions, let Neovim auto-detect system clipboard (wl-paste, xclip, etc.)
+if vim.env.SSH_CLIENT or vim.env.SSH_TTY then
+    vim.g.clipboard = {
+        name = 'OSC 52',
+        copy = {
+            ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+            ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+        },
+        paste = {
+            ['+'] = require('vim.ui.clipboard.osc52').paste '+',
+            ['*'] = require('vim.ui.clipboard.osc52').paste '*',
+        },
+    }
+end
 opt.clipboard = 'unnamedplus'
 
