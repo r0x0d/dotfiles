@@ -19,7 +19,6 @@ return {
         'vimdoc',
         'rust',
         'python',
-        'dockerfile',
         'ini',
         'git_config',
         'git_rebase',
@@ -36,10 +35,13 @@ return {
       auto_install = true,
       highlight = {
         enable = true,
+        disable = { 'dockerfile' },
       },
-      indent = { enable = true,
+      indent = { 
+        enable = true,
         -- Prevent treeitter to unindent yaml lists
-        disable = {'yaml'} },
+        disable = {'yaml'}
+      },
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
