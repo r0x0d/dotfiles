@@ -2,6 +2,7 @@
 return {
     require 'r0x0d.plugins.editor.treesitter',
     require 'r0x0d.plugins.editor.which-key',
+    require 'r0x0d.plugins.editor.mason',
     require 'r0x0d.plugins.editor.mini',
     require 'r0x0d.plugins.editor.quicker',
     require 'r0x0d.plugins.editor.todo-comments',
