@@ -101,7 +101,7 @@ local function on_attach(client, bufnr)
             buffer = bufnr,
             callback = function()
                 if vim.g.inlay_hints then
-                    vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+                    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
                 end
             end,
         })
@@ -112,7 +112,7 @@ local function on_attach(client, bufnr)
             buffer = bufnr,
             callback = function()
                 if vim.g.inlay_hints then
-                    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                    vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
                 end
             end,
         })

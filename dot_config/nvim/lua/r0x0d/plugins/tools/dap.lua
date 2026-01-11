@@ -26,8 +26,8 @@ return {
         { '<space>?', function() require('dapui').eval(nil, { enter = true }) end, desc = 'Debug: Eval var under cursor' },
     },
     config = function()
-        local dap = require 'dap'
-        local dapui = require 'dapui'
+        local dap = package.loaded.dap
+        local dapui = package.loaded.dapui
 
         require('mason-nvim-dap').setup {
             -- Makes a best effort to setup the various debuggers with
@@ -41,6 +41,7 @@ return {
                 'python',
                 'rust',
                 'c',
+                'zig',
                 'cpp',
             },
         }
