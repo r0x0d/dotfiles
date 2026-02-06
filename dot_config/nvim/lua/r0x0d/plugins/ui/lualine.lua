@@ -233,7 +233,7 @@ return {
         ---------------------------------------------------------------------------
         require('lualine').setup {
             options = {
-                theme = 'catppuccin',
+                theme = require 'r0x0d.theme.lualine',
                 icons_enabled = true,
                 component_separators = { left = icons.misc.vertical_bar, right = icons.misc.vertical_bar },
                 section_separators = { left = '', right = '' },
@@ -259,7 +259,7 @@ return {
                     },
                     {
                         python_venv,
-                        color = { fg = '#a6e3a1' },
+                        color = { fg = '#57e389' },
                         cond = function()
                             return vim.bo.filetype == 'python'
                         end,
@@ -273,7 +273,7 @@ return {
                     { search_count },
                     {
                         dap_status,
-                        color = { fg = '#f38ba8' },
+                        color = { fg = '#f66151' },
                         cond = function()
                             local ok, dap = pcall(require, 'dap')
                             return ok and dap.session() ~= nil

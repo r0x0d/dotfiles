@@ -30,6 +30,7 @@ return {
             'toml',
             'yaml',
             'ruby',
+            'zig',
         },
         auto_install = true,
         highlight = {
