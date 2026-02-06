@@ -35,7 +35,7 @@ local function on_attach(client, bufnr)
     end, 'Next error')
 
     if client:supports_method 'textDocument/codeAction' then
-        require('lightbulb').attach_lightbulb(bufnr, client)
+        require('r0x0d.util.lightbulb').attach_lightbulb(bufnr, client)
     end
 
     if client:supports_method 'textDocument/references' then
