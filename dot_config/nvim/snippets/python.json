@@ -17,14 +17,6 @@
     ],
     "description": "Create a unique enum class"
   },
-  "prelude": {
-    "prefix": "prelude",
-    "body": [
-      "#!/usr/bin/env -S -- PYTHONSAFEPATH= python3",
-      "$0"
-    ],
-    "description": "Python shebang with safe path"
-  },
   "ignore": {
     "prefix": "ignore",
     "body": [

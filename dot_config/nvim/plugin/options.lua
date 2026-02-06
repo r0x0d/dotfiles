@@ -1,21 +1,24 @@
+-- Neovim options configuration
+local opt = vim.opt
+
 -- Use an indentation of 4 spaces.
 vim.o.sw = 4
 vim.o.ts = 4
 vim.o.et = true
 
 -- Show whitespace.
-vim.opt.list = true
-vim.opt.listchars = { space = '⋅', trail = '⋅', tab = '  ↦' }
+opt.list = true
+opt.listchars = { space = '⋅', trail = '⋅', tab = '  ↦' }
 
 -- Make line numbers default
 vim.wo.number = true
-vim.opt.background = 'dark'
+opt.background = 'dark'
 
 -- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+opt.mouse = 'a'
 
-vim.opt.colorcolumn = '80'
-vim.opt.virtualedit = 'block'
+opt.colorcolumn = '80'
+opt.virtualedit = 'block'
 
 -- Disable horizontal scrolling.
 vim.o.mousescroll = 'ver:3,hor:0'
@@ -47,15 +50,15 @@ vim.o.timeoutlen = 500
 vim.o.ttimeoutlen = 10
 
 -- Completion.
-vim.opt.wildignore:append { '.venv', 'venv', '.DS_Store' }
+opt.wildignore:append { '.DS_Store' }
 vim.o.completeopt = 'menuone,noselect,noinsert'
 vim.o.pumheight = 15
 
 -- Diff mode settings.
 -- Setting the context to a very large number disables folding.
-vim.opt.diffopt:append 'vertical,context:99'
+opt.diffopt:append 'vertical,context:99'
 
-vim.opt.shortmess:append {
+opt.shortmess:append {
     w = true,
     s = true,
 }
@@ -73,4 +76,21 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
--- vim: ts=2 sts=2 sw=2 et
+-- Clipboard configuration
+-- For SSH sessions, use OSC52 (syncs with local clipboard through terminal)
+-- For local sessions, let Neovim auto-detect system clipboard (wl-paste, xclip, etc.)
+if vim.env.SSH_CLIENT or vim.env.SSH_TTY then
+    vim.g.clipboard = {
+        name = 'OSC 52',
+        copy = {
+            ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+            ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+        },
+        paste = {
+            ['+'] = require('vim.ui.clipboard.osc52').paste '+',
+            ['*'] = require('vim.ui.clipboard.osc52').paste '*',
+        },
+    }
+end
+opt.clipboard = 'unnamedplus'
+

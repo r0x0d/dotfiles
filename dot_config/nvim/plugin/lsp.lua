@@ -1,4 +1,4 @@
-local diagnostic_icons = require('icons').diagnostics
+local diagnostic_icons = require('r0x0d.util.icons').diagnostics
 
 local M = {}
 
