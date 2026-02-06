@@ -14,8 +14,6 @@ M.diagnostics = {
 --- For folding.
 M.arrows = {
     right = '',
-    left = '',
-    up = '',
     down = '',
 }
 
@@ -52,54 +50,45 @@ M.symbol_kinds = {
 
 --- Shared icons that don't really fit into a category.
 M.misc = {
-    bug = '',
     dashed_bar = '┊',
-    ellipsis = '…',
-    git = '',
-    palette = '󰏘',
-    robot = '󰚩',
     search = '',
-    terminal = '',
-    toolbox = '󰦬',
     vertical_bar = '│',
+    project = '',
+    venv = '',
+    bug = '',
+    lines = '',
+    file_size = '󰙴',
+    tree = '',
+    lazy = '💤',
+    formatting = '󰉼',
+    no_formatting = '󰉾',
 }
 
---- LSP/Language emojis for status line.
+--- LSP/Language icons for status line (fallback when nvim-web-devicons unavailable).
 M.languages = {
-    lua = '🌙',
-    python = '🐍',
-    typescript = '📘',
-    rust = '🦀',
-    go = '🐹',
-    c = '🔧',
-    java = '☕',
-    html = '🌐',
-    css = '🎨',
-    json = '📋',
-    yaml = '📄',
-    markdown = '📄',
-    bash = '🐚',
-    docker = '🐳',
-    ruby = '💎',
-    csharp = '#️⃣',
-    default = '🔌',
-    none = '⚠️',
+    lua = '',
+    python = '',
+    rust = '',
+    c = '',
+    json = '',
+    yaml = '',
+    markdown = '',
+    bash = '',
+    docker = '',
+    ruby = '',
+    csharp = '󰌛',
+    zig = '',
+    default = '',
+    none = '',
 }
 
---- Mapping from LSP server names to language keys.
+--- Mapping from LSP server names to language keys (only servers in lsp/).
 M.lsp_to_language = {
     lua_ls = 'lua',
     python_ls = 'python',
     ruff_ls = 'python',
-    ts_ls = 'typescript',
-    tsserver = 'typescript',
-    rust_analyzer = 'rust',
-    gopls = 'go',
-    clangd = 'c',
-    jdtls = 'java',
-    html = 'html',
-    cssls = 'css',
-    tailwindcss = 'css',
+    rust_ls = 'rust',
+    clangd_ls = 'c',
     json_ls = 'json',
     yaml_ls = 'yaml',
     markdown_ls = 'markdown',
@@ -107,10 +96,7 @@ M.lsp_to_language = {
     docker_ls = 'docker',
     ruby_ls = 'ruby',
     csharp_ls = 'csharp',
-    omnisharp = 'csharp',
-    emmet_ls = 'html',
-    eslint = 'typescript',
-    phpactor = 'default',
+    zig_ls = 'zig',
 }
 
 --- DAP (debugger) icons.

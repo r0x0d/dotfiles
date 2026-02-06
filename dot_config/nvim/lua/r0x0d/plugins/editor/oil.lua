@@ -1,11 +1,10 @@
 -- Oil: File explorer that lets you edit your filesystem like a buffer
 return {
     'stevearc/oil.nvim',
-    lazy = true,
     cmd = { 'Oil' },
     keys = {
         { '-', '<CMD>Oil<CR>', desc = 'Open parent directory' },
-        { '<space>-', '<CMD>Oil toggle_float<CR>', desc = 'Toggle oil floating' },
+        { '<leader>-', function() require('oil').toggle_float() end, desc = 'Toggle oil floating' },
     },
     config = function()
         require('oil').setup {

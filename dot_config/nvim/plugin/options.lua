@@ -2,23 +2,23 @@
 local opt = vim.opt
 
 -- Use an indentation of 4 spaces.
-vim.o.sw = 4
-vim.o.ts = 4
-vim.o.et = true
+vim.o.shiftwidth = 4
+vim.o.tabstop = 4
+vim.o.expandtab = true
 
 -- Show whitespace.
-opt.list = true
+vim.o.list = true
 opt.listchars = { space = '⋅', trail = '⋅', tab = '  ↦' }
 
 -- Make line numbers default
-vim.wo.number = true
-opt.background = 'dark'
+vim.o.number = true
+vim.o.background = 'dark'
 
 -- Enable mouse mode, can be useful for resizing splits for example!
-opt.mouse = 'a'
+vim.o.mouse = 'a'
 
-opt.colorcolumn = '80'
-opt.virtualedit = 'block'
+vim.o.colorcolumn = '80'
+vim.o.virtualedit = 'block'
 
 -- Disable horizontal scrolling.
 vim.o.mousescroll = 'ver:3,hor:0'
@@ -29,7 +29,7 @@ vim.o.linebreak = true
 -- Folding.
 vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 99
-vim.wo.foldtext = ''
+vim.o.foldtext = ''
 
 -- Use rounded borders for floating windows.
 vim.o.winborder = 'rounded'
@@ -42,7 +42,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Keep signcolumn on by default.
-vim.wo.signcolumn = 'yes'
+vim.o.signcolumn = 'yes'
 
 -- Update times and timeouts.
 vim.o.updatetime = 300
@@ -50,7 +50,7 @@ vim.o.timeoutlen = 500
 vim.o.ttimeoutlen = 10
 
 -- Completion.
-opt.wildignore:append { '.DS_Store' }
+opt.wildignore:append { '.venv', 'venv', '.DS_Store' }
 vim.o.completeopt = 'menuone,noselect,noinsert'
 vim.o.pumheight = 15
 
@@ -92,5 +92,4 @@ if vim.env.SSH_CLIENT or vim.env.SSH_TTY then
         },
     }
 end
-opt.clipboard = 'unnamedplus'
-
+vim.o.clipboard = 'unnamedplus'

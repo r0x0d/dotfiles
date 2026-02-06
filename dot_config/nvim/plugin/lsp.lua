@@ -1,7 +1,5 @@
 local diagnostic_icons = require('r0x0d.util.icons').diagnostics
 
-local M = {}
-
 -- Disable inlay hints initially (and enable if needed with my ToggleInlayHints command).
 vim.g.inlay_hints = false
 
@@ -39,23 +37,19 @@ local function on_attach(client, bufnr)
     end
 
     if client:supports_method 'textDocument/references' then
-        keymap('grr', '<cmd>FzfLua lsp_references<cr>', 'vim.lsp.buf.references()')
+        keymap('grr', '<cmd>Telescope lsp_references<cr>', 'LSP references')
     end
 
     if client:supports_method 'textDocument/typeDefinition' then
-        keymap('gy', '<cmd>FzfLua lsp_typedefs<cr>', 'Go to type definition')
-    end
-
-    if client:supports_method 'textDocument/documentSymbol' then
-        keymap('<leader>fs', '<cmd>FzfLua lsp_document_symbols<cr>', 'Document symbols')
+        keymap('gy', '<cmd>Telescope lsp_type_definitions<cr>', 'Go to type definition')
     end
 
     if client:supports_method 'textDocument/definition' then
         keymap('gd', function()
-            require('fzf-lua').lsp_definitions { jump1 = true }
+            require('telescope.builtin').lsp_definitions()
         end, 'Go to definition')
         keymap('gD', function()
-            require('fzf-lua').lsp_definitions { jump1 = false }
+            require('telescope.builtin').lsp_definitions { jump_type = 'never' }
         end, 'Peek definition')
     end
 
@@ -72,7 +66,7 @@ local function on_attach(client, bufnr)
 
     if client:supports_method 'textDocument/documentHighlight' then
         local under_cursor_highlights_group =
-            vim.api.nvim_create_augroup('r0x0d/cursor_highlights', { clear = false })
+            vim.api.nvim_create_augroup('r0x0d/cursor_highlights/' .. bufnr, { clear = true })
         vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
             group = under_cursor_highlights_group,
             desc = 'Highlight references under the cursor',
@@ -88,7 +82,7 @@ local function on_attach(client, bufnr)
     end
 
     if client:supports_method 'textDocument/inlayHint' then
-        local inlay_hints_group = vim.api.nvim_create_augroup('r0x0d/toggle_inlay_hints', { clear = false })
+        local inlay_hints_group = vim.api.nvim_create_augroup('r0x0d/toggle_inlay_hints/' .. bufnr, { clear = true })
 
         if vim.g.inlay_hints then
             -- Initial inlay hint display.
@@ -123,12 +117,6 @@ local function on_attach(client, bufnr)
     end
 end
 
--- Define the diagnostic signs.
-for severity, icon in pairs(diagnostic_icons) do
-    local hl = 'DiagnosticSign' .. severity:sub(1, 1) .. severity:sub(2):lower()
-    vim.fn.sign_define(hl, { text = icon, texthl = hl })
-end
-
 -- Diagnostic configuration.
 vim.diagnostic.config {
     virtual_text = {
@@ -161,8 +149,14 @@ vim.diagnostic.config {
             return prefix, 'Diagnostic' .. level:gsub('^%l', string.upper)
         end,
     },
-    -- Disable signs in the gutter.
-    signs = false,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = diagnostic_icons.ERROR,
+            [vim.diagnostic.severity.WARN] = diagnostic_icons.WARN,
+            [vim.diagnostic.severity.HINT] = diagnostic_icons.HINT,
+            [vim.diagnostic.severity.INFO] = diagnostic_icons.INFO,
+        },
+    },
 }
 
 -- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.
@@ -239,5 +233,3 @@ vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
         vim.lsp.enable(servers)
     end,
 })
-
-return M

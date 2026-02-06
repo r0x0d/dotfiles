@@ -1,8 +1,8 @@
 -- LuaSnip: Snippets
 return {
     'L3MON4D3/LuaSnip',
-    lazy = true,
-    event = 'InsertEnter', -- Load when entering insert mode (same as blink.cmp)
+    event = 'InsertEnter',
+    dependencies = { 'rafamadriz/friendly-snippets' },
     build = 'make install_jsregexp',
     keys = {
         {

@@ -20,7 +20,7 @@ return {
   end,
   root_markers = {
     'Containerfile',
-    'podman-compose.ym',
+    'podman-compose.yml',
     'podman-compose.yaml',
     'Dockerfile',
     'docker-compose.yaml',

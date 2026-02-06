@@ -1,7 +1,6 @@
 -- Neotest: Testing framework
 return {
     'nvim-neotest/neotest',
-    lazy = true,
     ft = { 'python' }, -- Only load for Python since we only have Python adapter
     cmd = { 'Neotest' },
     keys = {
@@ -15,7 +14,6 @@ return {
     dependencies = {
         'nvim-neotest/nvim-nio',
         'nvim-lua/plenary.nvim',
-        'antoinemadec/FixCursorHold.nvim',
         'nvim-treesitter/nvim-treesitter',
         'nvim-neotest/neotest-python',
     },

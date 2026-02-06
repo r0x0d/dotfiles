@@ -197,12 +197,6 @@ hl('@type.rust', { fg = colors.yellow })
 hl('@namespace.rust', { fg = colors.yellow })
 hl('@attribute.rust', { fg = colors.magenta })
 
--- Go specific
-hl('@keyword.go', { fg = colors.purple, bold = true })
-hl('@type.go', { fg = colors.yellow })
-hl('@namespace.go', { fg = colors.yellow })
-hl('@function.go', { fg = colors.blue, bold = true })
-
 -- C# specific
 hl('@keyword.c_sharp', { fg = colors.purple, bold = true })
 hl('@type.c_sharp', { fg = colors.yellow })

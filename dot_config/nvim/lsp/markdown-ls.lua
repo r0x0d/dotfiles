@@ -4,5 +4,4 @@
 return {
     cmd = { 'vscode-markdown-language-server', '--stdio' },
     filetypes = { 'markdown' },
-    settings = {},
 }

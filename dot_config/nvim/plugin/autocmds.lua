@@ -1,18 +1,6 @@
 -- NOTE: Ordered alphabetically by group name.
 
 vim.api.nvim_create_autocmd('FileType', {
-    group = vim.api.nvim_create_augroup('r0x0d/big_file', { clear = true }),
-    desc = 'Disable features in big files',
-    pattern = 'bigfile',
-    callback = function(args)
-        vim.schedule(function()
-            vim.bo[args.buf].syntax = vim.filetype.match { buf = args.buf } or ''
-        end)
-    end,
-})
-
-
-vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('r0x0d/close_with_q', { clear = true }),
     desc = 'Close with <q>',
     pattern = {
@@ -91,10 +79,4 @@ vim.api.nvim_create_autocmd('FileType', {
     end,
 })
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-    group = vim.api.nvim_create_augroup('r0x0d/yank_highlight', { clear = true }),
-    desc = 'Highlight on yank',
-    callback = function()
-        vim.hl.on_yank { higroup = 'Visual' }
-    end,
-})
+-- NOTE: Yank highlighting is handled by yanky.nvim (highlight.timer = 200).

@@ -28,14 +28,6 @@ return {
         on_attach = function(bufnr)
             local gs = package.loaded.gitsigns
 
-            -- Register the leader group with miniclue.
-            vim.b[bufnr].miniclue_config = {
-                clues = {
-                    { mode = 'n', keys = '<leader>g', desc = '+git' },
-                    { mode = 'x', keys = '<leader>g', desc = '+git' },
-                },
-            }
-
             -- Mappings.
             ---@param lhs string
             ---@param rhs function

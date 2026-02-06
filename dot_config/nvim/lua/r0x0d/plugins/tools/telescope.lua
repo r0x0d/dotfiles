@@ -44,6 +44,7 @@ return {
             -- Other extensions
             { '<leader>fe', '<cmd>Telescope emoji<cr>', desc = 'Emoji picker' },
             { '<leader>fS', '<cmd>Telescope luasnip<cr>', desc = 'Snippet picker' },
+            { '<leader>fk', '<cmd>Telescope keymaps<cr>', desc = 'Keymaps' },
         },
         opts = function()
             local actions = require('telescope.actions')

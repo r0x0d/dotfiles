@@ -8,7 +8,6 @@ return {
         version = '1.*',
         dependencies = {
             'L3MON4D3/LuaSnip',
-            'rafamadriz/friendly-snippets',
             'moyiz/blink-emoji.nvim',
             'Kaiser-Yang/blink-cmp-git',
         },
@@ -91,9 +90,6 @@ return {
                 kind_icons = icons.symbol_kinds,
             },
         },
-        config = function(_, opts)
-            require('blink.cmp').setup(opts)
-        end,
     },
     -- Indentation guides
     {
@@ -113,34 +109,9 @@ return {
     {
         'saghen/blink.pairs',
         version = '*',
-        event = 'InsertEnter', -- Only needed when typing
+        event = 'InsertEnter',
         dependencies = 'saghen/blink.download',
-        opts = {
-            mappings = {
-                enabled = true,
-                cmdline = true,
-                disabled_filetypes = {},
-                pairs = {},
-            },
-            highlights = {
-                enabled = true,
-                cmdline = true,
-                groups = {
-                    'BlinkPairsOrange',
-                    'BlinkPairsPurple',
-                    'BlinkPairsBlue',
-                },
-                unmatched_group = 'BlinkPairsUnmatched',
-                matchparen = {
-                    enabled = true,
-                    cmdline = false,
-                    include_surrounding = false,
-                    group = 'BlinkPairsMatchParen',
-                    priority = 250,
-                },
-            },
-            debug = false,
-        },
+        opts = {},
     },
 }
 

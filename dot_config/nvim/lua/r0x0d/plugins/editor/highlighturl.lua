@@ -9,7 +9,6 @@ return {
             desc = 'Disable URL highlights',
             pattern = {
                 'fzf',
-                'lazyterm',
             },
             command = 'call highlighturl#disable_local()',
         })

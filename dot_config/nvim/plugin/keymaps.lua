@@ -30,7 +30,7 @@ map('n', 'N', 'Nzzzv', { desc = 'Previous search result (centered)' })
 map('x', '<leader>p', [["_dP]], { desc = 'Paste without overwriting register' })
 
 -- Delete without yanking
-map({ 'n', 'v' }, '<leader>d', [["_d]], { desc = 'Delete without yanking' })
+map({ 'n', 'v' }, '<leader>D', [["_d]], { desc = 'Delete without yanking' })
 
 -- Quick escape from insert mode
 map('i', 'jk', '<Esc>', { desc = 'Escape insert mode' })

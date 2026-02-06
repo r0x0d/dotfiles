@@ -8,6 +8,9 @@ vim.loader.enable()
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Enable auto-formatting by default (toggled via :ToggleFormat).
+vim.g.autoformat = true
+
 -- Set projects directory
 vim.g.projects_dir = vim.env.HOME .. '/Workspace'
 vim.g.work_projects_dir = vim.g.projects_dir
