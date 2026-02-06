@@ -46,7 +46,7 @@ return {
             { '<leader>fS', '<cmd>Telescope luasnip<cr>', desc = 'Snippet picker' },
         },
         opts = function()
-            local actions = require("telescope.actions")
+            local actions = require('telescope.actions')
 
             return {
                 defaults = {
@@ -115,7 +115,7 @@ return {
             }
         end,
         config = function(_, opts)
-            local telescope = require("telescope")
+            local telescope = require('telescope')
             telescope.setup(opts)
 
             -- Load extensions
