@@ -67,7 +67,7 @@ M.dark5 = '#000000'
 ---------------------------------------------------------------------------
 
 -- Backgrounds
-M.bg = '#1e1e1e' -- View background (Adwaita dark)
+M.bg = '#1c1c1f' -- View background (Adwaita dark)
 M.bg_float = '#242424' -- Window/float background
 M.bg_surface = '#303030' -- Card/header background
 M.bg_visual = '#3d3846' -- Visual selection (Dark 3)
