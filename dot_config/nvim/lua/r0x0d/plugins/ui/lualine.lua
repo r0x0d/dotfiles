@@ -233,7 +233,7 @@ return {
         ---------------------------------------------------------------------------
         require('lualine').setup {
             options = {
-                theme = require 'r0x0d.theme.lualine',
+                theme = require('r0x0d.theme.' .. (vim.g.colors_name or 'kde') .. '.lualine'),
                 icons_enabled = true,
                 component_separators = { left = icons.misc.vertical_bar, right = icons.misc.vertical_bar },
                 section_separators = { left = '', right = '' },

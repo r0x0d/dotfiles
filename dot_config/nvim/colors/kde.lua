@@ -14,4 +14,4 @@ end
 vim.g.colors_name = 'kde'
 vim.o.background = 'dark'
 
-require('r0x0d.theme.highlights').setup()
+require('r0x0d.theme.kde.highlights').setup()

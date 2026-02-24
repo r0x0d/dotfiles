@@ -16,4 +16,4 @@ vim.g.colors_name = 'gnome'
 vim.o.background = 'dark'
 
 -- Apply all highlight groups
-require('r0x0d.theme.highlights').setup()
+require('r0x0d.theme.gnome.highlights').setup()
