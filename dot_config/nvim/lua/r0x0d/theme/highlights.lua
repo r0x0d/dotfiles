@@ -1,4 +1,4 @@
--- GNOME Adwaita highlight group definitions
+-- Custom dark theme highlight group definitions for KDE/Konsole
 -- Organized by category: editor, syntax, treesitter, plugins, etc.
 
 local p = require 'r0x0d.theme.palette'
@@ -40,10 +40,10 @@ function M.setup()
         Visual = { bg = p.bg_visual },
         VisualNOS = { bg = p.bg_visual },
         Search = { fg = p.fg, bg = p.bg_search },
-        IncSearch = { fg = p.light1, bg = p.orange3, bold = true },
-        CurSearch = { fg = p.light1, bg = p.orange3, bold = true },
+        IncSearch = { fg = p.light1, bg = p.yellow3, bold = true },
+        CurSearch = { fg = p.light1, bg = p.yellow3, bold = true },
         Substitute = { fg = p.light1, bg = p.red3 },
-        MatchParen = { fg = p.orange1, bold = true, underline = true },
+        MatchParen = { fg = p.purple2, bold = true, underline = true },
         Pmenu = { fg = p.fg, bg = p.bg_float },
         PmenuSel = { fg = p.fg, bg = p.bg_visual },
         PmenuSbar = { bg = p.bg_surface },
@@ -99,20 +99,20 @@ function M.setup()
         Float = { fg = p.number },
         Identifier = { fg = p.fg },
         Function = { fg = p.func },
-        Statement = { fg = p.keyword },
-        Conditional = { fg = p.keyword },
-        Repeat = { fg = p.keyword },
-        Label = { fg = p.keyword },
+        Statement = { fg = p.keyword, bold = true },
+        Conditional = { fg = p.control_flow, bold = true },
+        Repeat = { fg = p.control_flow, bold = true },
+        Label = { fg = p.control_flow },
         Operator = { fg = p.operator },
-        Keyword = { fg = p.keyword },
-        Exception = { fg = p.keyword },
+        Keyword = { fg = p.keyword, bold = true },
+        Exception = { fg = p.control_flow, bold = true },
         PreProc = { fg = p.preproc },
-        Include = { fg = p.keyword },
+        Include = { fg = p.namespace },
         Define = { fg = p.preproc },
         Macro = { fg = p.macro },
         PreCondit = { fg = p.preproc },
         Type = { fg = p.type },
-        StorageClass = { fg = p.keyword },
+        StorageClass = { fg = p.keyword, bold = true },
         Structure = { fg = p.type },
         Typedef = { fg = p.type },
         Special = { fg = p.special },
@@ -120,7 +120,7 @@ function M.setup()
         Tag = { fg = p.tag },
         Delimiter = { fg = p.delimiter },
         SpecialComment = { fg = p.comment, bold = true },
-        Debug = { fg = p.orange1 },
+        Debug = { fg = p.yellow2 },
         Underlined = { fg = p.link, underline = true },
         Ignore = { fg = p.fg_faint },
         Error = { fg = p.error },
@@ -132,14 +132,14 @@ function M.setup()
     ---------------------------------------------------------------------------
     hi {
         -- Identifiers
-        ['@variable'] = { fg = p.fg },
+        ['@variable'] = { fg = p.variable },
         ['@variable.builtin'] = { fg = p.red1, italic = true },
         ['@variable.parameter'] = { fg = p.parameter },
         ['@variable.member'] = { fg = p.property },
 
         -- Constants
         ['@constant'] = { fg = p.number },
-        ['@constant.builtin'] = { fg = p.number, bold = true },
+        ['@constant.builtin'] = { fg = p.teal1, bold = true },
         ['@constant.macro'] = { fg = p.macro },
 
         -- Modules / Namespaces
@@ -151,16 +151,16 @@ function M.setup()
 
         -- Strings
         ['@string'] = { fg = p.string },
-        ['@string.documentation'] = { fg = p.string, italic = true },
+        ['@string.documentation'] = { fg = p.fg_muted, italic = true },
         ['@string.escape'] = { fg = p.string_escape, bold = true },
-        ['@string.regex'] = { fg = p.orange1 },
+        ['@string.regex'] = { fg = p.yellow2 },
         ['@string.special'] = { fg = p.special },
-        ['@string.special.symbol'] = { fg = p.orange1 },
+        ['@string.special.symbol'] = { fg = p.yellow2 },
         ['@string.special.url'] = { fg = p.link, underline = true },
         ['@string.special.path'] = { fg = p.blue1 },
 
         -- Characters
-        ['@character'] = { fg = p.string },
+        ['@character'] = { fg = p.special },
         ['@character.special'] = { fg = p.string_escape },
 
         -- Booleans
@@ -174,7 +174,7 @@ function M.setup()
         ['@type'] = { fg = p.type },
         ['@type.builtin'] = { fg = p.type_builtin, italic = true },
         ['@type.definition'] = { fg = p.type },
-        ['@type.qualifier'] = { fg = p.keyword },
+        ['@type.qualifier'] = { fg = p.keyword, bold = true },
 
         -- Attributes / Decorators
         ['@attribute'] = { fg = p.decorator },
@@ -198,19 +198,19 @@ function M.setup()
         ['@operator'] = { fg = p.operator },
 
         -- Keywords
-        ['@keyword'] = { fg = p.keyword },
-        ['@keyword.coroutine'] = { fg = p.keyword, italic = true },
-        ['@keyword.function'] = { fg = p.keyword },
-        ['@keyword.operator'] = { fg = p.keyword },
-        ['@keyword.import'] = { fg = p.keyword },
-        ['@keyword.type'] = { fg = p.keyword },
-        ['@keyword.modifier'] = { fg = p.keyword },
-        ['@keyword.repeat'] = { fg = p.keyword },
-        ['@keyword.return'] = { fg = p.keyword, bold = true },
-        ['@keyword.debug'] = { fg = p.orange1 },
-        ['@keyword.exception'] = { fg = p.keyword, bold = true },
-        ['@keyword.conditional'] = { fg = p.keyword },
-        ['@keyword.conditional.ternary'] = { fg = p.keyword },
+        ['@keyword'] = { fg = p.keyword, bold = true },
+        ['@keyword.coroutine'] = { fg = p.control_flow, italic = true, bold = true },
+        ['@keyword.function'] = { fg = p.keyword, bold = true },
+        ['@keyword.operator'] = { fg = p.keyword, bold = true },
+        ['@keyword.import'] = { fg = p.namespace },
+        ['@keyword.type'] = { fg = p.keyword, bold = true },
+        ['@keyword.modifier'] = { fg = p.keyword, bold = true },
+        ['@keyword.repeat'] = { fg = p.control_flow, bold = true },
+        ['@keyword.return'] = { fg = p.control_flow, bold = true },
+        ['@keyword.debug'] = { fg = p.yellow2 },
+        ['@keyword.exception'] = { fg = p.control_flow, bold = true },
+        ['@keyword.conditional'] = { fg = p.control_flow, bold = true },
+        ['@keyword.conditional.ternary'] = { fg = p.control_flow },
         ['@keyword.directive'] = { fg = p.preproc },
         ['@keyword.directive.define'] = { fg = p.preproc },
 
@@ -221,7 +221,7 @@ function M.setup()
 
         -- Comments
         ['@comment'] = { fg = p.comment, italic = true },
-        ['@comment.documentation'] = { fg = p.comment, italic = true },
+        ['@comment.documentation'] = { fg = p.fg_muted, italic = true },
         ['@comment.error'] = { fg = p.error, bold = true },
         ['@comment.warning'] = { fg = p.warning, bold = true },
         ['@comment.todo'] = { fg = p.yellow1, bold = true },
@@ -237,11 +237,11 @@ function M.setup()
         ['@markup.heading.2'] = { fg = p.blue1, bold = true },
         ['@markup.heading.3'] = { fg = p.purple1, bold = true },
         ['@markup.heading.4'] = { fg = p.green2, bold = true },
-        ['@markup.heading.5'] = { fg = p.orange1, bold = true },
+        ['@markup.heading.5'] = { fg = p.yellow2, bold = true },
         ['@markup.heading.6'] = { fg = p.red1, bold = true },
         ['@markup.quote'] = { fg = p.fg_dim, italic = true },
-        ['@markup.math'] = { fg = p.orange1 },
-        ['@markup.environment'] = { fg = p.keyword },
+        ['@markup.math'] = { fg = p.yellow2 },
+        ['@markup.environment'] = { fg = p.keyword, bold = true },
         ['@markup.link'] = { fg = p.link, underline = true },
         ['@markup.link.label'] = { fg = p.blue1 },
         ['@markup.link.url'] = { fg = p.link, underline = true },
@@ -269,19 +269,19 @@ function M.setup()
         -- Python
         ['@variable.builtin.python'] = { fg = p.red1, italic = true }, -- self, cls
         ['@attribute.python'] = { fg = p.decorator }, -- decorators
-        ['@keyword.import.python'] = { fg = p.keyword, italic = true }, -- import, from
-        ['@string.documentation.python'] = { fg = p.comment, italic = true }, -- docstrings
+        ['@keyword.import.python'] = { fg = p.namespace, italic = true }, -- import, from
+        ['@string.documentation.python'] = { fg = p.fg_muted, italic = true }, -- docstrings
         ['@function.builtin.python'] = { fg = p.func_builtin }, -- print, len, etc.
         ['@type.builtin.python'] = { fg = p.type_builtin, italic = true }, -- int, str, list
 
         -- Rust
         ['@keyword.modifier.rust'] = { fg = p.keyword, bold = true }, -- pub, mut
         ['@function.macro.rust'] = { fg = p.macro, bold = true }, -- println!, vec!
-        ['@constant.builtin.rust'] = { fg = p.number, bold = true }, -- true, false, None
+        ['@constant.builtin.rust'] = { fg = p.teal1, bold = true }, -- true, false, None
         ['@type.builtin.rust'] = { fg = p.type_builtin, italic = true }, -- u32, String, Vec
         ['@variable.builtin.rust'] = { fg = p.red1, italic = true }, -- self
-        ['@keyword.type.rust'] = { fg = p.keyword }, -- struct, enum, impl, trait
-        ['@string.special.symbol.rust'] = { fg = p.orange1 }, -- lifetimes: 'a
+        ['@keyword.type.rust'] = { fg = p.keyword, bold = true }, -- struct, enum, impl, trait
+        ['@string.special.symbol.rust'] = { fg = p.yellow2 }, -- lifetimes: 'a
 
         -- C / C++
         ['@keyword.directive.c'] = { fg = p.preproc }, -- #include, #define
@@ -304,7 +304,7 @@ function M.setup()
         ['@markup.heading.2.markdown'] = { fg = p.blue1, bold = true },
         ['@markup.heading.3.markdown'] = { fg = p.purple1, bold = true },
         ['@markup.heading.4.markdown'] = { fg = p.green2, bold = true },
-        ['@markup.heading.5.markdown'] = { fg = p.orange1, bold = true },
+        ['@markup.heading.5.markdown'] = { fg = p.yellow2, bold = true },
         ['@markup.heading.6.markdown'] = { fg = p.red1, bold = true },
         ['@markup.raw.markdown_inline'] = { fg = p.green1, bg = p.bg_float },
         ['@markup.link.markdown_inline'] = { fg = p.link, underline = true },
@@ -314,7 +314,7 @@ function M.setup()
         ['@string.yaml'] = { fg = p.string },
         ['@boolean.yaml'] = { fg = p.boolean },
         ['@number.yaml'] = { fg = p.number },
-        ['@constant.builtin.yaml'] = { fg = p.number, bold = true }, -- null, ~
+        ['@constant.builtin.yaml'] = { fg = p.teal1, bold = true }, -- null, ~
 
         -- JSON
         ['@property.json'] = { fg = p.blue1 },
@@ -323,9 +323,6 @@ function M.setup()
         ['@boolean.json'] = { fg = p.boolean },
         ['@property.jsonc'] = { fg = p.blue1 },
         ['@comment.jsonc'] = { fg = p.comment, italic = true },
-
-        -- RPM spec (uses vim syntax highlight groups if no treesitter parser)
-        -- Covered by base syntax groups below
     }
 
     ---------------------------------------------------------------------------
@@ -336,12 +333,12 @@ function M.setup()
         specMacroIdentifier = { fg = p.macro }, -- %{name}, %{version}
         specSectionMacro = { fg = p.macro, bold = true },
         specCommand = { fg = p.func },
-        specConditional = { fg = p.keyword },
+        specConditional = { fg = p.control_flow, bold = true },
         specTag = { fg = p.blue1, bold = true }, -- Name:, Version:, etc.
         specTagValue = { fg = p.fg },
         specChangelog = { fg = p.fg_dim },
         specChangelogEntry = { fg = p.fg },
-        specDate = { fg = p.orange1 },
+        specDate = { fg = p.yellow2 },
         specEmail = { fg = p.link },
         specURL = { fg = p.link, underline = true },
         specComment = { fg = p.comment, italic = true },
@@ -353,27 +350,27 @@ function M.setup()
     ---------------------------------------------------------------------------
     hi {
         DiagnosticError = { fg = p.error },
-        DiagnosticWarn = { fg = p.yellow3 },
+        DiagnosticWarn = { fg = p.warning },
         DiagnosticInfo = { fg = p.info },
         DiagnosticHint = { fg = p.hint },
         DiagnosticOk = { fg = p.success },
         DiagnosticUnderlineError = { undercurl = true, sp = p.error },
-        DiagnosticUnderlineWarn = { undercurl = true, sp = p.yellow3 },
+        DiagnosticUnderlineWarn = { undercurl = true, sp = p.warning },
         DiagnosticUnderlineInfo = { undercurl = true, sp = p.info },
         DiagnosticUnderlineHint = { undercurl = true, sp = p.hint },
         DiagnosticUnderlineOk = { undercurl = true, sp = p.success },
-        DiagnosticVirtualTextError = { fg = p.error, bg = '#2d1a1a' },
-        DiagnosticVirtualTextWarn = { fg = p.yellow3, bg = '#2a2a1a' },
-        DiagnosticVirtualTextInfo = { fg = p.info, bg = '#1a1a2d' },
-        DiagnosticVirtualTextHint = { fg = p.hint, bg = '#2a1a2d' },
-        DiagnosticVirtualTextOk = { fg = p.success, bg = '#1a2a1a' },
+        DiagnosticVirtualTextError = { fg = p.error, bg = '#321e22' },
+        DiagnosticVirtualTextWarn = { fg = p.warning, bg = '#2e2a1e' },
+        DiagnosticVirtualTextInfo = { fg = p.info, bg = '#1e2a32' },
+        DiagnosticVirtualTextHint = { fg = p.hint, bg = '#2a1e30' },
+        DiagnosticVirtualTextOk = { fg = p.success, bg = '#1e2e22' },
         DiagnosticSignError = { fg = p.error },
-        DiagnosticSignWarn = { fg = p.yellow3 },
+        DiagnosticSignWarn = { fg = p.warning },
         DiagnosticSignInfo = { fg = p.info },
         DiagnosticSignHint = { fg = p.hint },
         DiagnosticSignOk = { fg = p.success },
         DiagnosticFloatingError = { fg = p.error },
-        DiagnosticFloatingWarn = { fg = p.yellow3 },
+        DiagnosticFloatingWarn = { fg = p.warning },
         DiagnosticFloatingInfo = { fg = p.info },
         DiagnosticFloatingHint = { fg = p.hint },
         DiagnosticFloatingOk = { fg = p.success },
@@ -398,11 +395,11 @@ function M.setup()
     ---------------------------------------------------------------------------
     hi {
         GitSignsAdd = { fg = p.success },
-        GitSignsChange = { fg = p.yellow3 },
+        GitSignsChange = { fg = p.warning },
         GitSignsDelete = { fg = p.error },
         GitSignsCurrentLineBlame = { fg = p.fg_faint, italic = true },
         GitSignsAddNr = { fg = p.success },
-        GitSignsChangeNr = { fg = p.yellow3 },
+        GitSignsChangeNr = { fg = p.warning },
         GitSignsDeleteNr = { fg = p.error },
         GitSignsAddLn = { bg = p.diff_add_bg },
         GitSignsChangeLn = { bg = p.diff_change_bg },
@@ -444,14 +441,14 @@ function M.setup()
     ---------------------------------------------------------------------------
     hi {
         LazyNormal = { fg = p.fg, bg = p.bg_float },
-        LazyBackdrop = { bg = p.dark5 },
+        LazyBackdrop = { bg = p.dark6 },
         LazyH1 = { fg = p.light1, bg = p.accent_strong, bold = true },
         LazyH2 = { fg = p.accent, bold = true },
         LazyButton = { fg = p.fg, bg = p.bg_surface },
         LazyButtonActive = { fg = p.light1, bg = p.accent_strong, bold = true },
         LazyComment = { fg = p.comment },
         LazySpecial = { fg = p.accent },
-        LazyLocal = { fg = p.orange1 },
+        LazyLocal = { fg = p.yellow2 },
         LazyNoCond = { fg = p.yellow3 },
         LazyCommit = { fg = p.fg_muted },
         LazyCommitIssue = { fg = p.number },
@@ -459,7 +456,7 @@ function M.setup()
         LazyCommitScope = { fg = p.fg_dim, italic = true },
         LazyReasonPlugin = { fg = p.purple1 },
         LazyReasonCmd = { fg = p.func },
-        LazyReasonEvent = { fg = p.orange1 },
+        LazyReasonEvent = { fg = p.yellow2 },
         LazyReasonKeys = { fg = p.green2 },
         LazyReasonStart = { fg = p.yellow1 },
         LazyReasonFt = { fg = p.type },
@@ -474,7 +471,7 @@ function M.setup()
         LazyDir = { fg = p.accent },
         LazyTaskOutput = { fg = p.fg },
         LazyError = { fg = p.error },
-        LazyWarning = { fg = p.yellow3 },
+        LazyWarning = { fg = p.warning },
         LazyInfo = { fg = p.info },
         LazyProgressDone = { fg = p.success },
         LazyProgressTodo = { fg = p.fg_faint },
@@ -498,7 +495,7 @@ function M.setup()
         BlinkCmpKind = { fg = p.accent },
         BlinkCmpKindFunction = { fg = p.func },
         BlinkCmpKindMethod = { fg = p.func },
-        BlinkCmpKindVariable = { fg = p.fg },
+        BlinkCmpKindVariable = { fg = p.variable },
         BlinkCmpKindField = { fg = p.property },
         BlinkCmpKindProperty = { fg = p.property },
         BlinkCmpKindClass = { fg = p.type },
@@ -513,7 +510,7 @@ function M.setup()
         BlinkCmpKindText = { fg = p.fg },
         BlinkCmpKindFile = { fg = p.fg_dim },
         BlinkCmpKindFolder = { fg = p.accent },
-        BlinkCmpKindColor = { fg = p.orange1 },
+        BlinkCmpKindColor = { fg = p.yellow2 },
         BlinkCmpKindValue = { fg = p.number },
         BlinkCmpGhostText = { fg = p.fg_faint, italic = true },
     }
@@ -524,10 +521,10 @@ function M.setup()
     hi {
         MiniIconsAzure = { fg = p.blue1 },
         MiniIconsBlue = { fg = p.blue2 },
-        MiniIconsCyan = { fg = p.blue1 },
+        MiniIconsCyan = { fg = p.teal1 },
         MiniIconsGreen = { fg = p.green2 },
         MiniIconsGrey = { fg = p.fg_muted },
-        MiniIconsOrange = { fg = p.orange1 },
+        MiniIconsOrange = { fg = p.yellow2 },
         MiniIconsPurple = { fg = p.purple2 },
         MiniIconsRed = { fg = p.red1 },
         MiniIconsYellow = { fg = p.yellow1 },
@@ -539,21 +536,21 @@ function M.setup()
     hi {
         TodoBgFIX = { fg = p.light1, bg = p.red3, bold = true },
         TodoBgTODO = { fg = p.light1, bg = p.accent_strong, bold = true },
-        TodoBgHACK = { fg = p.light1, bg = p.orange3, bold = true },
+        TodoBgHACK = { fg = p.light1, bg = p.yellow3, bold = true },
         TodoBgWARN = { fg = p.light1, bg = p.yellow5, bold = true },
         TodoBgNOTE = { fg = p.light1, bg = p.green5, bold = true },
-        TodoBgPERF = { fg = p.light1, bg = p.purple3, bold = true },
+        TodoBgPERF = { fg = p.light1, bg = p.purple2, bold = true },
         TodoBgTEST = { fg = p.light1, bg = p.blue4, bold = true },
         TodoFgFIX = { fg = p.red1 },
         TodoFgTODO = { fg = p.accent },
-        TodoFgHACK = { fg = p.orange1 },
+        TodoFgHACK = { fg = p.yellow2 },
         TodoFgWARN = { fg = p.yellow1 },
         TodoFgNOTE = { fg = p.green2 },
         TodoFgPERF = { fg = p.purple1 },
         TodoFgTEST = { fg = p.blue1 },
         TodoSignFIX = { fg = p.red1 },
         TodoSignTODO = { fg = p.accent },
-        TodoSignHACK = { fg = p.orange1 },
+        TodoSignHACK = { fg = p.yellow2 },
         TodoSignWARN = { fg = p.yellow1 },
         TodoSignNOTE = { fg = p.green2 },
         TodoSignPERF = { fg = p.purple1 },
@@ -589,7 +586,7 @@ function M.setup()
         DiffviewFilePanelInsertions = { fg = p.success },
         DiffviewFilePanelDeletions = { fg = p.error },
         DiffviewStatusAdded = { fg = p.success },
-        DiffviewStatusModified = { fg = p.yellow3 },
+        DiffviewStatusModified = { fg = p.warning },
         DiffviewStatusDeleted = { fg = p.error },
         DiffviewStatusRenamed = { fg = p.blue1 },
         DiffviewStatusUntracked = { fg = p.green1 },
@@ -611,7 +608,7 @@ function M.setup()
         markdownH2 = { fg = p.blue1, bold = true },
         markdownH3 = { fg = p.purple1, bold = true },
         markdownH4 = { fg = p.green2, bold = true },
-        markdownH5 = { fg = p.orange1, bold = true },
+        markdownH5 = { fg = p.yellow2, bold = true },
         markdownH6 = { fg = p.red1, bold = true },
         markdownCode = { fg = p.green1, bg = p.bg_float },
         markdownCodeBlock = { fg = p.fg_dim },
@@ -630,7 +627,7 @@ function M.setup()
     ---------------------------------------------------------------------------
     hi {
         DapBreakpoint = { fg = p.red1 },
-        DapBreakpointCondition = { fg = p.orange1 },
+        DapBreakpointCondition = { fg = p.yellow2 },
         DapLogPoint = { fg = p.blue1 },
         DapStopped = { fg = p.green2, bg = p.diff_add_bg },
         DapStoppedLine = { bg = p.diff_add_bg },

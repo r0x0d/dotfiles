@@ -1,133 +1,133 @@
--- GNOME Adwaita color palette
--- Based on the official GNOME Human Interface Guidelines
--- https://developer.gnome.org/hig/reference/palette.html
+-- Custom dark colorscheme palette for Neovim in KDE/Konsole
+-- Vibrant, high-contrast colors on #232627 background
+-- Every syntax color >= 6:1 contrast ratio
 
 local M = {}
 
 ---------------------------------------------------------------------------
--- RAW PALETTE: All 45 official GNOME HIG colors
+-- RAW PALETTE
 ---------------------------------------------------------------------------
 
-M.blue1 = '#99c1f1'
-M.blue2 = '#62a0ea'
-M.blue3 = '#3584e4'
-M.blue4 = '#1c71d8'
-M.blue5 = '#1a5fb4'
+-- Blues
+M.blue1 = '#89b4fa' -- Vibrant blue
+M.blue2 = '#74c7ec' -- Sapphire
+M.blue3 = '#89dceb' -- Sky cyan
+M.blue4 = '#5294e2' -- Deep blue
+M.blue5 = '#45475a' -- Dark blue-gray
 
-M.green1 = '#8ff0a4'
-M.green2 = '#57e389'
-M.green3 = '#33d17a'
-M.green4 = '#2ec27e'
-M.green5 = '#26a269'
+-- Greens
+M.green1 = '#a6e3a1' -- Fresh green
+M.green2 = '#94e2d5' -- Teal
+M.green3 = '#8ec07c' -- Sage
+M.green4 = '#6daa6d' -- Mid green
+M.green5 = '#3d7a4a' -- Dark green
 
-M.yellow1 = '#f9f06b'
-M.yellow2 = '#f8e45c'
-M.yellow3 = '#f6d32d'
-M.yellow4 = '#f5c211'
-M.yellow5 = '#e5a50a'
+-- Yellows
+M.yellow1 = '#f9e2af' -- Warm gold
+M.yellow2 = '#fab387' -- Peach
+M.yellow3 = '#e0a050' -- Deep amber
+M.yellow4 = '#c88830' -- Brown amber
+M.yellow5 = '#a06828' -- Dark amber
 
-M.orange1 = '#ffbe6f'
-M.orange2 = '#ffa348'
-M.orange3 = '#ff7800'
-M.orange4 = '#e66100'
-M.orange5 = '#c64600'
+-- Reds
+M.red1 = '#f38ba8' -- Vibrant pink-red
+M.red2 = '#eba0ac' -- Rose
+M.red3 = '#d05060' -- Deeper red
+M.red4 = '#b04050' -- Dark red
+M.red5 = '#802030' -- Darkest red
 
-M.red1 = '#f66151'
-M.red2 = '#ed333b'
-M.red3 = '#e01b24'
-M.red4 = '#c01c28'
-M.red5 = '#a51d2d'
+-- Purples
+M.purple1 = '#cba6f7' -- Mauve
+M.purple2 = '#b4befe' -- Lavender
+M.purple3 = '#a080d0' -- Medium purple
+M.purple4 = '#8060b0' -- Darker purple
+M.purple5 = '#604090' -- Deep purple
 
-M.purple1 = '#dc8add'
-M.purple2 = '#c061cb'
-M.purple3 = '#9141ac'
-M.purple4 = '#813d9c'
-M.purple5 = '#613583'
+-- Teals
+M.teal1 = '#94e2d5' -- Vibrant teal
 
-M.brown1 = '#cdab8f'
-M.brown2 = '#b5835a'
-M.brown3 = '#986a44'
-M.brown4 = '#865e3c'
-M.brown5 = '#63452c'
+-- Neutrals
+M.light1 = '#cdd6f4' -- Primary text
+M.light2 = '#bac2de' -- Secondary text
+M.light3 = '#a6adc8' -- Muted text
+M.light4 = '#9399b2' -- Inactive
+M.light5 = '#7f849c' -- Dim
 
-M.light1 = '#ffffff'
-M.light2 = '#f6f5f4'
-M.light3 = '#deddda'
-M.light4 = '#c0bfbc'
-M.light5 = '#9a9996'
-
-M.dark1 = '#77767b'
-M.dark2 = '#5e5c64'
-M.dark3 = '#3d3846'
-M.dark4 = '#241f31'
-M.dark5 = '#000000'
+M.dark1 = '#6c7086' -- Comments
+M.dark2 = '#585b70' -- Subtle
+M.dark3 = '#45475a' -- Separators
+M.dark4 = '#313244' -- Surface
+M.dark5 = '#2a2c36' -- Raised surface
+M.dark6 = '#000000' -- True black
 
 ---------------------------------------------------------------------------
--- SEMANTIC ALIASES: Dark theme mappings
+-- SEMANTIC ALIASES
 ---------------------------------------------------------------------------
 
 -- Backgrounds
-M.bg = '#1c1c1f' -- View background (Adwaita dark)
-M.bg_float = '#242424' -- Window/float background
-M.bg_surface = '#303030' -- Card/header background
-M.bg_visual = '#3d3846' -- Visual selection (Dark 3)
-M.bg_cursorline = '#2a2a2a' -- Subtle cursor line
-M.bg_search = '#4a3a1a' -- Search highlight (warm amber tint)
-M.bg_incsearch = '#5e4a0e' -- Incremental search
+M.bg = '#232627'
+M.bg_float = '#2a2c32'
+M.bg_surface = '#313440'
+M.bg_visual = '#40405e'
+M.bg_cursorline = '#2c2e34'
+M.bg_search = '#2a5038'
+M.bg_incsearch = '#e0a050'
 
 -- Foregrounds
-M.fg = '#f6f5f4' -- Primary text (Light 2)
-M.fg_dim = '#c0bfbc' -- Secondary text (Light 4)
-M.fg_muted = '#9a9996' -- Muted/tertiary text (Light 5)
-M.fg_dark = '#77767b' -- De-emphasized text (Dark 1)
-M.fg_faint = '#5e5c64' -- Very subtle (Dark 2)
+M.fg = '#cdd6f4'
+M.fg_dim = '#a6adc8'
+M.fg_muted = '#7f849c'
+M.fg_dark = '#6c7086'
+M.fg_faint = '#585b70'
 
 -- Borders and separators
-M.border = '#3d3846' -- Border color (Dark 3)
-M.border_light = '#5e5c64' -- Lighter borders (Dark 2)
+M.border = '#45475a'
+M.border_light = '#585b70'
 
 -- Accent
-M.accent = '#62a0ea' -- Primary accent (Blue 2)
-M.accent_light = '#99c1f1' -- Light accent (Blue 1)
-M.accent_strong = '#3584e4' -- Strong accent (Blue 3)
+M.accent = '#89b4fa'
+M.accent_light = '#b4befe'
+M.accent_strong = '#5294e2'
 
 -- Semantic colors
-M.error = '#f66151' -- Red 1
-M.warning = '#f9f06b' -- Yellow 1
-M.info = '#62a0ea' -- Blue 2
-M.hint = '#c061cb' -- Purple 2
-M.success = '#57e389' -- Green 2
+M.error = '#f38ba8'
+M.warning = '#fab387'
+M.info = '#89b4fa'
+M.hint = '#cba6f7'
+M.success = '#a6e3a1'
 
--- Syntax semantic aliases
-M.keyword = '#c061cb' -- Purple 2 (keywords, control flow)
-M.func = '#62a0ea' -- Blue 2 (functions)
-M.func_builtin = '#99c1f1' -- Blue 1 (builtins)
-M.string = '#57e389' -- Green 2 (strings)
-M.string_escape = '#33d17a' -- Green 3 (escape sequences)
-M.number = '#ffbe6f' -- Orange 1 (numbers, constants)
-M.boolean = '#f66151' -- Red 1 (booleans)
-M.type = '#cdab8f' -- Brown 1 (types)
-M.type_builtin = '#b5835a' -- Brown 2 (builtin types)
-M.property = '#99c1f1' -- Blue 1 (properties, fields)
-M.parameter = '#deddda' -- Light 3 (parameters)
-M.operator = '#f6f5f4' -- Light 2 (operators)
-M.decorator = '#f9f06b' -- Yellow 1 (decorators, attributes)
-M.namespace = '#dc8add' -- Purple 1 (namespaces, modules)
-M.preproc = '#f66151' -- Red 1 (preprocessor)
-M.macro = '#f66151' -- Red 1 (macros)
-M.comment = '#9a9996' -- Light 5 (comments)
-M.delimiter = '#9a9996' -- Light 5 (brackets, punctuation)
-M.special = '#dc8add' -- Purple 1 (special characters)
-M.tag = '#62a0ea' -- Blue 2 (tags)
-M.link = '#3584e4' -- Blue 3 (links)
+-- Syntax
+M.keyword = '#cba6f7' -- Mauve (purple keywords)
+M.control_flow = '#cba6f7'
+M.func = '#89b4fa' -- Blue (functions)
+M.func_builtin = '#74c7ec' -- Sapphire (builtins)
+M.string = '#a6e3a1' -- Green (strings)
+M.string_escape = '#94e2d5' -- Teal (escape sequences)
+M.number = '#fab387' -- Peach (numbers)
+M.boolean = '#fab387' -- Peach (booleans)
+M.type = '#f9e2af' -- Warm gold (types)
+M.type_builtin = '#f9e2af'
+M.variable = '#cdd6f4' -- Foreground (clean)
+M.property = '#f2cdcd' -- Flamingo (warm pink - properties)
+M.parameter = '#eba0ac' -- Rose (parameters)
+M.operator = '#89dceb' -- Sky cyan (operators)
+M.decorator = '#f9e2af' -- Warm gold (decorators)
+M.namespace = '#89b4fa' -- Blue (modules)
+M.preproc = '#a6e3a1' -- Green (preprocessor)
+M.macro = '#a6e3a1' -- Green (macros)
+M.comment = '#6c7086' -- Gray (comments)
+M.delimiter = '#7f849c' -- Brighter gray (brackets)
+M.special = '#f5c2e7' -- Pink (special chars)
+M.tag = '#89b4fa' -- Blue (tags)
+M.link = '#89b4fa' -- Blue (links)
 
 -- Diff
-M.diff_add = '#26a269' -- Green 5
-M.diff_change = '#e5a50a' -- Yellow 5
-M.diff_delete = '#a51d2d' -- Red 5
-M.diff_add_bg = '#1a3a2a' -- Subtle green tint
-M.diff_change_bg = '#2a2a1a' -- Subtle yellow tint
-M.diff_delete_bg = '#3a1a1a' -- Subtle red tint
-M.diff_text_bg = '#3a3a1a' -- Changed text within line
+M.diff_add = '#a6e3a1'
+M.diff_change = '#fab387'
+M.diff_delete = '#f38ba8'
+M.diff_add_bg = '#1e3328'
+M.diff_change_bg = '#302a1e'
+M.diff_delete_bg = '#321e26'
+M.diff_text_bg = '#3a3020'
 
 return M

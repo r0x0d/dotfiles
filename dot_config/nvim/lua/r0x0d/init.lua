@@ -19,5 +19,5 @@ vim.g.work_projects_dir = vim.g.projects_dir
 require('r0x0d.lazy').setup()
 
 -- Set colorscheme
-vim.cmd.colorscheme 'gnome'
+vim.cmd.colorscheme 'kde'
 
