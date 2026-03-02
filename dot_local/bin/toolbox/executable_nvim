@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+TOOLBOX_DEV_ENV=".toolbox-dev"
+CONTAINER_ENV_PATH="/run/.containerenv"
+BASE_PATH="/usr/bin/nvim"
+
+# In case we are inside a toolbox container, execute the binary right away, 
+# otherwise, read the `.toolbox-dev` file and execute through `toolbox run ...`
+if [[ -f "$CONTAINER_ENV_PATH" ]]; then
+    $BASE_PATH $@
+else
+    # Error out in case there is no .toolbox-dev file present
+    if [[ ! -f "$TOOLBOX_DEV_ENV" ]]; then
+        echo "File $TOOLBOX_DEV_ENV does not exist. Using default container instead." >&2
+	TOOLBOX_DEV_ENV="$HOME/.toolbox-dev"
+    fi
+
+
+    # Compose the command to be ran
+    TOOLBOX_BASE_CMD="toolbox run --container $(cat $TOOLBOX_DEV_ENV) $BASE_PATH $@"
+
+    # Execute it
+    $TOOLBOX_BASE_CMD
+fi
