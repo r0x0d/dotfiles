@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
+#!/usr/bin/bash
 
 if [[ $# -ne 1 ]]; then
     echo "Usage: $0 <archive.tar.gz>"
