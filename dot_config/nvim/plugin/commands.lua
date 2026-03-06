@@ -49,7 +49,6 @@ alias('stage', 'lua', 'package.loaded.gitsigns.stage_hunk()')
 alias('blame', 'lua', 'package.loaded.gitsigns.blame_line { full = true }')
 alias('diff', 'DiffviewOpen')
 alias('diffclose', 'DiffviewClose')
-alias('diff-log', 'DiffviewFileHistory', '%')
 
 -- Debug
 alias('debug', 'lua', 'package.loaded.dapui.toggle()')
@@ -61,8 +60,6 @@ alias('testfile', 'lua', 'require("neotest").run.run(vim.fn.expand("%"))')
 -- Navigation
 alias('ls', 'Telescope buffers')
 alias('lsp', 'Telescope find_files')
-alias('buffer-delete', 'bdelete')
-alias('buffer-only', 'only')
 
 -- Files
 alias('chmod', 'Chmod')
