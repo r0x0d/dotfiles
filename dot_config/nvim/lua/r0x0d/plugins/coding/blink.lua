@@ -8,8 +8,6 @@ return {
         version = '1.*',
         dependencies = {
             'L3MON4D3/LuaSnip',
-            'moyiz/blink-emoji.nvim',
-            'Kaiser-Yang/blink-cmp-git',
         },
         event = 'InsertEnter',
         opts = {
@@ -44,9 +42,8 @@ return {
             -- Disable command line completion:
             cmdline = { enabled = false },
             sources = {
-                -- Disable some sources in comments and strings.
                 default = function()
-                    local sources = { 'git', 'lsp', 'buffer', 'emoji' }
+                    local sources = { 'lsp', 'buffer' }
                     local ok, node = pcall(vim.treesitter.get_node)
 
                     if ok and node then
@@ -60,31 +57,6 @@ return {
 
                     return sources
                 end,
-                providers = {
-                    emoji = {
-                        module = 'blink-emoji',
-                        name = 'Emoji',
-                        score_offset = 15,
-                        opts = {
-                            insert = true,
-                            ---@type string|table|fun():table
-                            trigger = function()
-                                return { ':' }
-                            end,
-                        },
-                        should_show_items = function()
-                            return vim.tbl_contains(
-                                -- Enable emoji completion only for git commits and markdown.
-                                { 'gitcommit', 'markdown' },
-                                vim.o.filetype
-                            )
-                        end,
-                    },
-                    git = {
-                        module = 'blink-cmp-git',
-                        name = 'Git',
-                    },
-                },
             },
             appearance = {
                 kind_icons = icons.symbol_kinds,

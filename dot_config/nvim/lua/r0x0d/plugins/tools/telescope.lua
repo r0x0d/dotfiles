@@ -12,12 +12,6 @@ return {
                 build = 'make',
             },
             'nvim-telescope/telescope-ui-select.nvim',
-            'mrloop/telescope-git-branch.nvim',
-            { url = 'https://gitlab.com/davvid/telescope-git-grep.nvim' },
-            'nvim-telescope/telescope-github.nvim',
-            'xiyaowong/telescope-emoji.nvim',
-            'benfowler/telescope-luasnip.nvim',
-            'paopaol/telescope-git-diffs.nvim',
         },
         keys = {
             -- Core pickers
@@ -33,17 +27,6 @@ return {
             { '<leader>/', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Fuzzy search in buffer' },
             { '<leader><leader>', '<cmd>Telescope buffers<cr>', desc = 'Quick buffer switch' },
             { 'z=', '<cmd>Telescope spell_suggest<cr>', desc = 'Spelling suggestions' },
-            -- Git extensions
-            { '<leader>gB', '<cmd>Telescope git_branch<cr>', desc = 'Files changed on branch' },
-            { '<leader>gG', '<cmd>Telescope git_grep live_grep<cr>', desc = 'Git grep' },
-            { '<leader>gD', '<cmd>Telescope git_diffs diff_commits<cr>', desc = 'Git diffs' },
-            -- GitHub extensions
-            { '<leader>gi', '<cmd>Telescope gh issues<cr>', desc = 'GitHub issues' },
-            { '<leader>gP', '<cmd>Telescope gh pull_request<cr>', desc = 'GitHub PRs' },
-            { '<leader>gg', '<cmd>Telescope gh gist<cr>', desc = 'GitHub gists' },
-            -- Other extensions
-            { '<leader>fe', '<cmd>Telescope emoji<cr>', desc = 'Emoji picker' },
-            { '<leader>fS', '<cmd>Telescope luasnip<cr>', desc = 'Snippet picker' },
             { '<leader>fk', '<cmd>Telescope keymaps<cr>', desc = 'Keymaps' },
         },
         opts = function()
@@ -122,12 +105,6 @@ return {
             -- Load extensions
             telescope.load_extension 'fzf'
             telescope.load_extension 'ui-select'
-            telescope.load_extension 'git_branch'
-            telescope.load_extension 'git_grep'
-            telescope.load_extension 'gh'
-            telescope.load_extension 'emoji'
-            telescope.load_extension 'luasnip'
-            telescope.load_extension 'git_diffs'
         end,
         init = function()
             -- Override vim.ui.select with telescope

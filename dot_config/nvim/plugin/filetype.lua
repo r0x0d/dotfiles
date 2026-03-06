@@ -1,23 +1,27 @@
 vim.filetype.add {
-  filename = {
-    ['.eslintrc.json'] = 'jsonc',
-  },
-  -- Force Containerfiles to load as dockerfile filetype
-  pattern = {
-    ['*Containerfile*'] = 'dockerfile',
-  },
-  extension = {
-    h = 'c',
-    Containerfile = 'dockerfile',
-    bashrc = 'sh',
-  },
-  -- Borrowed from LazyVim. Mark huge files to disable features later.
-  ['.*'] = function(path, bufnr)
-    return vim.bo[bufnr]
-      and vim.bo[bufnr].filetype ~= 'bigfile'
-      and path
-      and vim.fn.getfsize(path) > (1024 * 500) -- 500 KB
-      and 'bigfile'
-      or nil
-  end,
+    filename = {
+        ['.eslintrc.json'] = 'jsonc',
+    },
+    pattern = {
+        ['*Containerfile*'] = 'dockerfile',
+        ['.*_log$'] = 'log',
+        ['.*_LOG$'] = 'log',
+        ['.*%.log%.[0-9]+$'] = 'log',
+        ['*.bashrc'] = 'sh',
+    },
+    extension = {
+        h = 'c',
+        Containerfile = 'dockerfile',
+        bashrc = 'sh',
+        device = 'systemd',
+        mount = 'systemd',
+        nspawn = 'systemd',
+        service = 'systemd',
+        timer = 'systemd',
+        ddl = 'sql',
+        log = 'log',
+        LOG = 'log',
+        jinja2 = 'jinja',
+        j2 = 'jinja',
+    },
 }

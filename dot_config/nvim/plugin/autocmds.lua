@@ -79,4 +79,10 @@ vim.api.nvim_create_autocmd('FileType', {
     end,
 })
 
--- NOTE: Yank highlighting is handled by yanky.nvim (highlight.timer = 200).
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = vim.api.nvim_create_augroup('r0x0d/highlight_yank', { clear = true }),
+    desc = 'Highlight on yank',
+    callback = function()
+        vim.hl.on_yank { timeout = 200 }
+    end,
+})
