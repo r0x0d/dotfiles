@@ -1,0 +1,14 @@
+{
+  "contributes": {
+    "snippets": [
+      {
+        "language": "python",
+        "path": "./python.json"
+      },
+      {
+        "language": "make",
+        "path": "./make.json"
+      }
+    ]
+  }
+}
