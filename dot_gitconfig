@@ -12,7 +12,7 @@
 [core]
   fsmonitor = true
   autocrlf = input
-  editor = vimx
+  editor = nvim
   excludesFile = ~/.gitignore
 [fetch]
   prune = true
@@ -20,7 +20,7 @@
 [rebase]
   autosquash = true
 [merge]
-  tool = vimx
+  tool = nvim
   conflictstyle = diff3
   prompt = false
 [diff]
@@ -56,4 +56,4 @@
 	required = true
 	clean = git-lfs clean -- %f
 [credential]
-	helper = "!f() { /home/r0x0d/.vscode-server/bin/0f0d87fa9e96c856c5212fc86db137ac0d783365/node /tmp/vscode-remote-containers-2f562681-11f9-4b23-bd0d-9290bee9ce74.js git-credential-helper $*; }; f"
+	helper = "!f() { /home/r0x0d/.vscode-server/bin/072586267e68ece9a47aa43f8c108e0dcbf44622/node /tmp/vscode-remote-containers-05a6e0c5-0a3f-4166-aaff-34ad56dd8d30.js git-credential-helper $*; }; f"
