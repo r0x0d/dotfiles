@@ -1,5 +1,5 @@
 -- Custom dark colorscheme palette for Neovim in 
--- Vibrant, high-contrast colors on #1c1c1f background
+-- Vibrant, high-contrast colors on #232627 background
 -- Every syntax color >= 6:1 contrast ratio
 
 local M = {}
@@ -65,7 +65,7 @@ M.dark6 = '#000000' -- True black
 ---------------------------------------------------------------------------
 
 -- Backgrounds
-M.bg = '#1c1c1f'
+M.bg = '#232627'
 M.bg_float = '#2a2c32'
 M.bg_surface = '#313440'
 M.bg_visual = '#40405e'
