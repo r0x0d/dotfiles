@@ -1,0 +1,17 @@
+# Container storage (podman)
+.local/share/containers
+
+# Caches and local data
+.cache
+.local/share
+
+# Build artifacts and runtimes
+.cargo
+.rustup
+vendor
+node_modules
+.venv
+__pycache__
+
+# Git internals
+.git
