@@ -3,32 +3,31 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
     config = function()
-        -- Catppuccin Mocha bubble colors
+        -- Konsole colorscheme palette
         -- stylua: ignore
         local colors = {
-            blue     = '#89b4fa',
-            lavender = '#b4befe',
-            red      = '#f38ba8',
-            green    = '#a6e3a1',
-            yellow   = '#f9e2af',
-            peach    = '#fab387',
-            mauve    = '#cba6f7',
-            teal     = '#94e2d5',
-            text     = '#cdd6f4',
-            base     = '#1e1e2e',
-            surface1 = '#45475a',
+            blue     = '#5b9bf5',
+            green    = '#87d65a',
+            yellow   = '#efc050',
+            orange   = '#e8875c',
+            red      = '#ed5a5a',
+            magenta  = '#c77dbb',
+            teal     = '#4db8a4',
+            text     = '#d3d7cf',
+            base     = '#1b1e1f',
+            surface1 = '#3e4548',
         }
 
         local bubbles_theme = {
             normal = {
-                a = { fg = colors.base, bg = colors.mauve },
+                a = { fg = colors.base, bg = colors.magenta },
                 b = { fg = colors.text, bg = colors.surface1 },
                 c = { fg = colors.text },
             },
             insert = { a = { fg = colors.base, bg = colors.blue } },
             visual = { a = { fg = colors.base, bg = colors.teal } },
             replace = { a = { fg = colors.base, bg = colors.red } },
-            command = { a = { fg = colors.base, bg = colors.peach } },
+            command = { a = { fg = colors.base, bg = colors.orange } },
             inactive = {
                 a = { fg = colors.text, bg = colors.base },
                 b = { fg = colors.text, bg = colors.base },

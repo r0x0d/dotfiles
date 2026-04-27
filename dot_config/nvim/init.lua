@@ -14,7 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
-    install = { colorscheme = { "catppuccin" } },
+    install = { colorscheme = { "konsole" } },
     checker = { enabled = false },
     change_detection = { notify = false },
     performance = {
@@ -27,6 +27,8 @@ require("lazy").setup("plugins", {
         },
     },
 })
+
+vim.cmd.colorscheme("konsole")
 
 -- Generate helptags for custom docs
 vim.cmd("silent! helptags " .. vim.fn.stdpath("config") .. "/doc")
