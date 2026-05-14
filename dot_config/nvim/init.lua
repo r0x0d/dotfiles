@@ -14,7 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
-    install = { colorscheme = { "konsole" } },
+    install = { colorscheme = { "ptyxis" } },
     checker = { enabled = false },
     change_detection = { notify = false },
     performance = {
@@ -28,7 +28,7 @@ require("lazy").setup("plugins", {
     },
 })
 
-vim.cmd.colorscheme("konsole")
+vim.cmd.colorscheme("ptyxis")
 
 -- Generate helptags for custom docs
 vim.cmd("silent! helptags " .. vim.fn.stdpath("config") .. "/doc")

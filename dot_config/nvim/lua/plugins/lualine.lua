@@ -3,19 +3,19 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
     config = function()
-        -- Konsole colorscheme palette
+        -- Ptyxis GNOME colorscheme palette
         -- stylua: ignore
         local colors = {
-            blue     = '#5b9bf5',
-            green    = '#87d65a',
-            yellow   = '#efc050',
-            orange   = '#e8875c',
-            red      = '#ed5a5a',
-            magenta  = '#c77dbb',
-            teal     = '#4db8a4',
-            text     = '#d3d7cf',
-            base     = '#1b1e1f',
-            surface1 = '#3e4548',
+            blue     = '#51a1ff',
+            green    = '#57e389',
+            yellow   = '#f5c211',
+            orange   = '#e5a32e',
+            red      = '#ed333b',
+            magenta  = '#c061cb',
+            teal     = '#0ab9dc',
+            text     = '#c0bfbc',
+            base     = '#161618',
+            surface1 = '#38383d',
         }
 
         local bubbles_theme = {
