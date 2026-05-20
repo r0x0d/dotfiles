@@ -59,7 +59,7 @@ vim.lsp.config("basedpyright", {
 vim.lsp.config("rust_analyzer", {
     settings = {
         ["rust-analyzer"] = {
-            checkOnSave = { command = "clippy" },
+            check = { command = "clippy" },
             inlayHints = {
                 chainingHints = { enable = true },
                 parameterHints = { enable = true },
