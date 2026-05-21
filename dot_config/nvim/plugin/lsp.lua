@@ -1,20 +1,5 @@
 vim.pack.add({
-    "https://github.com/williamboman/mason.nvim",
-    "https://github.com/williamboman/mason-lspconfig.nvim",
     "https://github.com/neovim/nvim-lspconfig",
-})
-
--- Mason setup
-require("mason").setup({
-    ui = { border = "rounded" },
-})
-
-require("mason-lspconfig").setup({
-    ensure_installed = {
-        "basedpyright",
-        "rust_analyzer",
-        "omnisharp",
-    },
 })
 
 -- LspAttach keymaps (only active in LSP-attached buffers)
@@ -68,6 +53,7 @@ vim.lsp.config("rust_analyzer", {
         },
     },
 })
+
 
 vim.lsp.enable({ "basedpyright", "rust_analyzer", "omnisharp", "gdscript" })
 

@@ -9,13 +9,17 @@ vim.api.nvim_create_autocmd("PackChanged", {
 
 vim.pack.add({
     "https://github.com/nvim-treesitter/nvim-treesitter",
+    "https://github.com/Hdoc1509/gh-actions.nvim",
 })
+
+require("gh-actions.tree-sitter").setup({})
 
 local ensure_installed = {
     "python", "rust", "c_sharp", "gdscript",
     "lua", "vim", "vimdoc", "query",
     "markdown", "markdown_inline",
     "toml", "yaml", "json", "bash", "ini",
+    "gh_actions_expressions", "gitignore",
 }
 
 local installed = require("nvim-treesitter.config").get_installed()
