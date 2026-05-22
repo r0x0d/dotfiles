@@ -35,7 +35,6 @@
   purge = !git branch -vv | rg --trim '(\\S+).*: gone].*' -r '$1' | xargs -r git branch -D
   remotes = remote -v
   squash = commit --squash
-  st = status
   stat = status
   tags = tag
   undo = reset --soft HEAD~1
@@ -48,12 +47,8 @@
   enabled = true
 [credential "https://github.com"]
     helper = !/usr/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-    helper = !/usr/bin/gh auth git-credential
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
-[credential]
-	helper = "!f() { /home/r0x0d/.vscode-server/bin/072586267e68ece9a47aa43f8c108e0dcbf44622/node /tmp/vscode-remote-containers-05a6e0c5-0a3f-4166-aaff-34ad56dd8d30.js git-credential-helper $*; }; f"
