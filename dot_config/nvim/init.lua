@@ -10,7 +10,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_tohtml = 1
 vim.g.loaded_tutor = 1
 
-vim.cmd.colorscheme("ptyxis")
+vim.cmd.colorscheme("konsole")
 
 -- Generate helptags for custom docs
 vim.cmd("silent! helptags " .. vim.fn.stdpath("config") .. "/doc")
