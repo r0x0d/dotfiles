@@ -46,6 +46,7 @@ M.kinds = {
   Field = " ",
   File = " ",
   Folder = " ",
+  FolderClosed = "󰝰",
   Function = "󰊕 ",
   Interface = " ",
   Key = " ",
