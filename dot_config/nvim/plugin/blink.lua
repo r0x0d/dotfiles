@@ -111,6 +111,12 @@ add {
                 kind_icons = require('icons').symbol_kinds,
             },
         },
+        on_setup = function()
+            ---@diagnostic disable-next-line: undefined-field
+            if not pcall(require, 'blink.cmp.fuzzy.rust') then
+                require('blink.cmp').build():wait(60000)
+            end
+        end,
     },
 }
 
