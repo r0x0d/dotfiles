@@ -1,5 +1,13 @@
 local M = {}
 
+--- For folding.
+M.arrows = {
+    right = '',
+    left = '',
+    up = '',
+    down = '',
+}
+
 M.diagnostics = {
   Error = " ",
   Warn = " ",
@@ -61,6 +69,20 @@ M.kinds = {
   Unit = " ",
   Value = " ",
   Variable = "󰀫 ",
+}
+
+--- Shared icons that don't really fit into a category.
+M.misc = {
+    bug = '',
+    dashed_bar = '┊',
+    ellipsis = '…',
+    git = '',
+    palette = '󰏘',
+    robot = '󰚩',
+    search = '',
+    terminal = '',
+    toolbox = '󰦬',
+    vertical_bar = '│',
 }
 
 return M
