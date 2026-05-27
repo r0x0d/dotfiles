@@ -1,0 +1,111 @@
+vim.pack.add({
+    "https://github.com/nvim-tree/nvim-web-devicons",
+    "https://github.com/nvim-lualine/lualine.nvim",
+})
+
+-- Ptyxis GNOME colorscheme palette
+-- stylua: ignore
+local colors = {
+    blue     = '#51a1ff',
+    green    = '#57e389',
+    yellow   = '#f5c211',
+    orange   = '#e5a32e',
+    red      = '#ed333b',
+    magenta  = '#c061cb',
+    teal     = '#0ab9dc',
+    text     = '#c0bfbc',
+    base     = '#161618',
+    surface1 = '#38383d',
+}
+
+local bubbles_theme = {
+    normal = {
+        a = { fg = colors.base, bg = colors.magenta },
+        b = { fg = colors.text, bg = colors.surface1 },
+        c = { fg = colors.text },
+    },
+    insert = { a = { fg = colors.base, bg = colors.blue } },
+    visual = { a = { fg = colors.base, bg = colors.teal } },
+    replace = { a = { fg = colors.base, bg = colors.red } },
+    command = { a = { fg = colors.base, bg = colors.orange } },
+    inactive = {
+        a = { fg = colors.text, bg = colors.base },
+        b = { fg = colors.text, bg = colors.base },
+        c = { fg = colors.text },
+    },
+}
+
+require("lualine").setup({
+    options = {
+        theme = bubbles_theme,
+        component_separators = "",
+        section_separators = { left = "", right = "" },
+        globalstatus = true,
+    },
+    sections = {
+        lualine_a = {
+            { "mode", separator = { left = "" }, right_padding = 2 },
+        },
+        lualine_b = {
+            { "branch" },
+            {
+                "diff",
+                symbols = { added = "✨ ", modified = "📝 ", removed = "🗑️ " },
+            },
+        },
+        lualine_c = {
+            { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+            { "filename", path = 1, symbols = { modified = " 💾", readonly = " 🔒", unnamed = "🆕 [No Name]" } },
+        },
+        lualine_x = {
+            {
+                function()
+                    local parts = {}
+                    if vim.g.autoformat_enabled then
+                        table.insert(parts, "🪄 fmt")
+                    end
+                    if vim.g.lint_enabled then
+                        table.insert(parts, "🔍 lint")
+                    end
+                    if vim.g.inlay_hints_enabled then
+                        table.insert(parts, "💡 hints")
+                    end
+                    if vim.g.diagnostics_visible then
+                        table.insert(parts, "🔬 diag")
+                    end
+                    return table.concat(parts, "  ")
+                end,
+            },
+            {
+                "diagnostics",
+                symbols = { error = "❌ ", warn = "⚠️ ", info = "ℹ️ ", hint = "💬 " },
+                cond = function() return vim.g.diagnostics_visible end,
+            },
+        },
+        lualine_y = {
+            {
+                function()
+                    local clients = vim.lsp.get_clients({ bufnr = 0 })
+                    if #clients == 0 then return "" end
+                    local names = {}
+                    for _, c in ipairs(clients) do
+                        table.insert(names, c.name)
+                    end
+                    return "⚙️ " .. table.concat(names, ", ")
+                end,
+            },
+        },
+        lualine_z = {
+            { "location", separator = { right = "" }, left_padding = 2 },
+            { "progress" },
+        },
+    },
+    inactive_sections = {
+        lualine_a = { "filename" },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { "location" },
+    },
+})

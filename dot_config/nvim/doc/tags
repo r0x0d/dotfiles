@@ -1,0 +1,14 @@
+nvimconfig	nvimconfig.txt	/*nvimconfig*
+nvimconfig-adding-plugins	nvimconfig.txt	/*nvimconfig-adding-plugins*
+nvimconfig-completion	nvimconfig.txt	/*nvimconfig-completion*
+nvimconfig-dap	nvimconfig.txt	/*nvimconfig-dap*
+nvimconfig-general	nvimconfig.txt	/*nvimconfig-general*
+nvimconfig-git	nvimconfig.txt	/*nvimconfig-git*
+nvimconfig-lsp	nvimconfig.txt	/*nvimconfig-lsp*
+nvimconfig-markdown	nvimconfig.txt	/*nvimconfig-markdown*
+nvimconfig-oil	nvimconfig.txt	/*nvimconfig-oil*
+nvimconfig-snippets	nvimconfig.txt	/*nvimconfig-snippets*
+nvimconfig-telescope	nvimconfig.txt	/*nvimconfig-telescope*
+nvimconfig-todo	nvimconfig.txt	/*nvimconfig-todo*
+nvimconfig-toggles	nvimconfig.txt	/*nvimconfig-toggles*
+nvimconfig.txt	nvimconfig.txt	/*nvimconfig.txt*
