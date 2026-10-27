@@ -1,0 +1,5 @@
+local t = require("telescope")
+t.setup({})
+pcall(t.load_extension, "fzf")
+pcall(t.load_extension, "ui-select")
+pcall(t.load_extension, "task") -- taskwarrior.nvim picker (<Space>fT)

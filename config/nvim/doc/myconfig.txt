@@ -1,0 +1,601 @@
+*myconfig.txt*   Personal Neovim cheatsheet                          *myconfig*
+
+Open this any time with  :help myconfig  or press <Space>?  (leader + ?).
+Jump around with <C-]> on a |tag|, go back with <C-o>, quit with  q .
+
+==============================================================================
+CONTENTS                                                    *myconfig-contents*
+
+  1. Basics ........................ |myconfig-basics|
+  2. Terminal (toggleterm) ......... |myconfig-terminal|
+  3. Finding things ................ |myconfig-find|
+  4. File tree (nvim-tree).......... |myconfig-filetree|
+  5. Code (LSP) .................... |myconfig-lsp|
+  6. Diagnostics and TODOs ......... |myconfig-diag|
+  7. Git ........................... |myconfig-git|
+  8. Debugging ..................... |myconfig-debug|
+  9. Testing ....................... |myconfig-test|
+ 10. Databases ..................... |myconfig-db|
+ 11. Writing Markdown / blogs ...... |myconfig-writing|
+ 12. Notes (neorg) ................. |myconfig-notes|
+ 13. Tasks (taskwarrior) ........... |myconfig-tasks|
+ 14. Plugins and tools ............. |myconfig-plugins|
+ 15. Statusline emoji legend ....... |myconfig-emoji|
+ 16. Lost? Recovery tricks ......... |myconfig-lost|
+ 17. Dashboard, sessions, format ... |myconfig-dashboard|
+ 18. Requirements (external tools) . |myconfig-requirements|
+ 19. Startup and lazy loading ...... |myconfig-lazy|
+
+Notation:  <leader> = Space   <C-x> = Ctrl+x   <CR> = Enter   <Esc> = Escape
+Tip: press <Space> and wait a moment; which-key shows every leader mapping.
+Sections end with a "Needs" note listing the external programs they rely on;
+|myconfig-requirements| has one install command for all of them.
+
+==============================================================================
+1. BASICS                                                     *myconfig-basics*
+
+Neovim has modes. The statusline shows which one you are in:
+
+  🛸 NORMAL    move and run commands (the default, press <Esc> to get here)
+  🚀 INSERT    typing text           (enter with  i  a  o)
+  🌌 VISUAL    selecting text        (enter with  v  V  <C-v>)
+  🛰️ COMMAND   after typing  :
+  🪐 TERMINAL  typing into a terminal (see |myconfig-terminal|)
+
+Survival keys (NORMAL mode):
+  <Space>w      save                      <Space>q     quit window
+  u / <C-r>     undo / redo               .            repeat last change
+  dd  yy  p     delete line / copy line / paste
+  /text <CR>    search     n / N  next / previous     <Esc>  clear highlight
+  gcc           comment/uncomment line    gc (visual)  comment selection
+  <C-h/j/k/l>   move between split windows
+  -             open file explorer (oil). Edit names like text, then  :w
+                to apply renames/deletes/new files. Press - again to go up.
+  <C-n>         toggle the file tree sidebar (see |myconfig-filetree|)
+
+Clipboard is shared with the system (yank in nvim, paste anywhere).
+Relative line numbers: "5j" moves five lines down, "12dd" deletes twelve.
+
+Look and feel ~
+  Colorscheme: tokyonight "night" (lua/plugins/colorscheme.lua; swap it there).
+  Rulers: thin vertical lines at columns 80 and 120. Help pages keep line
+  numbers and rulers too; terminals and the dashboard hide them.
+  Statusline: mode, git branch/changes, file, diagnostics, LSP emoji
+  (legend in |myconfig-emoji|).
+
+Needs ~
+  wl-clipboard (Wayland) or xclip (X11) for the shared clipboard; macOS has it
+  built in. A font with color emoji for the statusline (Noto Color Emoji on
+  Linux, Apple Color Emoji on macOS).
+
+==============================================================================
+2. TERMINAL (toggleterm)                                   *myconfig-terminal*
+
+The key idea: a terminal is a *window onto a running shell*. You can HIDE the
+window and the shell and everything in it keeps running. Show it again and
+you are back where you left off. Closing the window does NOT kill the job.
+
+THE ONE KEY TO REMEMBER ~
+  <C-\>          toggle the terminal: show it if hidden, hide it if shown.
+                 Works from NORMAL mode AND from inside the terminal.
+
+Typical workflow ~
+  1. <C-\>                 a floating terminal opens, you are typing in it
+  2. cargo watch -x test   start a long-running command
+  3. <C-\>                 hide it. The command keeps running in background.
+  4. ...edit code...
+  5. <C-\>                 show it again, output is still there
+
+Opening other kinds of terminal ~
+  <Space>ot      floating terminal (same as <C-\>)
+  <Space>oh      terminal in a horizontal split at the bottom
+  <Space>ov      terminal in a vertical split on the right
+  <Space>og      lazygit in a float (needs `dnf install lazygit`)
+  3<C-\>         terminal number 3. Each number is its own separate shell,
+                 so 1<C-\>, 2<C-\>, 3<C-\> give you three independent
+                 sessions, e.g. 1 = build, 2 = podman logs, 3 = scratch.
+
+Running one command and keeping it around ~
+  :Run cargo build
+  :Run mock -r fedora-rawhide-x86_64 --rebuild foo.src.rpm
+  :Run podman logs -f mycontainer
+  (Terminals you open with <C-\> and <Space>o* start FISH. :Run commands go
+  through bash, so write them in POSIX syntax, not fish syntax.)
+  Opens a bottom terminal running that command. It stays open after the
+  command finishes so you can read the output. Run the SAME :Run line again
+  to toggle that same terminal (hide it, show it) instead of starting
+  another. Tab completes command names.
+
+Typing mode vs. looking mode ~
+  Inside a terminal you are in TERMINAL mode: every key goes to the shell.
+  To use Neovim keys (scroll, copy text, search) leave it first:
+    <Esc><Esc>      go to NORMAL mode inside the terminal buffer
+  Now you can scroll with <C-u>/<C-d>, search with /, yank with y.
+  Press  i  to go back to typing in the shell.
+  Note: <C-\><C-n> will NOT work as an escape here; use <Esc><Esc>.
+
+Moving between windows from inside a terminal ~
+  <Esc><Esc> first, then <C-h/j/k/l>.  Or just hide it with <C-\>.
+
+Managing many terminals ~
+  :TermSelect          pick a terminal from a list
+  :ToggleTermToggleAll show or hide every terminal at once
+  :ToggleTermSetName   give the current terminal a name (shows in the list)
+  :TermExec cmd="ls"   send a command to the last terminal without opening it
+
+Ending a terminal for real ~
+  Hiding it (<C-\>)  -> shell and jobs KEEP RUNNING.        (what you want)
+  :close or :q       -> window closes, jobs STILL RUNNING.
+  Type  exit  or press <C-d> in the shell  -> the shell ends, terminal gone.
+  <C-c>              -> interrupts the current command (like in any shell).
+  Quitting Neovim (:qa) ends all terminals and their jobs.
+
+Stuck? ~
+  If the float seems frozen, you are probably in NORMAL mode inside it:
+  press  i  to type again. If a hidden terminal "disappeared", try
+  :TermSelect to list the ones still alive.
+
+Needs ~
+  fish (optional: without it the terminal uses your normal shell).
+  lazygit for <Space>og: it is not in Fedora's repos; download the release
+  binary from github.com/jesseduffield/lazygit or `brew install lazygit`.
+  Loading: toggleterm loads the first time you use any key/command above.
+
+==============================================================================
+3. FINDING THINGS                                              *myconfig-find*
+
+  <Space>ff     find files by name         (Telescope)
+  <Space>fg     search text in all files   (live grep)
+  <Space>fb     switch open buffers
+  <Space>fh     search the help pages
+  <Space>fd     search diagnostics
+  <Space>ft     search TODO/FIXME comments
+  -             file explorer (oil)
+
+Inside Telescope: type to filter, <C-n>/<C-p> move, <CR> open, <Esc> cancel,
+<C-q> send results to the quickfix list.
+
+Jumping inside a file: /text, then n/N; "gg" top, "G" bottom, "45G" line 45.
+The context line pinned at the top shows which function/class you are in.
+
+Needs ~
+  ripgrep (`rg`) for <Space>fg live grep. fd (`fd-find`) makes file listing
+  faster and is optional. make + a C compiler (gcc) to build the fzf matcher
+  the first time. Telescope itself loads on first use.
+
+==============================================================================
+4. FILE TREE (NVIM-TREE)                                      *myconfig-filetree*
+
+<C-n>         toggle the file tree sidebar (loads it on first use)
+:NvimTreeFindFile!   reveal the current file in the tree
+
+oil ( - ) edits one directory as a buffer; the tree shows the whole project
+and follows you between buffers. Inside the tree:
+
+  o or <CR>     open                 a    new file/directory
+  d             delete               D    trash
+  r             rename               e    rename name only
+  x             cut                  c    copy        p   paste
+  y             copy name            Y    copy path
+  R             refresh              H    hide/show hidden files
+  I             hide/show git-ignored
+  W             collapse all         E    expand all
+  f             live filter          F    clear the filter
+  ]c / [c       next/previous file with git changes
+  g?            every keymap (help, inside the tree)
+
+Git status is marked next to each file (M changed, A new, U~ modified) and
+the file you are editing is revealed in the tree automatically.
+
+Needs ~
+  nothing external; the icons come from nvim-web-devicons, installed with
+  the config. Loading: nvim-tree loads on the first <C-n> or :NvimTree
+  command, so startup stays untouched.
+
+==============================================================================
+5. CODE (LSP)                                                 *myconfig-lsp*
+
+Active when the statusline shows server emoji (🐍 🧹 🦀 🐳 📄 🧾 📦 🐚 🌙 🧩).
+
+  K              hover documentation
+  gd             go to definition        (<C-o> to go back)
+  gr             list references
+  <Space>rn      rename symbol everywhere
+  <Space>ca      code actions (quick fixes, imports, ...)
+  <Space>lf      format the file (manual only, see |myconfig-dashboard|)
+  <Space>e       show the diagnostic on this line in a float
+
+Completion pops up while typing (Neovim's built-in completion, fed by the
+language server and the words in your buffers):
+  <C-n>/<C-p> next/previous   <C-y> accept   <C-e> close
+  <C-x><C-o> ask the language server now   <C-x><C-f> file paths
+  <Tab>/<S-Tab> jump between snippet placeholders   <C-s> signature help
+Each item has an icon for its kind (function, field, class, ...); a few are
+emoji: 🔑 keyword  ✂️ snippet  🎨 color  ⚡ event. Task completion in the
+task buffer uses the same icons.
+The `:` command line also shows a menu as you type (<Tab> to move).
+
+Servers start when you open a file of their type (not at startup). Install
+and update them with :Mason (they are installed automatically on first run).
+.spec files use the system server `rpm_lsp_server` (see Needs below).
+
+Rust is handled by rustaceanvim (it loads when you open a Rust file). Extra
+commands:  :RustLsp runnables
+:RustLsp debuggables  :RustLsp expandMacro  :RustLsp openCargo
+
+Needs ~
+  Language servers come from mason, which needs: git, curl, unzip, tar/gzip.
+  node + npm for the yaml, json, docker and bash servers and for prettier.
+  python3 with venv/pip for basedpyright and debugpy.
+  rust-analyzer needs a cargo project (and comes from mason).
+  .spec files: `sudo dnf install rpm-spec-language-server`.
+
+==============================================================================
+6. DIAGNOSTICS AND TODOS                                      *myconfig-diag*
+
+Signs in the left column:  🚨 error   🚧 warning   🛰️ info   💡 hint
+
+  <Space>xx     all diagnostics in a panel (Trouble)
+  <Space>xX     diagnostics of this file only
+  <Space>xs     symbols outline of this file
+  <Space>xr     LSP references in a panel
+  <Space>xq     quickfix list
+  <Space>xt     all TODO/FIXME comments in a panel
+  ]t / [t       jump to next / previous TODO comment
+
+Close a Trouble panel with  q . TODO keywords: TODO FIXME HACK NOTE WARN PERF.
+
+Needs ~
+  Nothing extra: diagnostics come from the language servers. :Trouble loads on
+  first use; TODO highlighting loads when you open a file.
+
+==============================================================================
+7. GIT                                                        *myconfig-git*
+
+Gutter signs:  🌱 added   🍂 changed   🔥 deleted
+
+  ]h / [h       next / previous changed hunk
+  <Space>hp     preview the hunk       <Space>hs  stage hunk
+  <Space>hr     reset (discard) hunk   <Space>hb  blame this line
+  <Space>gd     open Diffview (all changes)
+  <Space>gh     history of the current file
+  <Space>gc     close Diffview
+
+Pull requests (needs the `gh` CLI logged in):
+  :Pr [n]        show the PR for this branch (or number n)
+  :PrDiff [n]    show its diff in a new tab
+  :Octo pr list  browse PRs and issues in Neovim
+
+Needs ~
+  git, for the gutter signs and branch info.
+  gh (GitHub CLI), logged in with `gh auth login`, for :Pr, :PrDiff and :Octo.
+  lazygit is optional (see |myconfig-terminal|).
+
+==============================================================================
+8. DEBUGGING                                                  *myconfig-debug*
+
+  1. Put the cursor on a line, press <Space>db to set a breakpoint.
+  2. <F5> to start / continue. The debug UI opens by itself.
+     Python: choose "Launch file". Rust: use :RustLsp debuggables.
+  3. Step with <F10> over, <F11> into, <F12> out.
+
+  <Space>dB     conditional breakpoint     <Space>de   evaluate expression
+  <Space>du     toggle the debug UI        <Space>dr   debug REPL
+  <Space>dl     re-run the last session
+
+Variable values also appear inline next to your code (virtual text).
+The UI closes automatically when the program ends.
+
+Needs ~
+  debugpy (Python) and codelldb (Rust/C): both installed by mason.
+  Rust debugging needs `cargo build` output with debug info (the default
+  profile has it). The debug plugins load on first use of <F5> or <Space>d*,
+  and automatically when you open a Rust file.
+
+==============================================================================
+9. TESTING                                                    *myconfig-test*
+
+Python (pytest) and Rust (cargo test) through neotest:
+
+  <Space>tt     run the test nearest the cursor
+  <Space>tf     run all tests in this file
+  <Space>td     DEBUG the nearest test (breakpoints work, see debugging)
+  <Space>tl     run the last test again
+  <Space>ts     toggle the summary tree of all tests
+  <Space>to     show the output of the nearest test
+
+Needs ~
+  Python: pytest installed in the PROJECT's virtualenv (neotest finds
+  .venv/ or venv/ in the project, or the active VIRTUAL_ENV).
+  Rust: cargo; `cargo-nextest` is used automatically if installed.
+  neotest loads the first time you press <Space>t*.
+
+==============================================================================
+10. DATABASES                                                 *myconfig-db*
+
+  <Space>D      open the database UI (dadbod)
+  Press  A  in the UI to add a connection. URL examples:
+    sqlite:/path/to/file.db
+    postgresql://user@localhost/dbname
+  Open a table or press  o  on a connection, write SQL in the buffer that
+  appears, run it with  <Space>S  (whole buffer) or visual-select + <Space>S.
+  SQL completion works through the omnifunc of vim-dadbod-completion.
+
+Needs ~
+  sqlite3 for sqlite databases. For others the client must be installed:
+  psql (`postgresql`), mysql/mariadb client. The UI loads on first use or when
+  you open a .sql file.
+
+==============================================================================
+11. WRITING MARKDOWN / BLOGS                                  *myconfig-writing*
+
+  Markdown renders inline while you edit: headings, tables, code blocks and
+  checkboxes look formatted. Move the cursor onto a line to see raw text.
+  <Space>p      paste an image from the clipboard. It is saved under
+                assets/images/ next to the file and a link is inserted.
+                (Linux needs wl-clipboard; macOS needs `brew install pngpaste`)
+  Turn spellcheck on for the buffer:  :setlocal spell   (]s / [s jump,
+  z= suggests, zg adds a word)
+
+Needs ~
+  Clipboard images: wl-clipboard (Wayland) or xclip (X11); on macOS
+  `brew install pngpaste`.
+  Formatting Markdown with <Space>lf needs prettier (installed by mason).
+  Rendering needs nothing extra. It loads when you open a Markdown file.
+
+==============================================================================
+12. NOTES (NEORG)                                             *myconfig-notes*
+
+Notes live in .norg files, managed by neorg. All of them sit under ~/Notes,
+one workspace per project (add or rename yours in lua/plugins/neorg.lua):
+
+  notes       ~/Notes             general notes and the weekly files (default)
+  lightwell   ~/Notes/lightwell   the Lightwell project
+  upstream    ~/Notes/upstream    the Upstream Disclosure project
+
+Workspaces ~
+  :Neorg workspace             which workspace the current file belongs to
+  :Neorg workspace lightwell   switch workspace; the directory and its
+                               index.norg are created on first use
+  <Space>ni                    open the index.norg of the current workspace
+  <Space>nt                    today's journal note (per workspace)
+  :Neorg return                close the note, go back to where you were
+  :Neorg toc                   table of contents of the note
+
+A file anywhere under ~/Notes/<project>/ is automatically part of that
+project's workspace. Nothing is opened automatically at startup.
+
+Norg markup ~
+  * Heading 1    ** Heading 2   *** Heading 3   (up to six levels)
+  ---           ends the current heading (=== ends every heading)
+  - item        unordered list (-- nests one level deeper)
+  ~ item        ordered list   (~~ nests)
+  - ( ) task    todo item; also (x) done, (-) pending, (!) urgent,
+                (=) on hold, (_) cancelled. <C-Space> cycles the state.
+  \*bold\*  /italic/  _underline_  -strike-  `verbatim`  %invisible comment%
+  {https://example.com}         link to a URL
+  {* Some heading}[shown text]  link to a heading in the same note
+  {:other-file:* Heading}[text] link into another note
+  @code lua                     code block, highlighted when that language's
+  ...                           parser is installed
+  @end
+  (<CR> on a link follows it; :Neorg toggle-concealer shows raw markup.)
+  Notes created through :Neorg get a @document.meta header (title, dates);
+  for a file you made some other way,  :Neorg inject-metadata  adds one.
+
+First run ~
+  The norg treesitter parsers are compiled once, when neorg is installed or
+  updated; it takes a few seconds. :checkhealth neorg verifies the setup.
+  Expected warnings there: <Space>td (stays debug-test - cycle tasks with
+  <C-Space> instead) and gO (stays Neovim's own document outline). Machines
+  without luarocks also complain about it; the dependencies are installed as
+  git plugins here.
+
+Needs ~
+  Nothing extra: the parser build uses git and a C compiler, the same tools
+  as the other treesitter parsers (see |myconfig-requirements|).
+
+==============================================================================
+13. TASKS (TASKWARRIOR)                                       *myconfig-tasks*
+
+Taskwarrior, edited as a buffer (taskwarrior.nvim): the task list is a plain
+buffer, you edit lines like text and  :w  syncs to the `task` database.
+
+  <Space>T       open the task buffer (:Tw). With a filter:
+                  :Tw project:lightwell  or  :Tw due.before:eow
+  <Space>Ta      quick-capture a task from any buffer, e.g.
+                  "Fix login bug project:work due:friday +backend"
+  <Space>Tf/Ts/Tg  filter / sort / group (inside the task buffer)
+  <Space>Tc      pick a Taskwarrior context
+  <Space>Tv/Tr   pick a saved view / a named report
+  <Space>Tp      map this directory to a project (:Tw auto-filters to it)
+  <Space>fT      fuzzy task picker (telescope): <CR> opens the task,
+                  <C-x> done, <C-s> start/stop, <C-d> delete
+  :TwReview      guided walk over pending tasks, urgency order
+  :TwBurndown :TwTree :TwSummary :TwCalendar :TwTags    visualizations
+  :TwTutor       ~20-minute interactive tutorial (sandboxed, try it!)
+  :TwHelp        every command, key and bit of syntax (also g? in a task
+                  buffer)
+
+In the task buffer: <CR> toggles done, o/O new task above/below, dd delete,
+yy+p duplicate, ga annotate, gf formatted task info. Task lines use
+Taskwarrior syntax after the description:
+  - [ ] Fix login bug project:Work priority:H due:2026-04-01 +urgent
+While typing metadata (project:, +tag, fields) the completion menu offers it.
+
+Statusline ~
+  📋 shows the active task (▶), the overdue count and the next due date;
+  refreshed every 15s and whenever a task buffer is saved.
+
+Needs ~
+  the `task` binary, Taskwarrior 2.6+ (`sudo dnf install task`).
+
+==============================================================================
+14. PLUGINS AND TOOLS                                         *myconfig-plugins*
+
+  :PackUpdate    review and apply plugin updates (built-in vim.pack).
+                 A buffer lists what changed; :w applies, :q cancels.
+  :PackStatus    show plugin state without fetching anything
+  nvim-pack-lock.json pins every plugin revision (keep it in git).
+  Remove a plugin: delete it from lua/config/pack.lua, then
+                 :lua vim.pack.del({"name"})
+  :PluginGroups  which plugin groups are loaded right now, and what would
+                 load the rest (see |myconfig-lazy|)
+  :Mason         language servers/debuggers installer
+  :MasonToolsUpdate   update everything mason manages
+  :checkhealth   diagnose problems (try  :checkhealth vim.lsp)
+  :messages      re-read recent messages and errors
+
+Config lives in ~/.config/nvim:
+  init.lua              entry point
+  lua/config/           options, keymaps, lsp, icons, statusline
+  lua/config/pack.lua   the list of plugins (vim.pack) and build hooks
+  lua/plugins/          one file per topic: the setup() call of each plugin.
+                        Add a plugin = add it to pack.lua + call its setup
+  doc/myconfig.txt      this file (run :helptags ALL after editing it)
+
+Needs ~
+  git (vim.pack clones plugins with it) and Neovim 0.12 or newer.
+  treesitter parsers compile with a C compiler: gcc, make, and the
+  tree-sitter CLI (`sudo dnf install tree-sitter-cli`).
+
+==============================================================================
+15. STATUSLINE EMOJI LEGEND                                   *myconfig-emoji*
+
+  Modes:        🛸 normal  🚀 insert  🌌 visual  ☄️ replace  🛰️ command  🪐 terminal
+  Git:          🌱 added   🍂 changed 🔥 removed
+  Diagnostics:  🚨 error   🚧 warn    🛰️ info    💡 hint
+  LSP:          🐍 basedpyright  🧹 ruff  🦀 rust-analyzer  🐳 dockerls
+                📄 yamlls  🧾 taplo  📦 rpm_spec_ls  🐚 bashls  🌙 lua_ls
+                🧩 jsonls
+  Tasks:        📋 task status (▶ active task, overdue count, next due date)
+  Completion:   Nerd Font glyphs per item kind, 🔑 ✂️ 🎨 ⚡ for a few
+Change any of them in lua/config/icons.lua.
+
+Needs ~
+  A font that renders color emoji, and a Nerd Font for the completion icons
+  (otherwise they show as boxes). If some emoji look misaligned, the font or
+  terminal is the cause; change them in lua/config/icons.lua (M.kinds).
+
+==============================================================================
+16. LOST? RECOVERY TRICKS                                     *myconfig-lost*
+
+  Pressing keys does weird things   -> <Esc> a couple of times
+  Can't type in a terminal          -> press  i
+  Can't leave a terminal            -> <Esc><Esc>  (or <C-\> to hide it)
+  Weird split/panel won't go away   -> :only   (keep just this window)
+  Accidentally changed something    -> u  (undo)   :e!  (reload from disk)
+  Want to quit without saving       -> :q!         (all: :qa!)
+  A panel (Trouble, help, ...)      -> press  q
+  Forgot a mapping                  -> press <Space> and read which-key
+  Forgot a command                  -> :Telescope commands
+  Anything else                     -> :Telescope help_tags  (<Space>fh)
+
+==============================================================================
+17. DASHBOARD, SESSIONS, FORMAT                               *myconfig-dashboard*
+
+Dashboard ~
+  Opens when you start `nvim` with no file. It shows:
+    Sessions   your most recent saved sessions (directory and git branch)
+    Projects   git projects you opened recently
+    Recent     recent files (of this project if you are in one)
+    Actions    find file, grep, explorer, new file, update plugins, Mason, help, quit
+    Footer     nvim version, plugins loaded out of installed, time to UI,
+               session and recent-file counts, and git branch + changed
+               files of the current directory (🌿 branch 🍂 changed 🌱 clean)
+  Pick an entry: press its number, or type the first letters of an action
+  (f = Find file, g = Grep, q = Quit ...) then <CR>. Move with <C-n>/<C-p>.
+  The "-" key is NOT captured here: it still opens the file explorer.
+  <Space>;       bring the dashboard back at any time
+
+  Choosing a PROJECT changes into it and restores its session if one exists,
+  otherwise it opens the file finder there.
+
+Sessions (persistence.nvim) ~
+  A session (open files, windows, tabs) is saved automatically for each
+  directory (and git branch) when you quit Neovim. Nothing to remember.
+  <Space>sr      restore the session of the current directory
+  <Space>sl      restore the most recent session, any directory
+  <Space>ss      pick a session from a list
+  <Space>sd      do NOT save a session when quitting this time
+  Sessions live in ~/.local/state/nvim/sessions/. Delete a file there to
+  forget one.
+
+Formatting (conform.nvim) ~
+  Formatting is MANUAL. Nothing is rewritten when you save.
+  <Space>lf      format the file (or the visual selection)
+  :Format        same; works with a range, e.g.  :10,20Format
+  :ConformInfo   show which formatter applies to this file and if it is found
+  Formatters: python ruff (imports + format), rust rustfmt, lua stylua,
+  sh/bash shfmt, fish fish_indent, toml taplo, yaml/json/markdown prettier.
+  Anything else falls back to the language server's formatter.
+  rustfmt comes from the system:  sudo dnf install rustfmt
+
+Needs ~
+  git, for the branch/changes line of the dashboard and project detection.
+  Formatters: ruff (mason), stylua, shfmt, prettier, taplo (all mason),
+  fish_indent (ships with fish), rustfmt (`sudo dnf install rustfmt`).
+  Missing formatters are skipped and the LSP formats instead.
+
+==============================================================================
+18. REQUIREMENTS (EXTERNAL TOOLS)                             *myconfig-requirements*
+
+Fedora / RHEL-family, everything the config can use in one go:
+>
+  sudo dnf install git gh ripgrep fd-find make gcc tree-sitter-cli \
+    nodejs npm python3 python3-pip unzip curl cargo rustfmt rust-analyzer \
+    sqlite fish wl-clipboard rpm-spec-language-server task
+<
+macOS (Homebrew), same idea:
+>
+  brew install neovim git gh ripgrep fd tree-sitter-cli node python \
+    sqlite fish pngpaste lazygit rust task
+<
+Also needed, not in the default Fedora repos: lazygit (optional).
+
+Installed for you by :Mason on first run (no action needed): basedpyright,
+ruff, rust-analyzer, dockerfile/yaml/json/bash/lua language servers, taplo,
+shfmt, stylua, prettier, codelldb, debugpy. Check them with :Mason.
+
+Which tool a feature needs is listed under "Needs" at the end of each section.
+Missing tools never break startup; the feature just says so or is skipped.
+
+==============================================================================
+19. STARTUP AND LAZY LOADING                                  *myconfig-lazy*
+
+Plugins are managed by the built-in vim.pack and loaded on demand so that
+starting Neovim stays fast (about 30 ms of config time, 40 ms in all). What loads when is
+declared in lua/config/groups.lua. Run  :PluginGroups  to see the live state.
+
+  Always at startup    colorscheme, treesitter, mason bin directory on PATH
+  Right after startup  which-key, mason tool installer, taskwarrior
+                       (the statusline task segment needs it loaded)
+  Opening a directory  the file explorer (oil), also on :Oil or  -
+  Opening a file       git signs, indent detection, treesitter-context,
+                       TODO highlighting, session saving, LSP servers
+  Rust file            rustaceanvim + the debug plugins
+  Markdown file        markdown rendering
+  Norg file            neorg, the note plugins (see |myconfig-notes|)
+  SQL file             database plugins and SQL completion
+  First use of ...     :Mason  :Telescope  :Trouble  :Diffview*  :Octo  :Format
+                       :PasteImage  :ToggleTerm / :Run / <C-\>  :DBUI
+                       <C-n> or :NvimTree*  (file tree)
+                       <F5> and <Space>d*  (debugging)
+                       <Space>t*           (tests)
+                       <Space>;            (dashboard)
+                       <Space>ni and <Space>nt, any :Neorg (notes)
+  No file given        the dashboard, plus session list
+
+Python and container (Containerfile, compose) files need no plugin of their
+own: their language servers start per filetype and debugpy/pytest load with
+the debug and test groups when you use them.
+
+The first use of an on-demand feature in a session is a few milliseconds slower
+(the plugin loads then). Tab-completion of  :Telescope <Tab>  works only after
+it has loaded once. The language server definitions (lua/config/lsp.lua) load
+with the first real file, so a bare dashboard start never pays for them.
+
+Add a plugin: list it in lua/config/pack.lua (mark it lazy), then give it a
+group in lua/config/groups.lua with a trigger and a setup file in lua/plugins/.
+
+ vim:tw=78:ts=8:ft=help:norl:
