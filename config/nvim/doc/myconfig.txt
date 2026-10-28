@@ -331,6 +331,9 @@ Needs ~
 
   Markdown renders inline while you edit: headings, tables, code blocks and
   checkboxes look formatted. Move the cursor onto a line to see raw text.
+  <Space>mr     toggle the rendering for this buffer (back to plain text)
+  <Space>mp     preview in a split: read-only rendered copy on the right that
+                follows the cursor, editable plain text on the left
   <Space>p      paste an image from the clipboard. It is saved under
                 assets/images/ next to the file and a link is inserted.
                 (Linux needs wl-clipboard; macOS needs `brew install pngpaste`)

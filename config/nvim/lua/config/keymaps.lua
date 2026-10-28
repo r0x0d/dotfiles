@@ -80,6 +80,14 @@ map("n", "<leader>xr", "<cmd>Trouble lsp_references toggle<cr>", { desc = "LSP r
 map("n", "<leader>xq", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix" })
 map("n", "<leader>xt", "<cmd>Trouble todo toggle<cr>", { desc = "TODOs" })
 
+-- Markdown: render-markdown loads on .md files (group "markdown")
+map("n", "<leader>mr", use("markdown", function()
+  require("render-markdown").buf_toggle()
+end), { desc = "Markdown: toggle rendering" })
+map("n", "<leader>mp", use("markdown", function()
+  require("render-markdown").preview()
+end), { desc = "Markdown: preview in a split" })
+
 -- Misc
 map("n", "<leader>D", "<cmd>DBUIToggle<cr>", { desc = "Database UI" })
 map("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "TODOs" })
