@@ -213,7 +213,10 @@ language server and the words in your buffers):
 Each item has an icon for its kind (function, field, class, ...); a few are
 emoji: 🔑 keyword  ✂️ snippet  🎨 color  ⚡ event. Task completion in the
 task buffer uses the same icons.
-The `:` command line also shows a menu as you type (<Tab> to move).
+Two places deliberately do NOT pop up on their own: the `:` command line
+(<Tab> completes and lists matches on the status line) and prompt buffers
+like the telescope search box, which stay quiet so you can read the results.
+Use <C-n>/<C-x><C-o> there if you want the menu anyway.
 
 Servers start when you open a file of their type (not at startup). Install
 and update them with :Mason (they are installed automatically on first run).
@@ -498,17 +501,23 @@ Needs ~
 17. DASHBOARD, SESSIONS, FORMAT                               *myconfig-dashboard*
 
 Dashboard ~
-  Opens when you start `nvim` with no file. It shows:
-    Sessions   your most recent saved sessions (directory and git branch)
-    Projects   git projects you opened recently
-    Recent     recent files (of this project if you are in one)
-    Actions    find file, grep, explorer, new file, update plugins, Mason, help, quit
-    Footer     nvim version, plugins loaded out of installed, time to UI,
-               session and recent-file counts, and git branch + changed
-               files of the current directory (🌿 branch 🍂 changed 🌱 clean)
-  Pick an entry: press its number, or type the first letters of an action
-  (f = Find file, g = Grep, q = Quit ...) then <CR>. Move with <C-n>/<C-p>.
-  The "-" key is NOT captured here: it still opens the file explorer.
+  Opens when you start `nvim` with no file. Two columns of boxes:
+    Left    Sessions & Recent: your saved sessions (directory and git branch)
+            on top, recent files below (of this project if you are in one)
+    Right   Actions (find file, grep, explorer, new file, update plugins,
+            Mason, help, quit) and, underneath, Projects (git roots you
+            opened recently)
+    Footer  nvim version, plugins loaded out of installed, time to UI,
+            session and recent-file counts, and git branch + changed
+            files of the current directory (🌿 branch 🍂 changed 🌱 clean)
+  Items are prefixed per section (s1.. sessions, r1.. recent, p1.. projects),
+  so "s1" or "p2" picks that entry; actions carry no prefix, type their first
+  letters (f = Find file, g = Grep, q = Quit ...) then <CR>.
+  <Down>/<Up>     move one row, staying in the same column (wraps at the end)
+  <Left>/<Right>  move one item, i.e. across columns
+  <C-n>/<C-p>     move one item, in plain reading order
+  Boxes reflow on resize and empty ones disappear (no sessions yet, no git
+  roots). The "-" key is NOT captured here: it still opens the file explorer.
   <Space>;       bring the dashboard back at any time
 
   Choosing a PROJECT changes into it and restores its session if one exists,

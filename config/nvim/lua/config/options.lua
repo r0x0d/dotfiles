@@ -33,14 +33,11 @@ o.autocomplete = true
 o.complete = ".,w,b,o"
 o.pumheight = 12
 
--- `:` command-line completion menu as you type
+-- `:` command line. No "pum" and no CmdlineChanged/wildtrigger, so nothing
+-- pops up over the buffer while you type `:q`; <Tab> still completes and
+-- lists the matches on the status line.
 o.wildmode = "noselect:lastused,full"
-o.wildoptions = "pum,fuzzy"
-vim.api.nvim_create_autocmd("CmdlineChanged", {
-  pattern = ":",
-  callback = function() vim.fn.wildtrigger() end,
-  desc = "as-you-type command-line completion",
-})
+o.wildoptions = "fuzzy"
 
 local icons = require("config.icons").diagnostics
 vim.diagnostic.config({

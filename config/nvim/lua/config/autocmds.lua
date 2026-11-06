@@ -44,6 +44,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = group,
+  pattern = { "TelescopePrompt", "prompt" },
+  desc = "No as-you-type completion popup in prompt buffers",
+  callback = function(ev)
+    -- The popup covers the results you are trying to read (telescope, :Run).
+    -- <Tab>/<C-n> still complete on request.
+    vim.bo[ev.buf].autocomplete = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("CmdwinEnter", {
+  group = group,
+  desc = "No as-you-type completion popup in the command-line window (q:)",
+  callback = function() vim.bo.autocomplete = false end,
+})
+
 -- Keep :help tags for doc/myconfig.txt fresh (cheap, only touches this dir)
 vim.api.nvim_create_autocmd("VimEnter", {
   group = group,

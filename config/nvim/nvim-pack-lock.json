@@ -1,18 +1,5 @@
 {
   "plugins": {
-    "blink.cmp": {
-      "rev": "b72ed05dd452690181837d484984144a64709f17",
-      "src": "https://github.com/saghen/blink.cmp"
-    },
-    "blink.compat": {
-      "rev": "2ed6d9a28b07fa6f3bface818470605f8896408c",
-      "src": "https://github.com/saghen/blink.compat",
-      "version": "2.0.0 - 3.0.0"
-    },
-    "blink.lib": {
-      "rev": "fd9a48ebbe6ec30d5dfcc5b42c243941ccdca1aa",
-      "src": "https://github.com/saghen/blink.lib"
-    },
     "conform.nvim": {
       "rev": "016802de402556da54c36bd7359b441266b01cdd",
       "src": "https://github.com/stevearc/conform.nvim"
