@@ -27,7 +27,8 @@ CONTENTS                                                    *myconfig-contents*
  19. Startup and lazy loading ...... |myconfig-lazy|
 
 Notation:  <leader> = Space   <C-x> = Ctrl+x   <CR> = Enter   <Esc> = Escape
-Tip: press <Space> and wait a moment; which-key shows every leader mapping.
+Tip: press <Space> and wait a moment; which-key lists the leader mappings
+(groups f g h d l o s t x are labelled; the others show their own names).
 Sections end with a "Needs" note listing the external programs they rely on;
 |myconfig-requirements| has one install command for all of them.
 
@@ -46,11 +47,13 @@ Survival keys (NORMAL mode):
   <Space>w      save                      <Space>q     quit window
   u / <C-r>     undo / redo               .            repeat last change
   dd  yy  p     delete line / copy line / paste
-  /text <CR>    search     n / N  next / previous     <Esc>  clear highlight
+  /text <CR>    search     n / N  next / previous
+  <Esc>         clear the search highlight (NORMAL mode)
   gcc           comment/uncomment line    gc (visual)  comment selection
-  <C-h/j/k/l>   move between split windows
+  <C-h/j/k/l>   move between split windows (NORMAL mode)
   -             open file explorer (oil). Edit names like text, then  :w
                 to apply renames/deletes/new files. Press - again to go up.
+                Hidden files are shown by default.
   <C-n>         toggle the file tree sidebar (see |myconfig-filetree|)
 
 Clipboard is shared with the system (yank in nvim, paste anywhere).
@@ -60,8 +63,9 @@ Look and feel ~
   Colorscheme: tokyonight "night" (lua/plugins/colorscheme.lua; swap it there).
   Rulers: thin vertical lines at columns 80 and 120. Help pages keep line
   numbers and rulers too; terminals and the dashboard hide them.
-  Statusline: mode, git branch/changes, file, diagnostics, LSP emoji
-  (legend in |myconfig-emoji|).
+  Statusline: mode, git branch/changes (from gitsigns only), file, filetype
+  icon, one icon per LSP server, diagnostics. Click the LSP icons to see
+  each client's name and root. Legend in |myconfig-emoji|.
 
 Needs ~
   wl-clipboard (Wayland) or xclip (X11) for the shared clipboard; macOS has it
@@ -156,7 +160,8 @@ Inside Telescope: type to filter, <C-n>/<C-p> move, <CR> open, <Esc> cancel,
 <C-q> send results to the quickfix list.
 
 Jumping inside a file: /text, then n/N; "gg" top, "G" bottom, "45G" line 45.
-The context line pinned at the top shows which function/class you are in.
+Up to three context lines pinned at the top show which function/class you
+are in (treesitter-context).
 
 Needs ~
   ripgrep (`rg`) for <Space>fg live grep. fd (`fd-find`) makes file listing
@@ -195,14 +200,17 @@ Needs ~
 ==============================================================================
 5. CODE (LSP)                                                 *myconfig-lsp*
 
-Active when the statusline shows server emoji (🐍 🧹 🦀 🐳 📄 🧾 📦 🐚 🌙 🧩).
+Active when the statusline shows server emoji after the │ divider (🐍 🧹 🦀
+🐳 📄 🧾 📦 🐚 🌙 🧩; ⚙️ for a server without its own icon). Click them for
+the client names and roots.
 
   K              hover documentation
   gd             go to definition        (<C-o> to go back)
   gr             list references
   <Space>rn      rename symbol everywhere
   <Space>ca      code actions (quick fixes, imports, ...)
-  <Space>lf      format the file (manual only, see |myconfig-dashboard|)
+  <Space>lf      format the file (manual only, see Formatting in
+                 |myconfig-dashboard|)
   <Space>e       show the diagnostic on this line in a float
 
 Completion pops up while typing (Neovim's built-in completion, fed by the
@@ -338,7 +346,9 @@ Needs ~
   <Space>mp     preview in a split: read-only rendered copy on the right that
                 follows the cursor, editable plain text on the left
   <Space>p      paste an image from the clipboard. It is saved under
-                assets/images/ next to the file and a link is inserted.
+                assets/images/ next to the file and a link is inserted. It
+                asks for a file name first (Enter keeps the default); the path
+                is URL-encoded so names with spaces still link correctly.
                 (Linux needs wl-clipboard; macOS needs `brew install pngpaste`)
   Turn spellcheck on for the buffer:  :setlocal spell   (]s / [s jump,
   z= suggests, zg adds a word)
@@ -390,8 +400,9 @@ Norg markup ~
   for a file you made some other way,  :Neorg inject-metadata  adds one.
 
 First run ~
-  The norg treesitter parsers are compiled once, when neorg is installed or
-  updated; it takes a few seconds. :checkhealth neorg verifies the setup.
+  The norg treesitter parsers are compiled when neorg is installed or
+  updated, and again at setup() if a parser .so is missing; it takes a few
+  seconds. :checkhealth neorg verifies the setup.
   Expected warnings there: <Space>td (stays debug-test - cycle tasks with
   <C-Space> instead) and gO (stays Neovim's own document outline). Machines
   without luarocks also complain about it; the dependencies are installed as
@@ -453,7 +464,8 @@ Needs ~
   :messages      re-read recent messages and errors
 
 Config lives in ~/.config/nvim:
-  init.lua              entry point
+  init.lua              entry point (enables vim.loader, the Lua bytecode
+                        cache that speeds up loading config modules)
   lua/config/           options, keymaps, lsp, icons, statusline
   lua/config/pack.lua   the list of plugins (vim.pack) and build hooks
   lua/plugins/          one file per topic: the setup() call of each plugin.
@@ -469,11 +481,16 @@ Needs ~
 15. STATUSLINE EMOJI LEGEND                                   *myconfig-emoji*
 
   Modes:        🛸 normal  🚀 insert  🌌 visual  ☄️ replace  🛰️ command  🪐 terminal
-  Git:          🌱 added   🍂 changed 🔥 removed
+  Git:          🌿 branch  🌱 added   🍂 changed 🔥 removed
+                (gitsigns only: no remote/upstream info, no git processes)
   Diagnostics:  🚨 error   🚧 warn    🛰️ info    💡 hint
   LSP:          🐍 basedpyright  🧹 ruff  🦀 rust-analyzer  🐳 dockerls
                 📄 yamlls  🧾 taplo  📦 rpm_spec_ls  🐚 bashls  🌙 lua_ls
-                🧩 jsonls
+                🧩 jsonls  ⚙️ any server without an icon (icons.lsp)
+                One icon per attached server, after a │ divider that follows
+                the filetype icon. Clicking them lists names and roots.
+  Filetype:     the devicons glyph, or an override from icons.ft (rust = 🦀).
+                The filetype name is shown only when no icon exists at all.
   Tasks:        📋 task status (▶ active task, overdue count, next due date)
   Completion:   Nerd Font glyphs per item kind, 🔑 ✂️ 🎨 ⚡ for a few
 Change any of them in lua/config/icons.lua.
@@ -507,13 +524,18 @@ Dashboard ~
     Right   Actions (find file, grep, explorer, new file, update plugins,
             Mason, help, quit) and, underneath, Projects (git roots you
             opened recently)
-    Footer  nvim version, plugins loaded out of installed, time to UI,
-            session and recent-file counts, and git branch + changed
-            files of the current directory (🌿 branch 🍂 changed 🌱 clean)
+    Footer  a centred "Status" box: nvim version, plugins loaded out of
+            installed, startup time, recent-file and session counts, and
+            git branch + changed files of the current directory (🌿 branch
+            🍂 changed 🌱 clean). Its colour follows DashboardStatusOk /
+            Warn / Bad: yellow when startup is over 150ms or the tree is
+            dirty, red over 300ms, green otherwise. Git status loads
+            asynchronously, so the branch row appears slightly later.
   Items are prefixed per section (s1.. sessions, r1.. recent, p1.. projects),
   so "s1" or "p2" picks that entry; actions carry no prefix, type their first
   letters (f = Find file, g = Grep, q = Quit ...) then <CR>.
   <Down>/<Up>     move one row, staying in the same column (wraps at the end)
+  <M-j>/<M-k>     same as <Down>/<Up>
   <Left>/<Right>  move one item, i.e. across columns
   <C-n>/<C-p>     move one item, in plain reading order
   Boxes reflow on resize and empty ones disappear (no sessions yet, no git
@@ -576,8 +598,10 @@ Missing tools never break startup; the feature just says so or is skipped.
 19. STARTUP AND LAZY LOADING                                  *myconfig-lazy*
 
 Plugins are managed by the built-in vim.pack and loaded on demand so that
-starting Neovim stays fast (about 30 ms of config time, 40 ms in all). What loads when is
-declared in lua/config/groups.lua. Run  :PluginGroups  to see the live state.
+starting Neovim stays fast (about 30 ms of config time, 40 ms in all). The
+Lua bytecode cache (vim.loader.enable() in init.lua) speeds up module loading
+further. What loads when is declared in lua/config/groups.lua. Run
+:PluginGroups  to see the live state.
 
   Always at startup    colorscheme, treesitter, mason bin directory on PATH
   Right after startup  which-key, mason tool installer, taskwarrior
@@ -606,6 +630,12 @@ The first use of an on-demand feature in a session is a few milliseconds slower
 (the plugin loads then). Tab-completion of  :Telescope <Tab>  works only after
 it has loaded once. The language server definitions (lua/config/lsp.lua) load
 with the first real file, so a bare dashboard start never pays for them.
+
+Groups in groups.lua: colorscheme, treesitter, oil, mason, whichkey,
+mason-tools, taskwarrior, gitsigns, sleuth, context, todo, persistence, rust,
+markdown, db, neorg, filetree, telescope, todo-telescope, trouble, diffview,
+octo, format, imgclip, terminal, dap, test, schemastore (loaded by the
+yaml/json LSP configs) and dashboard.
 
 Add a plugin: list it in lua/config/pack.lua (mark it lazy), then give it a
 group in lua/config/groups.lua with a trigger and a setup file in lua/plugins/.

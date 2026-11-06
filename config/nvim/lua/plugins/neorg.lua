@@ -13,7 +13,8 @@
 -- are then linked with the C++ driver so the C++ runtime comes along. A
 -- single `cc` link leaves __gxx_personality_v0 unresolved and the parser
 -- cannot be dlopen'd. build_parsers() below runs when neorg is installed
--- or updated (PackChanged hook in config/pack.lua).
+-- or updated (PackChanged hook in config/pack.lua), and again from setup()
+-- if either .so is missing (e.g. a wiped site/ directory).
 
 local M = {}
 
@@ -38,6 +39,8 @@ local function parser_path(name)
   return vim.fs.joinpath(vim.fn.stdpath("data"), "site", "parser", name .. ".so")
 end
 
+-- Only existence is checked, not the revision: version bumps rebuild through
+-- the PackChanged hook instead.
 local function parsers_present()
   return vim.uv.fs_stat(parser_path("norg")) and vim.uv.fs_stat(parser_path("norg_meta"))
 end
@@ -59,12 +62,14 @@ function M.build_parsers()
     end
   end
 
+  -- Build in the cache dir, install only the final .so into site/parser
   local cache = vim.fs.joinpath(vim.fn.stdpath("cache"), "neorg-parsers")
   vim.fn.mkdir(cache, "p")
   vim.fn.mkdir(vim.fs.dirname(parser_path("norg")), "p")
 
   for _, p in ipairs(PARSERS) do
     local src = vim.fs.joinpath(cache, p.name)
+    -- fresh clone every time: a stale checkout could be at the wrong rev
     vim.fn.delete(src, "rf")
 
     local res = vim.system({ "git", "clone", "--quiet", p.repo, src }):wait()

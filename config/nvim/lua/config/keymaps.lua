@@ -19,6 +19,7 @@ map("n", "<C-j>", "<C-w>j")
 map("n", "<C-k>", "<C-w>k")
 map("n", "<C-l>", "<C-w>l")
 
+-- :Oil is a loader stub, so no use() wrapper is needed for command-based maps
 map("n", "-", "<cmd>Oil<cr>", { desc = "File explorer" })
 
 -- File tree (nvim-tree): NERDTree-style sidebar, only shown when invoked
@@ -41,7 +42,8 @@ map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" })
 -- Diagnostics
 map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 
--- DAP
+-- DAP. dap("a.b") resolves require("dap").a.b lazily, after the group loads
+-- (the module doesn't exist before then, so it can't be captured at map time).
 local function dap(fn, ...)
   local args = { ... }
   return use("dap", function()
@@ -124,6 +126,7 @@ map("n", "[t", use("todo", function() require("todo-comments").jump_prev() end),
 
 -- Terminal: the :ToggleTerm family loads toggleterm on first use. <C-\> and
 -- <leader>og need a loader step first; toggleterm then installs its own <C-\>.
+-- vim.v.count is read here: the count would be lost after the group loads.
 map("n", "<leader>ot", "<cmd>ToggleTerm direction=float<cr>", { desc = "Float terminal" })
 map("n", "<leader>oh", "<cmd>ToggleTerm direction=horizontal<cr>", { desc = "Horizontal terminal" })
 map("n", "<leader>ov", "<cmd>ToggleTerm direction=vertical<cr>", { desc = "Vertical terminal" })

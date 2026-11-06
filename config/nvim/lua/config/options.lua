@@ -17,10 +17,11 @@ o.tabstop = 4
 o.splitright = true
 o.splitbelow = true
 o.scrolloff = 8
-o.updatetime = 250
-o.timeoutlen = 400
+o.updatetime = 250 -- faster CursorHold (diagnostics, gitsigns) and swap writes
+o.timeoutlen = 400 -- short enough to feel snappy, long enough for which-key leader chords
+-- "fuzzy" + "noselect": typo-tolerant matches, but never pre-select (Enter stays a newline)
 o.completeopt = { "menu", "menuone", "noselect", "popup", "fuzzy" }
-o.laststatus = 3
+o.laststatus = 3 -- one global statusline (see config/statusline.lua)
 o.showmode = false -- the statusline shows the mode
 o.list = true
 o.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
@@ -39,6 +40,7 @@ o.pumheight = 12
 o.wildmode = "noselect:lastused,full"
 o.wildoptions = "fuzzy"
 
+-- Sign text comes from config/icons.lua so the statusline shows the same glyphs
 local icons = require("config.icons").diagnostics
 vim.diagnostic.config({
   severity_sort = true,
@@ -55,6 +57,8 @@ vim.diagnostic.config({
 })
 
 -- yamlls is attached to compose files via the yaml.docker-compose filetype
+-- (dotted filetype: still "yaml" for ftplugins/treesitter, plus a distinct
+-- name the compose LSP config can match on)
 vim.filetype.add({
   pattern = {
     ["docker%-compose.*%.ya?ml"] = "yaml.docker-compose",

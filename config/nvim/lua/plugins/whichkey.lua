@@ -1,4 +1,5 @@
 require("which-key").setup({
+  -- spec only names the <leader> groups; individual maps carry their own desc
   preset = "helix",
   spec = {
     { "<leader>f", group = "find" },

@@ -17,7 +17,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = function(ev)
     if ev.file == "" or vim.fn.isdirectory(ev.file) == 0 then return end
     L.load("oil")
-    -- oil's own directory handler was registered after this event fired
+    -- oil's own directory handler was registered after this event fired, so
+    -- re-fire BufEnter for it; return true to remove this one-shot autocmd
     vim.api.nvim_exec_autocmds("BufEnter", { buffer = ev.buf, modeline = false })
     return true
   end,
@@ -60,7 +61,8 @@ L.group("persistence", {
   plugins = { "persistence.nvim" }, setup = setup("persistence"),
 })
 
--- LSP servers start only once a real file is opened.
+-- LSP servers start only once a real file is opened (not on the dashboard or
+-- special buffers), keeping the no-file startup path free of server setup.
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("lsp-first-buffer", { clear = true }),
   callback = function(ev)
@@ -127,12 +129,14 @@ L.group("dap", {
   },
   setup = setup("dap"),
 })
+-- test requires rust so rustaceanvim's neotest adapter is available
 L.group("test", {
   cmd = { "Neotest" }, requires = { "rust" },
   plugins = { "plenary.nvim", "nvim-nio", "neotest", "neotest-python" }, setup = setup("test"),
 })
 L.group("schemastore", { plugins = { "schemastore.nvim" } }) -- from the yaml/json LSP configs
 -- Dashboard: shown only when started without files, otherwise via <Space>;
+-- (eager is evaluated once, here, from argc(); requires persistence for sessions)
 L.group("dashboard", {
   eager = vim.fn.argc() == 0, requires = { "persistence" },
   plugins = { "mini.starter" }, setup = setup("dashboard"),

@@ -10,9 +10,11 @@ vim.api.nvim_create_autocmd("PackChanged", {
     if kind ~= "install" and kind ~= "update" then return end
 
     if name == "nvim-treesitter" then
+      -- :TSUpdate only exists once the plugin is on the rtp (not yet during install)
       if not ev.data.active then vim.cmd.packadd(name) end
       pcall(vim.cmd, "TSUpdate")
     elseif name == "telescope-fzf-native.nvim" then
+      -- Native fzf sorter must be compiled; blocking so it's ready before use
       vim.system({ "make" }, { cwd = ev.data.path }):wait()
     elseif name == "neorg" then
       -- Compile the norg/norg_meta treesitter parsers. The tree-sitter CLI
@@ -80,7 +82,7 @@ vim.pack.add({
   -- notes (neorg): the "neorg" group loads these on the first :Neorg command
   -- or .norg file. Pinned to tags like the rest (neorg: latest 9.x; the
   -- others: the versions neorg's rockspec declares, as vim.pack can't do
-  -- luarocks). Parsers are compiled by the PackChanged hook below.
+  -- luarocks). Parsers are compiled by the PackChanged hook above.
   gh("nvim-neorg/neorg", vim.version.range("9"), L),
   gh("pysan3/pathlib.nvim", vim.version.range("~2.2"), L),
   gh("nvim-neorg/lua-utils.nvim", vim.version.range("1.0.2"), L),
@@ -90,7 +92,9 @@ vim.pack.add({
   -- group so the statusline segment works.
   gh("MattHandzel/taskwarrior.nvim", vim.version.range("1"), L),
 }, {
+  -- No install prompt: first start on a fresh machine installs unattended
   confirm = false,
+  -- Custom load: lazy plugins stay off the rtp until config/loader.lua adds them
   load = function(plug)
     local name = plug.spec.name
     if plug.spec.data and plug.spec.data.lazy then return end

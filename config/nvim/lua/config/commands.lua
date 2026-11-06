@@ -1,4 +1,5 @@
 -- gh-based PR helpers (Neovim has no built-in :Git)
+-- Synchronous (:wait) on purpose: the output is shown immediately and gh is quick
 local function gh(args)
   local res = vim.system(vim.list_extend({ "gh" }, args), { text = true }):wait()
   if res.code ~= 0 then
@@ -31,7 +32,8 @@ vim.api.nvim_create_user_command("PrDiff", function(opts)
   vim.bo.modifiable = false
 end, { nargs = "?", desc = "Show PR diff (current branch, or number)" })
 
--- vim.pack helpers
+-- vim.pack helpers. confirm=false in pack.lua only affects add(); update()
+-- still opens its review buffer. offline=true skips the fetch.
 vim.api.nvim_create_user_command("PackUpdate", function()
   vim.pack.update()
 end, { desc = "Review and apply plugin updates (vim.pack)" })

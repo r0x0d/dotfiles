@@ -1,4 +1,4 @@
--- Single source of truth for the emoji theme.
+-- Single source of truth for the emoji theme (statusline, dashboard, completion).
 local M = {}
 
 -- Space cadet modes
@@ -15,15 +15,21 @@ M.modes = {
 }
 
 -- Seasons
-M.git = { added = "🌱", changed = "🍂", removed = "🔥" }
+M.git = { branch = "🌿", added = "🌱", changed = "🍂", removed = "🔥" }
 
 M.diagnostics = { error = "🚨", warn = "🚧", info = "🛰️", hint = "💡" }
 
+-- Filetype icons that replace the devicons glyph in the statusline (devicons'
+-- glyph is a Nerd Font one; an emoji is preferred where the theme has one)
+M.ft = { rust = "🦀" }
+
+-- Keyed by LSP client name (client.name), shown after the filetype icon and
+-- used by the statusline to decide whether the filetype name is redundant.
 M.lsp = {
   basedpyright = "🐍",
   ruff = "🧹",
   ["rust-analyzer"] = "🦀", -- name used by rustaceanvim
-  rust_analyzer = "🦀",
+  rust_analyzer = "🦀", -- name used by a plain vim.lsp.config setup
   jsonls = "🧩",
   dockerls = "🐳",
   yamlls = "📄",

@@ -1,5 +1,8 @@
+-- Loaded on :Format/:ConformInfo only (groups.lua), so nothing here costs startup.
 require("conform").setup({
   formatters_by_ft = {
+    -- organize imports first, then format, so the formatter sees final import
+    -- order; conform runs these in sequence.
     python = { "ruff_organize_imports", "ruff_format" },
     rust = { "rustfmt" },
     lua = { "stylua" },
@@ -17,9 +20,13 @@ require("conform").setup({
   default_format_opts = { lsp_format = "fallback" },
 })
 
+-- Custom command instead of conform's default: it needs a range-aware wrapper
+-- (conform wants a {start,end} position table, not line1/line2) and async mode.
 vim.api.nvim_create_user_command("Format", function(args)
   local range
   if args.count ~= -1 then
+    -- the end column must be the length of the last line, else the final
+    -- line is only partly formatted
     local last = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
     range = { start = { args.line1, 0 }, ["end"] = { args.line2, #last } }
   end

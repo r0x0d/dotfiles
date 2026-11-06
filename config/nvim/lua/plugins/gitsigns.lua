@@ -1,6 +1,8 @@
 local icons = require("config.icons")
 
 require("gitsigns").setup({
+  -- Reuse the shared icons so gutter signs match the statusline/diff glyphs.
+  -- topdelete/changedelete reuse the plain variants (no distinct glyphs).
   signs = {
     add = { text = icons.git.added },
     change = { text = icons.git.changed },
@@ -8,6 +10,8 @@ require("gitsigns").setup({
     topdelete = { text = icons.git.removed },
     changedelete = { text = icons.git.changed },
   },
+  -- Buffer-local maps: only exist in buffers gitsigns actually attaches to
+  -- (tracked files), so they never shadow keys elsewhere.
   on_attach = function(buf)
     local gs = require("gitsigns")
     local function m(k, f, d) vim.keymap.set("n", k, f, { buffer = buf, desc = d }) end

@@ -24,8 +24,11 @@ function M.load(name)
   local g = groups[name]
   if not g then return vim.notify("loader: unknown group " .. name, vim.log.levels.ERROR) end
   if g.loaded then return end
+  -- Mark loaded before requires/setup so dependency cycles and re-entrant
+  -- triggers (events fired by the plugins themselves) can't load it twice
   g.loaded = true
   for _, dep in ipairs(g.requires or {}) do M.load(dep) end
+  -- pcall everywhere: one broken plugin must not abort startup or the caller
   if g.init then pcall(g.init) end
   for _, p in ipairs(g.plugins or {}) do
     if not M.on_rtp[p] then
@@ -41,10 +44,13 @@ function M.load(name)
 end
 
 local function stub_command(group, cmd)
+  -- Don't shadow a command that already exists (plugin on rtp, or user-defined)
   if vim.fn.exists(":" .. cmd) == 2 then return end
   vim.api.nvim_create_user_command(cmd, function(o)
+    -- Drop the stub first so the plugin's real command can take its place
     pcall(vim.api.nvim_del_user_command, cmd)
     M.load(group)
+    -- Replay with the original bang/args/modifiers/range so the stub is transparent
     local c = { cmd = cmd, bang = o.bang, args = o.fargs, mods = o.smods }
     if o.range == 1 then c.range = { o.line1 } elseif o.range == 2 then c.range = { o.line1, o.line2 } end
     local ok, err = pcall(vim.api.nvim_cmd, c, {})

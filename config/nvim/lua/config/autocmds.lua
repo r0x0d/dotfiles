@@ -9,6 +9,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   group = group,
   desc = "Restore last cursor position",
   callback = function(ev)
+    -- '" can point past EOF if the file shrank outside nvim; pcall covers
+    -- the column going out of range too
     local mark = vim.api.nvim_buf_get_mark(ev.buf, '"')
     if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(ev.buf) then
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
@@ -19,6 +21,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd("FileType", {
   group = group,
   pattern = { "yaml", "lua", "json", "toml", "spec" },
+  -- Overrides the global 4-space default (options.lua); set per buffer after
+  -- the ftplugin so it wins over any ftplugin indent settings
   callback = function() vim.bo.shiftwidth = 2; vim.bo.tabstop = 2 end,
 })
 
@@ -26,12 +30,15 @@ vim.api.nvim_create_autocmd("FileType", {
   group = group,
   desc = "Start treesitter highlighting when a parser exists",
   callback = function(ev)
+    -- nvim-treesitter (main branch) no longer enables highlighting itself;
+    -- pcall because start() errors when no parser exists for the filetype
     pcall(vim.treesitter.start, ev.buf)
   end,
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = group,
+  -- Buffer-local so the keys exist only where a server is attached
   callback = function(ev)
     local function m(keys, fn, desc)
       vim.keymap.set("n", keys, fn, { buffer = ev.buf, desc = desc })

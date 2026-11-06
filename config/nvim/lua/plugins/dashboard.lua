@@ -16,6 +16,8 @@ local function project_roots(limit)
   return roots
 end
 
+-- persistence.nvim names session files after the directory with path separators
+-- (and ':') replaced by '%', so rebuild that name to find a project's session.
 local function session_file_for(dir)
   local name = dir:gsub("[\\/:]+", "%%")
   local dirpath = vim.fn.stdpath("state") .. "/sessions/"
@@ -86,23 +88,60 @@ local function recent_section()
   return items
 end
 
+-- Git status is read off the startup path: the footer draws without it and the
+-- dashboard refreshes once the (async) answer lands. A synchronous `git status`
+-- costs ~10ms here and far more in a big repo, all of it counted in time-to-UI.
+-- The result is cached for the session of this dashboard (no re-query on refresh).
+local git_cache = nil -- false = not a repo / failed, table = { branch, dirty }
+local git_pending = false
+
 local function git_status()
-  local cwd = vim.fn.getcwd()
-  if not vim.fs.root(cwd, ".git") then return nil end
-  local function git(args)
-    local r = vim.system(vim.list_extend({ "git" }, args), { text = true, cwd = cwd }):wait(500)
-    return r.code == 0 and vim.trim(r.stdout) or nil
+  if git_cache ~= nil then
+    if git_cache then return git_cache.branch, git_cache.dirty end
+    return nil
   end
-  local branch = git({ "branch", "--show-current" })
-  local porcelain = git({ "status", "--porcelain" })
-  if not branch then return nil end
-  local dirty = 0
-  if porcelain and porcelain ~= "" then dirty = #vim.split(porcelain, "\n") end
-  return ("🌿 %s%s"):format(branch, dirty > 0 and ("  🍂 " .. dirty .. " changed") or "  🌱 clean")
+  if git_pending then return nil end
+  local cwd = vim.fn.getcwd()
+  if not vim.fs.root(cwd, ".git") then
+    git_cache = false
+    return nil
+  end
+  git_pending = true
+  vim.system({ "git", "status", "--porcelain", "--branch" }, { text = true, cwd = cwd }, function(r)
+    vim.schedule(function()
+      git_pending = false
+      git_cache = false
+      if r.code == 0 then
+        local lines = vim.split(vim.trim(r.stdout), "\n")
+        local head = (lines[1] or ""):match("^## (.-)%.%.%.") or (lines[1] or ""):match("^## (%S+)")
+        if head then git_cache = { branch = head, dirty = #lines - 1 } end
+      end
+      local ok, starter = pcall(require, "mini.starter")
+      if ok and vim.bo.filetype == "ministarter" then starter.refresh() end
+    end)
+  end)
+  return nil
 end
 
+-- The box takes the colour of the worst signal in it: a dirty tree or a slow
+-- startup turns it yellow, a very slow startup red, everything fine green.
+-- footer() records the level; boxed() paints the footer lines with it. This
+-- ordering matters: the content hooks run after footer() has been evaluated.
+-- default = true lets a colorscheme override these groups.
+local STARTUP_WARN_MS, STARTUP_BAD_MS = 150, 300
+local status_group = "MiniStarterFooter"
+for name, link in pairs({ Ok = "DiagnosticOk", Warn = "DiagnosticWarn", Bad = "DiagnosticError" }) do
+  vim.api.nvim_set_hl(0, "DashboardStatus" .. name, { link = link, default = true })
+end
+
+-- Footer: a centred "Status" box of label/value pairs, two per row. The lines
+-- all share one display width, so the centring in boxed() keeps it aligned.
 local function footer()
-  local parts = { ("🛸 nvim %s"):format(tostring(vim.version())) }
+  local dw = vim.fn.strdisplaywidth
+  local function rpad(s, w) return s .. string.rep(" ", math.max(w - dw(s), 0)) end
+
+  local v = vim.version()
+  local cells = { { "🛸 nvim", ("%d.%d.%d"):format(v.major, v.minor, v.patch) } }
   local okv, plugs = pcall(vim.pack.get, nil, { info = false })
   if okv then
     local rtp, loaded = {}, 0
@@ -110,20 +149,55 @@ local function footer()
     for _, p in ipairs(plugs) do
       if rtp[p.path] then loaded = loaded + 1 end
     end
-    table.insert(parts, ("📦 %d/%d plugins loaded"):format(loaded, #plugs))
+    table.insert(cells, { "📦 plugins", ("%d/%d"):format(loaded, #plugs) })
   end
   if vim.g.startup_ms then
-    table.insert(parts, ("⚡ %.0fms to UI"):format(vim.g.startup_ms))
+    table.insert(cells, { "⚡ startup", ("%.0fms"):format(vim.g.startup_ms) })
   end
+  table.insert(cells, { "🕘 recent", tostring(#vim.v.oldfiles) })
   local okp, persistence = pcall(require, "persistence")
-  if okp then
-    local n = #persistence.list()
-    table.insert(parts, ("🗂️ %d session%s"):format(n, n == 1 and "" or "s"))
+  if okp then table.insert(cells, { "📂 sessions", tostring(#persistence.list()) }) end
+  local branch, dirty = git_status()
+  local level = 1 -- 1 ok, 2 warn, 3 bad
+  if vim.g.startup_ms then
+    if vim.g.startup_ms > STARTUP_BAD_MS then level = 3
+    elseif vim.g.startup_ms > STARTUP_WARN_MS then level = 2 end
   end
-  table.insert(parts, ("🕘 %d recent files"):format(#vim.v.oldfiles))
-  local lines = { table.concat(parts, "   ") }
-  local g = git_status()
-  if g then table.insert(lines, g) end
+  if dirty and dirty > 0 then level = math.max(level, 2) end
+  -- Neutral colour until there is something to judge (no startup time and no
+  -- git answer yet); the async refresh then repaints with a real level.
+  status_group = branch == nil and vim.g.startup_ms == nil and "MiniStarterFooter"
+    or ({ "DashboardStatusOk", "DashboardStatusWarn", "DashboardStatusBad" })[level]
+  if branch then
+    local state = dirty > 0 and ("🍂 " .. dirty) or "🌱"
+    if #branch > 18 then branch = vim.fn.strcharpart(branch, 0, 17) .. "…" end
+    table.insert(cells, { "🌿 branch", branch .. " " .. state })
+  end
+
+  -- Column-wise widths so labels and values line up across rows.
+  local lw, vw = { 0, 0 }, { 0, 0 }
+  for i, c in ipairs(cells) do
+    local col = (i - 1) % 2 + 1
+    lw[col] = math.max(lw[col], dw(c[1]))
+    vw[col] = math.max(vw[col], dw(c[2]))
+  end
+  local rows = {}
+  for i = 1, #cells, 2 do
+    local parts = {}
+    for j = i, math.min(i + 1, #cells) do
+      local col = (j - i) + 1
+      parts[#parts + 1] = rpad(cells[j][1], lw[col]) .. "  " .. rpad(cells[j][2], vw[col])
+    end
+    rows[#rows + 1] = table.concat(parts, "    ")
+  end
+
+  local inner = 0
+  for _, r in ipairs(rows) do inner = math.max(inner, dw(r)) end
+  inner = math.max(inner, 12) + 2
+  local title = " Status "
+  local lines = { "╭─" .. title .. string.rep("─", inner - dw(title) - 1) .. "╮" }
+  for _, r in ipairs(rows) do lines[#lines + 1] = "│ " .. rpad(r, inner - 2) .. " │" end
+  lines[#lines + 1] = "╰" .. string.rep("─", inner) .. "╯"
   return table.concat(lines, "\n")
 end
 
@@ -304,6 +378,8 @@ local function render_box(title, body, inner_w)
   return out
 end
 
+-- Final content hook: lays the flat mini.starter content out as two columns of
+-- boxes, then adds header, footer and vertical centring.
 local function boxed(content, buf_id)
   local win = vim.fn.bufwinid(buf_id)
   local win_w = win > 0 and vim.api.nvim_win_get_width(win) or vim.o.columns
@@ -374,13 +450,17 @@ local function boxed(content, buf_id)
   end
 
   local out = {}
-  local function add_centered(line)
+  local function add_centered(line, hl)
     if units_width(line) == 0 then
       out[#out + 1] = { blank() }
       return
     end
     local padded = { pad(math.max(math.floor((win_w - units_width(line)) / 2), 0)) }
-    out[#out + 1] = vim.list_extend(padded, copy_line(line))
+    local copy = copy_line(line)
+    if hl then
+      for _, u in ipairs(copy) do u.hl = hl end
+    end
+    out[#out + 1] = vim.list_extend(padded, copy)
   end
 
   for _, line in ipairs(head) do add_centered(line) end
@@ -393,7 +473,7 @@ local function boxed(content, buf_id)
 
   if #foot > 0 then
     out[#out + 1] = { blank() }
-    for _, line in ipairs(foot) do add_centered(line) end
+    for _, line in ipairs(foot) do add_centered(line, status_group) end
   end
 
   for _ = 1, math.max(math.floor((win_h - #out) / 2), 0) do
@@ -426,6 +506,8 @@ starter.setup({
     },
   },
   content_hooks = {
+    -- Order matters: indexed() needs the bullet units, and boxed() must run
+    -- last since it re-flows everything into the grid.
     starter.gen_hook.adding_bullet("» "),
     indexed,
     boxed,

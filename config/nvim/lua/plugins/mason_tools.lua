@@ -18,8 +18,11 @@ require("mason-tool-installer").setup({
     "codelldb",
     "debugpy",
   },
+  -- auto_update off: updates are explicit (:MasonToolsUpdate) so a startup
+  -- never swaps a toolchain under you.
   auto_update = false,
   run_on_start = true,
+  -- delay keeps installs off the startup critical path
   start_delay = 1000,
 })
 

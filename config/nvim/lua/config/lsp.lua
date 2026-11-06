@@ -1,5 +1,9 @@
 local M = {}
 
+-- Server definitions are declared here (nvim 0.12 native vim.lsp.config, no
+-- nvim-lspconfig) so cmd/filetypes/root_markers are explicit. Nothing starts
+-- until M.enable() runs, which groups.lua defers to the first real file.
+
 vim.lsp.config("basedpyright", {
   cmd = { "basedpyright-langserver", "--stdio" },
   filetypes = { "python" },
@@ -12,6 +16,7 @@ vim.lsp.config("basedpyright", {
   },
 })
 
+-- Ruff only lints/formats; type info and hover come from basedpyright.
 vim.lsp.config("ruff", {
   cmd = { "ruff", "server" },
   filetypes = { "python" },
@@ -34,6 +39,9 @@ vim.lsp.config("yamlls", {
       schemaStore = { enable = false, url = "" }, -- schemastore.nvim supplies schemas
     },
   },
+  -- Schemas are injected at server start so the (large) schemastore catalogue
+  -- is only loaded when a yaml/json buffer actually needs it; pcall keeps the
+  -- server usable if the plugin is missing.
   before_init = function(_, config)
     require("config.loader").load("schemastore")
     local ok, ss = pcall(require, "schemastore")
@@ -85,6 +93,8 @@ vim.lsp.config("lua_ls", {
     Lua = {
       runtime = { version = "LuaJIT" },
       diagnostics = { globals = { "vim" } },
+      -- Runtime only (not all plugins): enough for vim.* completion without
+      -- making lua_ls index every plugin on each start.
       workspace = { library = { vim.env.VIMRUNTIME }, checkThirdParty = false },
       telemetry = { enable = false },
     },
@@ -92,7 +102,10 @@ vim.lsp.config("lua_ls", {
 })
 
 -- Only servers whose binary is installed are enabled, so missing ones stay quiet.
+-- (rust-analyzer is absent on purpose: rustaceanvim manages it.)
 function M.enable()
+  -- Native completion is per client and per buffer, so it is wired on attach
+  -- rather than globally; servers without completion support are skipped.
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("lsp-completion", { clear = true }),
     callback = function(ev)
@@ -101,6 +114,7 @@ function M.enable()
         vim.lsp.completion.enable(true, client.id, ev.buf, {
           autotrigger = true,
           convert = function(item)
+            -- required lazily: only needed once a completion menu opens
             local icons = require("config.icons")
             local label = item.label:gsub("%b()", "") -- drop "(args)" noise
             return {
@@ -112,6 +126,8 @@ function M.enable()
       end
     end,
   })
+  -- executable() is checked against cmd[1] after the definitions above, so the
+  -- list must stay in sync with the vim.lsp.config() calls.
   local servers = {
     "basedpyright", "ruff", "dockerls", "yamlls", "jsonls",
     "taplo", "rpm_spec_ls", "bashls", "lua_ls",
