@@ -312,6 +312,16 @@ function M.lsp_icons()
   return #out > 0 and (table.concat(out) .. " ") or ""
 end
 
+-- Clicking the branch opens the branch picker, the diagnostics open Trouble
+-- for the current buffer. Both commands load their (lazy) plugin on demand.
+function M.git_click(_, _, button)
+  if button == "l" then vim.cmd("Telescope git_branches") end
+end
+
+function M.diag_click(_, _, button)
+  if button == "l" then vim.cmd("Trouble diagnostics toggle filter.buf=0") end
+end
+
 -- Divider between the language icon and the servers, only when both exist.
 function M.lsp_sep()
   local p = ft_parts(cur())
@@ -369,8 +379,10 @@ local function build_spec(buf)
     "%#StatusLineMode# ",
     seg("StatusLineMode", "mode"),
     seg("StatusLineSep", "git_sep"),
+    "%@v:lua.Statusline.git_click@",
     seg("StatusLineGit", "git_icon"),
     seg("StatusLineGit", "git_branch"),
+    "%X",
     seg("StatusLineAdd", "git_added"),
     seg("StatusLineChange", "git_changed"),
     seg("StatusLineRemove", "git_removed"),
@@ -391,10 +403,12 @@ local function build_spec(buf)
     seg("StatusLineDim", "lsp_icons"),
     "%X",
     seg("StatusLineSep", "diag_sep"),
+    "%@v:lua.Statusline.diag_click@",
     seg("StatusLineError", "diag_error"),
     seg("StatusLineWarn", "diag_warn"),
     seg("StatusLineInfo", "diag_info"),
     seg("StatusLineHint", "diag_hint"),
+    "%X",
     "%#StatusLineSep#│ ",
     seg("StatusLineDim", "pos"),
     "%#StatusLine# ",

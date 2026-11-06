@@ -458,6 +458,8 @@ Needs ~
                  :lua vim.pack.del({"name"})
   :PluginGroups  which plugin groups are loaded right now, and what would
                  load the rest (see |myconfig-lazy|)
+  :StartupTime [n]  profile a headless startup, list the n slowest entries
+                 (default 15); run it after adding a plugin
   :Mason         language servers/debuggers installer
   :MasonToolsUpdate   update everything mason manages
   :checkhealth   diagnose problems (try  :checkhealth vim.lsp)
@@ -489,6 +491,8 @@ Needs ~
                 🧩 jsonls  ⚙️ any server without an icon (icons.lsp)
                 One icon per attached server, after a │ divider that follows
                 the filetype icon. Clicking them lists names and roots.
+  Clicks:       branch -> Telescope git_branches; diagnostics -> Trouble
+                (current buffer); LSP icons -> server names and roots.
   Filetype:     the devicons glyph, or an override from icons.ft (rust = 🦀).
                 The filetype name is shown only when no icon exists at all.
   Tasks:        📋 task status (▶ active task, overdue count, next due date)
@@ -527,10 +531,12 @@ Dashboard ~
     Footer  a centred "Status" box: nvim version, plugins loaded out of
             installed, startup time, recent-file and session counts, and
             git branch + changed files of the current directory (🌿 branch
-            🍂 changed 🌱 clean). Its colour follows DashboardStatusOk /
-            Warn / Bad: yellow when startup is over 150ms or the tree is
-            dirty, red over 300ms, green otherwise. Git status loads
-            asynchronously, so the branch row appears slightly later.
+            🍂 changed 🌱 clean). Only two values are coloured, through
+            DashboardStatusOk / Warn / Bad: startup (yellow over 150ms, red
+            over 300ms) and git (yellow when the tree is dirty, green when
+            clean). Git status loads asynchronously, so the branch row
+            appears slightly later, and is re-read on focus gain and when
+            the dashboard is reopened.
   Items are prefixed per section (s1.. sessions, r1.. recent, p1.. projects),
   so "s1" or "p2" picks that entry; actions carry no prefix, type their first
   letters (f = Find file, g = Grep, q = Quit ...) then <CR>.

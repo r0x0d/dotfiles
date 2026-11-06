@@ -91,45 +91,51 @@ end
 -- Git status is read off the startup path: the footer draws without it and the
 -- dashboard refreshes once the (async) answer lands. A synchronous `git status`
 -- costs ~10ms here and far more in a big repo, all of it counted in time-to-UI.
--- The result is cached for the session of this dashboard (no re-query on refresh).
-local git_cache = nil -- false = not a repo / failed, table = { branch, dirty }
+-- Later fetches (FocusGained, reopening the dashboard) keep showing the previous
+-- value until the new one arrives, so the row never flickers away.
+local git_cache = nil -- nil = never fetched, false = not a repo / failed, table = { branch, dirty }
 local git_pending = false
 
-local function git_status()
-  if git_cache ~= nil then
-    if git_cache then return git_cache.branch, git_cache.dirty end
-    return nil
-  end
-  if git_pending then return nil end
+local function git_fetch()
+  if git_pending then return end
   local cwd = vim.fn.getcwd()
   if not vim.fs.root(cwd, ".git") then
     git_cache = false
-    return nil
+    return
   end
   git_pending = true
   vim.system({ "git", "status", "--porcelain", "--branch" }, { text = true, cwd = cwd }, function(r)
     vim.schedule(function()
       git_pending = false
-      git_cache = false
+      local new = false
       if r.code == 0 then
         local lines = vim.split(vim.trim(r.stdout), "\n")
         local head = (lines[1] or ""):match("^## (.-)%.%.%.") or (lines[1] or ""):match("^## (%S+)")
-        if head then git_cache = { branch = head, dirty = #lines - 1 } end
+        if head then new = { branch = head, dirty = #lines - 1 } end
       end
-      local ok, starter = pcall(require, "mini.starter")
-      if ok and vim.bo.filetype == "ministarter" then starter.refresh() end
+      -- Only redraw when something changed: refresh() re-evaluates the footer,
+      -- and an unconditional one would be wasted work on every focus event.
+      if not vim.deep_equal(new, git_cache) then
+        git_cache = new
+        local ok, starter = pcall(require, "mini.starter")
+        if ok and vim.bo.filetype == "ministarter" then starter.refresh() end
+      end
     end)
   end)
-  return nil
 end
 
--- The box takes the colour of the worst signal in it: a dirty tree or a slow
--- startup turns it yellow, a very slow startup red, everything fine green.
--- footer() records the level; boxed() paints the footer lines with it. This
--- ordering matters: the content hooks run after footer() has been evaluated.
+local function git_status()
+  if git_cache == nil then git_fetch() end
+  if git_cache then return git_cache.branch, git_cache.dirty end
+end
+
+-- Only the values that carry a verdict are coloured (startup time, git state);
+-- the box itself stays neutral. footer() records which text gets which group in
+-- `marks`, and boxed() splits the footer lines around them. This ordering
+-- matters: the content hooks run after footer() has been evaluated.
 -- default = true lets a colorscheme override these groups.
 local STARTUP_WARN_MS, STARTUP_BAD_MS = 150, 300
-local status_group = "MiniStarterFooter"
+local marks = {} -- { { label = "⚡ startup", value = "87ms", group = "DashboardStatusOk" } }
 for name, link in pairs({ Ok = "DiagnosticOk", Warn = "DiagnosticWarn", Bad = "DiagnosticError" }) do
   vim.api.nvim_set_hl(0, "DashboardStatus" .. name, { link = link, default = true })
 end
@@ -157,21 +163,25 @@ local function footer()
   table.insert(cells, { "🕘 recent", tostring(#vim.v.oldfiles) })
   local okp, persistence = pcall(require, "persistence")
   if okp then table.insert(cells, { "📂 sessions", tostring(#persistence.list()) }) end
-  local branch, dirty = git_status()
-  local level = 1 -- 1 ok, 2 warn, 3 bad
+  marks = {}
   if vim.g.startup_ms then
-    if vim.g.startup_ms > STARTUP_BAD_MS then level = 3
-    elseif vim.g.startup_ms > STARTUP_WARN_MS then level = 2 end
+    local ms = vim.g.startup_ms
+    marks[#marks + 1] = {
+      label = "⚡ startup", value = ("%.0fms"):format(ms),
+      group = ms > STARTUP_BAD_MS and "DashboardStatusBad"
+        or ms > STARTUP_WARN_MS and "DashboardStatusWarn" or "DashboardStatusOk",
+    }
   end
-  if dirty and dirty > 0 then level = math.max(level, 2) end
-  -- Neutral colour until there is something to judge (no startup time and no
-  -- git answer yet); the async refresh then repaints with a real level.
-  status_group = branch == nil and vim.g.startup_ms == nil and "MiniStarterFooter"
-    or ({ "DashboardStatusOk", "DashboardStatusWarn", "DashboardStatusBad" })[level]
+  local branch, dirty = git_status()
   if branch then
     local state = dirty > 0 and ("🍂 " .. dirty) or "🌱"
     if #branch > 18 then branch = vim.fn.strcharpart(branch, 0, 17) .. "…" end
-    table.insert(cells, { "🌿 branch", branch .. " " .. state })
+    local value = branch .. " " .. state
+    table.insert(cells, { "🌿 branch", value })
+    marks[#marks + 1] = {
+      label = "🌿 branch", value = value,
+      group = dirty > 0 and "DashboardStatusWarn" or "DashboardStatusOk",
+    }
   end
 
   -- Column-wise widths so labels and values line up across rows.
@@ -450,17 +460,38 @@ local function boxed(content, buf_id)
   end
 
   local out = {}
-  local function add_centered(line, hl)
+  -- Splits a footer line into units so each marked value gets its own group.
+  -- The label is located first so "87ms" can't match anywhere else in the row.
+  local function paint(line)
+    local units = copy_line(line)
+    if #units ~= 1 then return units end
+    local str = units[1].string
+    local hits = {}
+    for _, m in ipairs(marks) do
+      local ls, le = str:find(m.label, 1, true)
+      local vs, ve = nil, nil
+      if ls then vs, ve = str:find(m.value, le + 1, true) end
+      if vs then hits[#hits + 1] = { vs, ve, m.group } end
+    end
+    if #hits == 0 then return units end
+    table.sort(hits, function(a, b) return a[1] < b[1] end)
+    local out_units, pos = {}, 1
+    for _, h in ipairs(hits) do
+      if h[1] > pos then out_units[#out_units + 1] = { string = str:sub(pos, h[1] - 1), type = "footer", hl = "MiniStarterFooter" } end
+      out_units[#out_units + 1] = { string = str:sub(h[1], h[2]), type = "footer", hl = h[3] }
+      pos = h[2] + 1
+    end
+    if pos <= #str then out_units[#out_units + 1] = { string = str:sub(pos), type = "footer", hl = "MiniStarterFooter" } end
+    return out_units
+  end
+
+  local function add_centered(line, painted)
     if units_width(line) == 0 then
       out[#out + 1] = { blank() }
       return
     end
     local padded = { pad(math.max(math.floor((win_w - units_width(line)) / 2), 0)) }
-    local copy = copy_line(line)
-    if hl then
-      for _, u in ipairs(copy) do u.hl = hl end
-    end
-    out[#out + 1] = vim.list_extend(padded, copy)
+    out[#out + 1] = vim.list_extend(padded, painted and paint(line) or copy_line(line))
   end
 
   for _, line in ipairs(head) do add_centered(line) end
@@ -473,7 +504,7 @@ local function boxed(content, buf_id)
 
   if #foot > 0 then
     out[#out + 1] = { blank() }
-    for _, line in ipairs(foot) do add_centered(line, status_group) end
+    for _, line in ipairs(foot) do add_centered(line, true) end
   end
 
   for _ = 1, math.max(math.floor((win_h - #out) / 2), 0) do
@@ -559,9 +590,13 @@ local function move_row(dir)
   end
 end
 
+-- A commit made elsewhere (lazygit, another terminal) is picked up on return.
+vim.api.nvim_create_autocmd("FocusGained", { callback = git_fetch })
+
 vim.api.nvim_create_autocmd("User", {
   pattern = "MiniStarterOpened",
   callback = function(ev)
+    git_fetch() -- the dashboard may be reopened long after the first fetch
     local buf = (ev.buf and ev.buf > 0) and ev.buf or vim.api.nvim_get_current_buf()
     local set = function(lhs, fn)
       vim.keymap.set("n", lhs, fn, { buffer = buf, nowait = true, silent = true })
